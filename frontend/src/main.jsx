@@ -5,7 +5,7 @@ import { HashRouter, Routes, Route } from "react-router-dom";
 import "./index.css";
 
 import Home from "./pages/home";
-import Cadastro_aluno from "./pages/cadastro_aluno";
+import Cadastro_aluno from "./pages/aluno/cadastro_aluno";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
