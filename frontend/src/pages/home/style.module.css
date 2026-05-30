@@ -1,0 +1,46 @@
+.container {
+  padding-top: 40px;
+  & h1 {
+    text-align: center;
+  }
+}
+.acesso {
+  background-color: #698696;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  padding: 30px;
+  width: 330px;
+  border-radius: 20px;
+
+  & p {
+    margin-left: 10px;
+    text-align: left;
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  & input {
+    font-size: 20px;
+    padding: 10px;
+    width: 300px;
+  }
+  & button {
+    background-color: #5289ad;
+    display: flex;
+    margin-left: 130px;
+    cursor: pointer;
+    font-size: 20px;
+    margin-top: 35px;
+  }
+}
+
+.cadastro {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  margin-top: 30px;
+  text-align: center;
+  gap: 20px;
+  font: 100px;
+}
