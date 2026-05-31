@@ -1,6 +1,7 @@
 .container {
   padding-top: 40px;
   & h1 {
+    color: #f4fcfb;
     text-align: center;
   }
 }
@@ -42,5 +43,11 @@
   margin-top: 30px;
   text-align: center;
   gap: 20px;
-  font: 100px;
+  & a {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    color: aliceblue;
+    width: 200px;
+  }
 }
