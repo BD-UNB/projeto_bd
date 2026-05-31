@@ -26,7 +26,7 @@ function Cadastro_aluno() {
     ) {
       alert("Campos com * são obrigatórios");
     } else {
-      navigate("/login");
+      navigate("/");
     }
   }
 
