@@ -3,5 +3,5 @@ from fastapi import FastAPI
 app = FastAPI()
 
 @app.get("/")
-def red_root():
+def get_root():
     return {"message": "API está rodando"}
