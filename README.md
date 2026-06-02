@@ -11,16 +11,16 @@ O sistema é um portal unificado de oportunidades acadêmicas da UnB (iniciaçã
 Seu objetivo principal é centralizar a divulgação de vagas e permitir que alunos se candidatem, conversem com orientadores/responsáveis e acompanhem o andamento das candidaturas, facilitando o acesso às oportunidades e a comunicação.
 
 ## Datas Importantes
-- [ ] 05/05: Nomes dos Grupos e o Tema do Projeto
-- [ ] 30/05: Primeira Parte
+- [ X ] 05/05: Nomes dos Grupos e o Tema do Projeto
+- [ X ] 30/05: Primeira Parte
 - [ ] 30/06 ou 02/07: Entrega Final e Apresentação
 
 ## 1º Seminário
 - [ X ] Introdução  
-- [ ] Modelo de Entidade Relacionamento. **Usando alguma ferramenta de modelagem**.  
-- [ ] Modelo Relacional. **Usando alguma ferramenta de modelagem**.  
-- [ ] O script SQL que gerou o banco de dados  
-- [ ] A indicação do uso de IA.
+- [ X ] Modelo de Entidade Relacionamento. **Usando alguma ferramenta de modelagem**.  
+- [ X ] Modelo Relacional. **Usando alguma ferramenta de modelagem**.  
+- [ X ] O script SQL que gerou o banco de dados  
+- [ X ] A indicação do uso de IA.
 
 - Deverá ser entregue em apenas um arquivo `.pdf` contendo todaa essas partes.
 
