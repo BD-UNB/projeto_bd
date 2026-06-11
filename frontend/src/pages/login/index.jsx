@@ -16,8 +16,10 @@ function Login() {
 
     if (numero == 1) {
       navigate("/home_aluno");
-    } else {
+    } else if (numero == 2) {
       navigate("/home_professor");
+    } else {
+      navigate("/home_admin");
     }
   }
 
@@ -46,8 +48,7 @@ function Login() {
           </form>
         </div>
         <div className={styles.cadastro}>
-          <Link to="/cadastro_aluno">cadastro de aluno</Link>
-          <Link to="/cadastro_professor">cadastro de professor</Link>
+          <Link to="/home_admin">.</Link>
         </div>
       </div>
     </>
