@@ -64,6 +64,7 @@ CREATE TABLE usuario (
     nome VARCHAR(100) NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
     data_nasc DATE,
+    perfil ENUM('aluno', 'professor', 'admin') NOT NULL DEFAULT 'aluno',
     senha VARCHAR(255) NOT NULL
 );
 
@@ -146,7 +147,9 @@ CREATE TABLE faz (
 CREATE TABLE conversa (
     idConversa INT PRIMARY KEY AUTO_INCREMENT,
     dataCriacao DATETIME DEFAULT CURRENT_TIMESTAMP,
-    status ENUM('ativa', 'arquivada', 'encerrada') DEFAULT 'ativa'
+    status ENUM('ativa', 'arquivada', 'encerrada') DEFAULT 'ativa',
+    idVagas INT,
+    FOREIGN KEY (idVagas) REFERENCES vagas_oportunidades(idVagas)
 );
 
 CREATE TABLE mensagem (
@@ -166,5 +169,15 @@ CREATE TABLE conversa_usuario (
     idUsuario INT,
     PRIMARY KEY (idConversa, idUsuario),
     FOREIGN KEY (idConversa) REFERENCES conversa(idConversa),
+    FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario)
+);
+
+CREATE TABLE comentario_vaga (
+    idComentario INT PRIMARY KEY AUTO_INCREMENT,
+    idVagas INT NOT NULL,
+    idUsuario INT NOT NULL,
+    texto TEXT NOT NULL,
+    dataHora DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (idVagas) REFERENCES vagas_oportunidades(idVagas),
     FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario)
 );
