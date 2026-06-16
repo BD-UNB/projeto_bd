@@ -1,0 +1,7 @@
+body,
+#root {
+  min-height: 100vh;
+  margin: 0;
+  background-color: #243c4c;
+  font-style: normal;
+}

@@ -1,0 +1,44 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  color: white;
+
+  & h1 {
+    font-size: 35px;
+  }
+  & h2 {
+    font-size: 30px;
+  }
+}
+.formulario {
+  background-color: #698696;
+  color: black;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  width: 800px;
+  gap: 10px;
+  font-size: 26px;
+  margin: 0 auto;
+  padding: 10px;
+  border-radius: 10px;
+  & label {
+    display: flex;
+    justify-content: right;
+  }
+  & input {
+    font-size: 25px;
+    width: 200px;
+    padding: 3px;
+    border-radius: 10px;
+    background-color: #f4fcfb;
+  }
+}
+
+.descricao {
+  width: 90%;
+  font-size: 20px;
+  height: 150px;
+  border-radius: 10px;
+  background-color: #f4fcfb;
+}

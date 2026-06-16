@@ -1,17 +1,11 @@
-CREATE TABLE tipo_vaga (
-    idTipoVaga INT PRIMARY KEY AUTO_INCREMENT,
-    nome VARCHAR(50),
-    descricao TEXT
-);
-
 CREATE TABLE universidade (
     idUniversidade INT PRIMARY KEY AUTO_INCREMENT,
-    nome VARCHAR(100)
+    nome VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE campus (
     idCampus INT PRIMARY KEY AUTO_INCREMENT,
-    nome VARCHAR(50),
+    nome VARCHAR(50) NOT NULL,
     local VARCHAR(100),
     idUniversidade INT,
     FOREIGN KEY (idUniversidade) REFERENCES universidade(idUniversidade)
@@ -19,8 +13,8 @@ CREATE TABLE campus (
 
 CREATE TABLE departamento (
     idDepartamento INT PRIMARY KEY AUTO_INCREMENT,
-    nome VARCHAR(100),
-    email VARCHAR(100),
+    nome VARCHAR(100) UNIQUE NOT NULL,
+    email VARCHAR(100) UNIQUE,
     local VARCHAR(100),
     idUniversidade INT,
     FOREIGN KEY (idUniversidade) REFERENCES universidade(idUniversidade)
@@ -28,15 +22,15 @@ CREATE TABLE departamento (
 
 CREATE TABLE curso (
     idCurso INT PRIMARY KEY AUTO_INCREMENT,
-    nome VARCHAR(100),
-    duracao_semestres INT,
+    nome VARCHAR(100) UNIQUE NOT NULL,
+    duracao_semestres INT NOT NULL,
     descricao TEXT
 );
 
 CREATE TABLE disciplina (
     idDisciplina INT PRIMARY KEY AUTO_INCREMENT,
-    nome VARCHAR(100),
-    carga_horaria INT,
+    nome VARCHAR(100) NOT NULL,
+    carga_horaria INT NOT NULL,
     ementa TEXT,
     idDepartamento INT,
     FOREIGN KEY (idDepartamento) REFERENCES departamento(idDepartamento)
@@ -58,36 +52,25 @@ CREATE TABLE disc_curso (
     FOREIGN KEY (idCurso) REFERENCES curso(idCurso)
 );
 
-CREATE TABLE conversa (
-    idConversa INT PRIMARY KEY AUTO_INCREMENT,
-    dataCriacao DATE,
-    status ENUM('ativa', 'arquivada', 'encerrada')
-);
-
-CREATE TABLE mensagem (
-    idMensagem INT PRIMARY KEY AUTO_INCREMENT,
-    texto TEXT,
-    dataHora DATETIME,
-    lida BOOLEAN DEFAULT FALSE,
-    anexo LONGBLOB,
-    idConversa INT,
-    idUsuario INT,
-    FOREIGN KEY (idConversa) REFERENCES conversa(idConversa),
-    FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario)
+CREATE TABLE tipo_vaga (
+    idTipoVaga INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(50) NOT NULL,
+    descricao TEXT
 );
 
 CREATE TABLE usuario (
     idUsuario INT PRIMARY KEY AUTO_INCREMENT,
-    matricula VARCHAR(20) UNIQUE,
-    nome VARCHAR(100),
-    email VARCHAR(100) UNIQUE,
+    matricula VARCHAR(20) UNIQUE NOT NULL,
+    nome VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
     data_nasc DATE,
-    senha VARCHAR(255)
+    perfil ENUM('aluno', 'professor', 'admin') NOT NULL DEFAULT 'aluno',
+    senha VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE aluno (
     idAluno INT PRIMARY KEY,
-    nivel ENUM('graduacao', 'pos-graduacao'),
+    nivel ENUM('graduacao', 'pos-graduacao') NOT NULL,
     curriculo LONGBLOB,
     area_interesse TEXT,
     FOREIGN KEY (idAluno) REFERENCES usuario(idUsuario)
@@ -105,19 +88,23 @@ CREATE TABLE professor (
 
 CREATE TABLE vagas_oportunidades (
     idVagas INT PRIMARY KEY AUTO_INCREMENT,
-    titulo VARCHAR(100),
-    descricao TEXT,
+    titulo VARCHAR(100) NOT NULL,
+    descricao TEXT NOT NULL,
     requisitos TEXT,
-    nivel VARCHAR(50),
+    nivel ENUM('graduacao', 'pos-graduacao', 'ambos') DEFAULT 'graduacao',
     modalidade ENUM('presencial', 'remoto', 'hibrido'),
     status ENUM('rascunho', 'publicada', 'encerrada', 'cancelada') DEFAULT 'rascunho',
     local VARCHAR(100),
-    carga_horaria INT,
-    num_max INT,
+    carga_horaria INT NOT NULL,
+    num_max INT NOT NULL,
     data_inicio_candidatura DATE,
     data_fim_candidatura DATE,
     idTipoVaga INT,
-    FOREIGN KEY (idTipoVaga) REFERENCES tipo_vaga(idTipoVaga)
+    idCampus INT,
+    idDepartamento INT,
+    FOREIGN KEY (idTipoVaga) REFERENCES tipo_vaga(idTipoVaga),
+    FOREIGN KEY (idCampus) REFERENCES campus(idCampus),
+    FOREIGN KEY (idDepartamento) REFERENCES departamento(idDepartamento)
 );
 
 CREATE TABLE responsavel_vaga (
@@ -129,14 +116,14 @@ CREATE TABLE responsavel_vaga (
 );
 
 CREATE TABLE candidatura (
-    idUsuario INT,
+    idAluno INT,
     idVagas INT,
     data_candidatura DATETIME DEFAULT CURRENT_TIMESTAMP,
     data_fim DATE,
     mensagem_apresentacao TEXT,
     status ENUM('enviado', 'em_analise', 'aprovado', 'recusado', 'cancelado') DEFAULT 'enviado',
-    PRIMARY KEY (idUsuario, idVagas),
-    FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario),
+    PRIMARY KEY (idAluno, idVagas),
+    FOREIGN KEY (idAluno) REFERENCES aluno(idAluno),
     FOREIGN KEY (idVagas) REFERENCES vagas_oportunidades(idVagas)
 );
 
@@ -151,10 +138,30 @@ CREATE TABLE inscricao (
 CREATE TABLE faz (
     idAluno INT,
     idDisciplina INT,
-    semestre VARCHAR(20),
+    semestre VARCHAR(20) NOT NULL,
     PRIMARY KEY (idAluno, idDisciplina),
     FOREIGN KEY (idAluno) REFERENCES aluno(idAluno),
     FOREIGN KEY (idDisciplina) REFERENCES disciplina(idDisciplina)
+);
+
+CREATE TABLE conversa (
+    idConversa INT PRIMARY KEY AUTO_INCREMENT,
+    dataCriacao DATETIME DEFAULT CURRENT_TIMESTAMP,
+    status ENUM('ativa', 'arquivada', 'encerrada') DEFAULT 'ativa',
+    idVagas INT,
+    FOREIGN KEY (idVagas) REFERENCES vagas_oportunidades(idVagas)
+);
+
+CREATE TABLE mensagem (
+    idMensagem INT PRIMARY KEY AUTO_INCREMENT,
+    texto TEXT,
+    dataHora DATETIME DEFAULT CURRENT_TIMESTAMP,
+    lida BOOLEAN DEFAULT FALSE,
+    anexo LONGBLOB,
+    idConversa INT,
+    idUsuario INT,
+    FOREIGN KEY (idConversa) REFERENCES conversa(idConversa),
+    FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario)
 );
 
 CREATE TABLE conversa_usuario (
@@ -162,5 +169,15 @@ CREATE TABLE conversa_usuario (
     idUsuario INT,
     PRIMARY KEY (idConversa, idUsuario),
     FOREIGN KEY (idConversa) REFERENCES conversa(idConversa),
+    FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario)
+);
+
+CREATE TABLE comentario_vaga (
+    idComentario INT PRIMARY KEY AUTO_INCREMENT,
+    idVagas INT NOT NULL,
+    idUsuario INT NOT NULL,
+    texto TEXT NOT NULL,
+    dataHora DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (idVagas) REFERENCES vagas_oportunidades(idVagas),
     FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario)
 );
