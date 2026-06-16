@@ -1,38 +1,81 @@
-.container {
-  padding-top: 40px;
-  & h1 {
-    color: #f4fcfb;
-    text-align: center;
+.header_logo {
+  & img {
+    background-color: var(--cor-unb-branca);
+    width: 128px;
+    padding-left: 10px;
+    padding-top: 10px;
   }
 }
+
+.div_boas_vindas {
+
+  padding-top: 40px;
+  text-align: center;
+  color: var(--cor-unb-secundaria);
+  font-weight: 300px;
+
+  & h1 {
+    font-size: 30px;
+    font-weight: bold;
+  }
+
+  & p {
+    font-size: 18px;
+    margin-top: 10px;
+  }
+
+}
+
+
+
+.container {
+  padding-top: 50px;
+
+  & h1 {
+    color: var(--cor-unb-secundaria);
+    text-align: center;
+    padding-bottom: 20px;
+    font-size: 30px;
+    font-weight: bold;
+  }
+}
+
 .acesso {
-  background-color: #698696;
+  background-color: var(--cor-unb-cinza-fraco);
   display: flex;
   flex-direction: column;
   margin: 0 auto;
-  padding: 30px;
+  padding: 15px 25px 15px 18px;
   width: 330px;
   border-radius: 20px;
 
   & p {
-    margin-left: 10px;
     text-align: left;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: bold;
   }
 
   & input {
-    font-size: 20px;
+    margin: 0 auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 15px;
     padding: 10px;
     width: 300px;
+    background-color: #f4fcfb;
+    border-radius: 7px;
   }
+
   & button {
-    background-color: #5289ad;
+    background-color: var(--cor-unb-primaria);
+    color: var(--cor-unb-branca);
     display: flex;
-    margin-left: 130px;
+    margin: 0 auto;
+    border-radius: 5px;
+    padding: 5px;
     cursor: pointer;
-    font-size: 20px;
-    margin-top: 35px;
+    font-size: 15px;
+    margin-top: 10px;
   }
 }
 
@@ -42,7 +85,9 @@
   margin: 0 auto;
   margin-top: 30px;
   text-align: center;
+  padding-top: 10px;
   gap: 20px;
+
   & a {
     display: flex;
     flex-direction: column;

@@ -10,3 +10,4 @@ def connect():
 
 def close():
     connect().close()
+

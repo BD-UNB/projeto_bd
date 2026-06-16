@@ -14,6 +14,8 @@ function Login() {
       return;
     }
 
+
+
     if (numero == 1) {
       navigate("/home_aluno");
     } else if (numero == 2) {
@@ -25,25 +27,33 @@ function Login() {
 
   return (
     <>
+      <div className={styles.header_logo}>
+        <img src="src/assets/unb_logo.webp" alt="Logo da UnB" />
+      </div>
+      <div className={styles.div_boas_vindas}>
+        <h1>Bem-vindo ao Portal de Vagas UnB</h1>
+        <p>Conectando professores e alunos de forma facilitada</p>
+      </div>
       <div className={styles.container}>
-        <h1>Acesse sua conta</h1>
+        <h1 className={styles.h1}>Acesse sua conta</h1>
         <div className={styles.acesso}>
           <form>
-            <p>número de usuario</p>
+            <p>Número de Usuário</p>
             <input
-              placeholder="numero de usuario"
-              type="number"
+              placeholder="Digite o número de usuário"
+              type="text"
               value={numero}
               onChange={(e) => setNumero(e.target.value)}
             ></input>
-            <p>senha</p>
+            <p>Senha</p>
             <input
-              placeholder="digite sua senha"
+              placeholder="Digite sua senha"
+              type="password"
               value={senha}
               onChange={(e) => setSenha(e.target.value)}
             ></input>
             <button type="button" onClick={verifica_acesso}>
-              entrar
+              Entrar
             </button>
           </form>
         </div>

@@ -43,11 +43,11 @@ def get_root():
 @app.post("/login")
 async def post_login(request: Request):
     json = await request.json()
-    email = json["email"]
+    numero = json["numero"]
     senha = json["senha"]
-    return logar(email, senha)
+    return logar(numero, senha)
 
-def logar(email, senha):
+def logar(numero, senha):
     print("Login realizado com sucesso!")
     return {"message": "Login realizado com sucesso!"}
 
