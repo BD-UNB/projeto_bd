@@ -1,0 +1,59 @@
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 50%;
+  margin: 0 auto;
+  background-color: azure;
+  padding: 5px;
+}
+
+.nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding: 20px;
+  gap: 5px;
+  & input {
+    font-size: 25px;
+    width: 35%;
+    padding: 10px;
+    border-radius: 13px;
+  }
+  & button {
+    font-size: 25px;
+    border-radius: 13px;
+    padding: 10px;
+  }
+}
+
+.resp {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  color: aliceblue;
+  text-decoration: underline;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  padding: 12px;
+  width: 50%;
+  background-color: aliceblue;
+}
+.listaVagas {
+  background-color: bisque;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  gap: 10px;
+  margin: 10px;
+}
+.card {
+  background-color: aqua;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}

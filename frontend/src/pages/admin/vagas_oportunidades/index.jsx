@@ -9,6 +9,9 @@ function VagasOportunidades() {
         <h2>Preencha os campos abaixo</h2>
         <div>
           <form className={styles.formulario}>
+            <label>universidade</label>
+            <input></input>
+
             <label>departamento</label>
             <input></input>
 
