@@ -1,3 +1,71 @@
-.a {
+.nav {
+  font-size: 21px;
   color: aliceblue;
+  text-align: center;
+  margin: 2%;
+}
+
+.criacao {
+  height: 45vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 80%;
+  justify-content: center;
+  margin: 0 auto;
+  background-color: #698696;
+  padding-bottom: 85px;
+  border-radius: 7px;
+  & button {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0 auto;
+    width: 25%;
+    font-size: 25px;
+    margin-top: 35px;
+    border-radius: 5px;
+    background-color: #f4fcf4;
+    cursor: pointer;
+  }
+  & button:hover {
+    opacity: 0.8;
+  }
+}
+
+.curso,
+.disciplina {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+  width: fit-content;
+  & label {
+    font-size: 29px;
+    text-align: right;
+    padding-right: 5px;
+  }
+  & input {
+    font-size: 25px;
+    border-radius: 7px;
+    background-color: #f4fcf4;
+  }
+
+  & textarea {
+    font-size: 25px;
+    border-radius: 7px;
+    background-color: #f4fcf4;
+  }
+  & button {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+
+.curso h3,
+.disciplina h3 {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  font-size: 32px;
 }

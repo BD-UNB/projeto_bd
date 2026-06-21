@@ -18,16 +18,12 @@ function Home_admin() {
       <div className={styles.container}>
         <div className={styles.acesso}>
           <button type="button">
-            {" "}
-            <Link to="/vagas_oportunidades">acessar vagas/oportunidades</Link>
+            <Link to="/vagas_oportunidades">vagas/oportunidades</Link>
           </button>
           <button type="button">
-            <Link to="/cursos">acessar cursos</Link>
+            <Link to="/cursos">cursos e disciplinas</Link>
           </button>
-          <button>
-            <Link to="/disciplinas">acessar disciplinas</Link>
-          </button>
-          <button>
+          <button type="button">
             <Link to="/cadastro_aluno">cadastrar aluno</Link>
           </button>
           <button type="button">
