@@ -24,7 +24,17 @@ CREATE TABLE curso (
     idCurso INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(100) UNIQUE NOT NULL,
     duracao_semestres INT NOT NULL,
-    descricao TEXT
+    descricao TEXT,
+    idUniversidade INT,
+    FOREIGN KEY (idUniversidade) REFERENCES universidade(idUniversidade)
+);
+
+CREATE TABLE curso_departamento (
+    idCurso INT,
+    idDepartamento INT,
+    PRIMARY KEY (idCurso, idDepartamento),
+    FOREIGN KEY (idCurso) REFERENCES curso(idCurso),
+    FOREIGN KEY (idDepartamento) REFERENCES departamento(idDepartamento)
 );
 
 CREATE TABLE disciplina (
