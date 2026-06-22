@@ -29,6 +29,9 @@
   flex-direction: column;
   justify-content: right;
   padding-right: 15px;
+  padding-left: 15px;
+  background-color: burlywood;
+  color: black;
 }
 
 .container {

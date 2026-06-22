@@ -1,0 +1,44 @@
+.nav {
+  background-color: aqua;
+  display: flex;
+  flex-direction: row;
+  width: 60%;
+  margin: 0 auto;
+  font-size: 25px;
+  padding: 10px;
+  margin-top: 25px;
+  & label {
+    display: flex;
+    flex-direction: row;
+    margin: 0 auto;
+  }
+}
+.titulo {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin-top: 80px;
+  color: aliceblue;
+}
+.container {
+  background-color: bisque;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  justify-content: center;
+  margin: 0 auto;
+  width: fit-content;
+  text-align: right;
+  gap: 10px;
+  padding: 8px;
+  & label {
+    font-size: 35px;
+  }
+  & input {
+    border-radius: 10px;
+    font-size: 21px;
+    width: 400px;
+  }
+}
+.textarea {
+  font-size: 21px;
+}
