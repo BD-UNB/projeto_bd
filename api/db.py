@@ -87,28 +87,28 @@ def criar_professor(matricula, nome, email, data_de_nasci, perfil, senha, area_d
         connection.close()
     
 
-def criar_aluno(nome, email, senha, cpf, data_de_nascimento, sexo, telefone, curriculo, nivel_de_ensino, area_de_interesse):
+def criar_aluno(matricula, nome, email, senha, telefone, cpf, data_nasc, nivel, curriculo, area_interesse):
     connection = connect()
     cursor = connection.cursor()
     try:
         # Inserir primeiro na tabela usuario
         cursor.execute(
             "INSERT INTO usuario (matricula, nome, email, data_nasc, perfil, senha) VALUES (%s, %s, %s, %s, %s, %s)",
-            (matricula, nome, email, data_de_nascimento, "aluno", senha)
+            (matricula, nome, email, data_nasc, "aluno", senha)
         )
         id_usuario = cursor.lastrowid
         
         # Mapear o nível de ensino recebido para o enum aceito pelo banco ('graduacao' ou 'pos-graduacao')
-        nivel = "graduacao"
-        if nivel_de_ensino:
-            nivel_lower = nivel_de_ensino.lower()
+        nivel_db = "graduacao"
+        if nivel:
+            nivel_lower = nivel.lower()
             if "pós" in nivel_lower or "pos" in nivel_lower or "mestrado" in nivel_lower or "doutorado" in nivel_lower:
-                nivel = "pos-graduacao"
-                
+                nivel_db = "pos-graduacao"
+
         # Inserir na tabela aluno
         cursor.execute(
             "INSERT INTO aluno (idAluno, nivel, curriculo, area_interesse) VALUES (%s, %s, %s, %s)",
-            (id_usuario, nivel, curriculo, area_de_interesse)
+            (id_usuario, nivel_db, curriculo, area_interesse)
         )
         connection.commit()
         return True

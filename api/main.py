@@ -45,17 +45,17 @@ async def post_cadastro_prof(request: Request):
 @app.post("/cadastro_aluno")
 async def post_cadastro_aluno(request: Request):
     dados = await request.json()
+    matricula = dados["matricula"]
     nome = dados["nome"]
     email = dados["email"]
     senha = dados["senha"]
-    cpf = dados["cpf"]
-    data_de_nascimento = dados["data_de_nascimento"]
-    sexo = dados["sexo"]
     telefone = dados["telefone"]
+    cpf = dados["cpf"]
+    data_nasc = dados["data_nasc"]
+    nivel = dados["nivel"]
     curriculo = dados["curriculo"]
-    nivel_de_ensino = dados["nivel_de_ensino"]
-    area_de_interesse = dados["area_de_interesse"]
-    if criar_aluno(nome, email, senha, cpf, data_de_nascimento, sexo, telefone, curriculo, nivel_de_ensino, area_de_interesse):
+    area_interesse = dados["area_interesse"]
+    if criar_aluno(matricula, nome, email, senha, telefone, cpf, data_nasc, nivel, curriculo, area_interesse):
         return {"status": "ok", "message": "Aluno criado com sucesso!"}
     else:
         return {"status": "error", "message": "Erro ao criar aluno"}
