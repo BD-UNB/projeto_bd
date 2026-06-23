@@ -37,6 +37,16 @@ def get_eventos():
     connection.close()
     return eventos
 
+def get_user_by_matricula(matricula):
+    connection = connect()
+    cursor = connection.cursor()
+    cursor.execute("SELECT * FROM usuario WHERE matricula = %s", (matricula,))
+    user = cursor.fetchall()
+    cursor.close()
+    connection.close()
+    return user
+
+
 def criar_professor(matricula, nome, email, data_de_nasci, perfil, senha, area_de_pesquisa, departamento, departamento_coordenado):
     connection = connect()
     cursor = connection.cursor()

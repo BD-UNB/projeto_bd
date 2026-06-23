@@ -5,24 +5,42 @@ import { useState } from "react";
 
 function Login() {
   const navigate = useNavigate("");
-  const [numero, setNumero] = useState("");
+  const [matricula, setMatricula] = useState("");
   const [senha, setSenha] = useState("");
 
-  function verifica_acesso() {
-    if (senha.trim() === "" || numero.trim() === "") {
-      alert("Número de usuário ou senha inválido(s)");
+  function verifica_entradas() {
+    if (senha.trim() === "" || matricula.trim() === "") {
+      alert("Preencha todos os campos!");
       return;
     }
 
+    async function post_login(matricula, senha) {
+      const response = await fetch("http://127.0.0.1:8000/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          matricula,
+          senha,
+        }),
+      });
 
-
-    if (numero == 1) {
-      navigate("/home_aluno");
-    } else if (numero == 2) {
-      navigate("/home_professor");
-    } else {
-      navigate("/home_admin");
+      const data = await response.json();
+      if (data.status === "ok") {
+        if (data.perfil === "aluno") {
+          navigate("/home_aluno");
+        } else if (data.perfil === "professor") {
+          navigate("/home_professor");
+        } else if (data.perfil === "admin") {
+          navigate("/home_admin");
+        }
+      } else {
+        alert("Usuário ou senha inválido(s)");
+      }
     }
+
+    post_login(matricula, senha);
   }
 
   return (
@@ -42,8 +60,8 @@ function Login() {
             <input
               placeholder="Digite o número de usuário"
               type="text"
-              value={numero}
-              onChange={(e) => setNumero(e.target.value)}
+              value={matricula}
+              onChange={(e) => setMatricula(e.target.value)}
             ></input>
             <p>Senha</p>
             <input
@@ -52,7 +70,7 @@ function Login() {
               value={senha}
               onChange={(e) => setSenha(e.target.value)}
             ></input>
-            <button type="button" onClick={verifica_acesso}>
+            <button type="button" onClick={verifica_entradas}>
               Entrar
             </button>
           </form>

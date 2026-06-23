@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
-from db import get_eventos, criar_professor, criar_aluno, init_database 
+from db import get_eventos, criar_professor, criar_aluno, get_user_by_matricula, init_database
+import bcrypt
 
 app = FastAPI()
 
@@ -48,7 +49,10 @@ async def post_cadastro_aluno(request: Request):
     matricula = dados["matricula"]
     nome = dados["nome"]
     email = dados["email"]
+    
     senha = dados["senha"]
+    senha = bcrypt.hashpw(senha.encode('utf-8'), bcrypt.gensalt())
+
     telefone = dados["telefone"]
     cpf = dados["cpf"]
     data_nasc = dados["data_nasc"]
@@ -67,10 +71,24 @@ def get_root():
 @app.post("/login")
 async def post_login(request: Request):
     json = await request.json()
-    numero = json["numero"]
+    matricula = json["matricula"]
     senha = json["senha"]
-    return logar(numero, senha)
 
-def logar(numero, senha):
-    print("Login realizado com sucesso!")
-    return {"message": "Login realizado com sucesso!"}
+    return logar(matricula, senha)
+
+def logar(matricula, senha):
+    user = get_user_by_matricula(matricula)
+    if not user:
+        return {"status": "error", "message": "Usuário ou senha não correspondem!"}
+
+    perfil = user[0][5]
+    senha_hash = user[0][6]
+
+    try:
+        if bcrypt.checkpw(senha.encode('utf-8'), senha_hash.encode('utf-8')):
+            return {"status": "ok", "perfil": perfil}
+        else:
+            return {"status": "error", "message": "Usuário ou senha não correspondem!"}
+    except Exception as e:
+        print(f"Erro ao verificar senha: {e}")
+        return {"status": "error", "message": "Erro interno de autenticação"}
