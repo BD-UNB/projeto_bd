@@ -34,7 +34,10 @@ async def post_cadastro_prof(request: Request):
     email = dados["email"]
     data_de_nasci = dados["data_de_nasci"]
     perfil = "professor"
+
     senha = dados["senha"]
+    senha = bcrypt.hashpw(senha.encode('utf-8'), bcrypt.gensalt())
+
     area_de_pesquisa = dados["area_de_pesquisa"]
     departamento = dados["departamento"]
     departamento_coordenado = dados["departamento_coordenado"]
