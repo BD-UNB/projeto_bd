@@ -1,11 +1,9 @@
-# Projeto de Banco de Dados
+# Projeto de Banco de Dados — UnB Vagas
 
-**Tema:** Qualquer banco de dados que possa ser utilizado para facilitar a vida acadêmica na UnB. 
-- Pode ser para auxiliar os professores, alunos, reitoria, comunicação com a sociedade.  
+Um portal unificado para vagas de IC, estágio, monitoria, projetos de extensão e projetos voluntários, permitindo comunicação direta com o 
+professor/orientador e no formato de fórum/comentários. O objetivo principal é facilitar o acesso às oportunidades acadêmicas na UnB.
 
 ## Ideia do Projeto
-Um portal unificado para vagas de IC, estágio, monitoria, projetos de extensão, projetos voluntários que permitiria comunicação direta com o professor/orientador e no formato de fórum/comentários, a principal objetivo seria facilitar o acesso às oportunidades acadêmicas.
-
 O sistema é um portal unificado de oportunidades acadêmicas da UnB (iniciação científica, monitoria, estágios, extensão, voluntariado, eventos, etc.), voltado para alunos, professores e demais servidores.
 
 Seu objetivo principal é centralizar a divulgação de vagas e permitir que alunos se candidatem, conversem com orientadores/responsáveis e acompanhem o andamento das candidaturas, facilitando o acesso às oportunidades e a comunicação.
@@ -13,7 +11,7 @@ Seu objetivo principal é centralizar a divulgação de vagas e permitir que alu
 ## Datas Importantes
 - [ X ] 05/05: Nomes dos Grupos e o Tema do Projeto
 - [ X ] 30/05: Primeira Parte
-- [ ] 30/06 ou 02/07: Entrega Final e Apresentação
+- [ ] 07/07 ou 09/07: Entrega Final e Apresentação
 
 ## 1º Seminário
 - [ X ] Introdução  
@@ -25,10 +23,10 @@ Seu objetivo principal é centralizar a divulgação de vagas e permitir que alu
 - Deverá ser entregue em apenas um arquivo `.pdf` contendo todaa essas partes.
 
 ## 2º Seminário
-- [ ] Introdução  
-- [ ] Modelo de Entidade Relacionamento. **Usando alguma ferramenta de modelagem.**  
-- [ ] Modelo Relacional. **Usando alguma ferramenta de modelagem.**  
-- [ ] O script SQL que gerou o banco de dados. 
+- [ X ] Introdução  
+- [ X ] Modelo de Entidade Relacionamento. **Usando alguma ferramenta de modelagem.**  
+- [ X  ] Modelo Relacional. **Usando alguma ferramenta de modelagem.**  
+- [ X ] O script SQL que gerou o banco de dados. 
     - Na implementação  de pelo **menos uma tabela** usar um gerador de chave  primária automástico do SGBD selecionado para o projeto. 
 - [ ] **A construção da camada de persistência.** Enviar o link do github com os códigos fontes e um diagrama apresentando como a interface gráfica do programa acessa a camada de persistência.  
 - [ ] **Um programa com as funções de CRUD (Create Read Update Delete) para o seu sistema**.   
@@ -36,10 +34,9 @@ Seu objetivo principal é centralizar a divulgação de vagas e permitir que alu
 - [ ] Utilização de pelo menos uma *View*.  
 - [ ] Utilização de pelo menos uma *Procedure*.  
 - [ ] Utilização de pelo menos um *Trigger*.  
-- [ ] Inserção de um dado binário no banco, pode ser foto, arquivo PDF ou outro tipo 
-de arquivo.  
+- [ ] Inserção de um dado binário no banco, pode ser foto, arquivo PDF ou outro tipo de arquivo.  
 - [ ] A indicação do uso de IA.
-- [ ] No início do PDF informar o endereço do github no início do projeto.
+- [ X ] No início do PDF informar o endereço do github no início do projeto.
 
 - Deverá ser entregue em apenas um arquivo `.pdf` contendo todas essas partes.
 
@@ -51,23 +48,83 @@ de arquivo.
  
 ```plaintext
 📂 projeto-unb-vagas/ 
+├── 📂 api/
+│   ├── 📂 tests/
+│   ├── 📄 Dockerfile 
+│   └── 📄 requirements.txt 
 ├── 📂 database/
 │   ├── 📄 script.sql
 │   ├── 📄 views.sql
 │   ├── 📄 procedures.sql
 │   └── 📄 triggers.sql
-├── 📂 backend/
-│   ├── src/
-│   │   ├── controllers/    # lógica de cada rota
-│   │   ├── models/         # representações das entidades
-│   │   ├── repositories/   # camada de persistência — queries SQL diretas
-│   │   ├── routes/         # definição das rotas e ligação com controllers
-│   │   ├── services/       # regras de negócio (candidatura, notificações, etc.)
-│   │   └── app.js
-│   └── package.json
-├── 📂 frontend/
-│   └── ...
 ├── 📂 docs/
 │   └── diagramas, PDFs, etc.
+├── 📂 frontend/
+│   ├── 📂 public/
+│   ├── 📂 src/
+│   ├── 📄 Dockerfile
+│   ├── 📄 eslint.config.js
+│   ├── 📄 index.html
+│   ├── 📄 package-lock.json
+│   ├── 📄 package.json
+│   ├── 📄 README.md
+│   └── 📄 vite.config.js
+├── 📄 .env
+├── 📄 .env.example
+├── 📄 .gitignore
+├── 📄 docker-compose.yml   
 └── 📄 README.md
+```
+
+## Tecnologias Utilizadas
+
+- **Frontend:** React 19, Vite, Tailwind CSS
+- **Backend:** Python, FastAPI, Uvicorn
+- **Banco de Dados:** MySQL 8.0
+- **Infraestrutura:** Docker e Docker Compose
+
+## Como Executar ?
+
+### Pré-requisitos
+- [Docker](https://www.docker.com/products/docker-desktop/) instalado
+
+### Passo a passo
+
+1. Clone o repositório
+```bash
+git clone https://github.com/BD-UNB/projeto_bd.git
+cd projeto_bd
+```
+
+2. Copie o arquivo de variáveis de ambiente
+```bash
+cp .env.example .env
+```
+
+3. Suba os containers
+```
+docker compose up --build
+```
+
+4. Acesse:
+   - Frontend: http://localhost:5173
+   - API:      http://localhost:8000/docs
+   - Banco:    localhost:3306
+
+### Comandos úteis
+
+Parar os containers preservando os dados do banco:
+```bash
+docker compose stop
+```
+
+Parar e remover os containers (dados do banco preservados):
+```bash
+docker compose down
+```
+
+Recriar o banco do zero após alterações no `script.sql`:
+```bash
+docker compose down -v
+docker compose up --build
 ```
