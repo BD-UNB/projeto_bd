@@ -53,8 +53,37 @@
   margin: 10px;
 }
 .card {
-  background-color: aqua;
+  background-color: var(--cor-unb-cinza-fraco);
   display: flex;
   flex-direction: column;
   padding: 10px;
+}
+
+.card_titulo {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  font-size: 30px;
+  margin-bottom: 20px;
+}
+
+.card_info {
+  font-size: 22px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: fit-content;
+  margin: 0 auto;
+  gap: 5px;
+  width: 80%;
+  & p {
+    text-align: left;
+  }
+  &label {
+    text-align: right;
+  }
+}
+
+.bu {
+  font-size: 30px;
+  cursor: pointer;
 }
