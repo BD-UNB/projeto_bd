@@ -1,24 +1,4 @@
 services:
-  db:
-    image: mysql:8.0
-    container_name: projeto_bd_mysql
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-    ports:
-      - "3306:3306"
-    volumes:
-      - ./database/script.sql:/docker-entrypoint-initdb.d/script.sql
-      - mysql_data:/var/lib/mysql
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
   api:
     build: ./api
     container_name: projeto_bd_api
@@ -31,9 +11,6 @@ services:
       DB_NAME: ${DB_NAME}
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
-    depends_on:
-      db:
-        condition: service_healthy
 
   frontend:
     build: ./frontend
@@ -43,6 +20,3 @@ services:
       - "5173:5173"
     depends_on:
       - api
-
-volumes:
-  mysql_data:
