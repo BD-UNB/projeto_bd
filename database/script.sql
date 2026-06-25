@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS curso (
     FOREIGN KEY (idUniversidade) REFERENCES universidade(idUniversidade)
 );
 
-CREATE TABLE curso_departamento (
+CREATE TABLE IF NOT EXISTS curso_departamento (
     idCurso INT,
     idDepartamento INT,
     PRIMARY KEY (idCurso, idDepartamento),
