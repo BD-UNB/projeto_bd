@@ -1,7 +1,10 @@
 import { Link } from "react-router-dom";
+import { useState } from "react";
 import styles from "./style.module.css";
 
 function Home_aluno() {
+  const [mostraMensagem, setMostraMensagem] = useState(false);
+
   const vagas = [
     {
       idVagas: 1,
@@ -51,19 +54,48 @@ function Home_aluno() {
 
   return (
     <>
-      <header className={styles.header}>
-        <h2>COLOCAR NOME DO ALUNO</h2>
-        <h2>COLOCAR NOME DA UNIVERSIDADE</h2>
-        <h2>COLOCAR NOME DO DEPARTAMENTO</h2>
-      </header>
+      <div className={styles.h}>
+        <header className={styles.header}>
+          <h2>COLOCAR NOME DO ALUNO</h2>
+          <h2>COLOCAR NOME DA UNIVERSIDADE</h2>
+          <h2>COLOCAR NOME DO DEPARTAMENTO</h2>
+        </header>
+      </div>
       <nav className={styles.nav}>
         <input placeholder="pesquise por vagas"></input>
         <button>
           <Link to="/perfil_aluno">Perfil</Link>
         </button>
-        <button>Mensagens</button>
+        <div>
+          <button
+            className={styles.botaoMensagem}
+            onClick={() => setMostraMensagem(true)}
+          >
+            Mensagens
+          </button>
+          {mostraMensagem && (
+            <div className={styles.mensagem}>
+              <button
+                className={styles.fechar}
+                onClick={() => setMostraMensagem(false)}
+              >
+                ✕ Fechar
+              </button>
+              <h2
+                style={{
+                  fontSize: "30px",
+                }}
+              >
+                Mensagens
+              </h2>
+              <div className={styles.conteudoMensagem}>
+                <p>Conteúdo das mensagens aqui...</p>
+              </div>
+            </div>
+          )}
+        </div>
       </nav>
-      <h1 className={styles.subtitulo}>Vagas publicadas</h1>
+      <h1 className={styles.subtitulo}>vagas publicadas</h1>
       <div className={styles.container}>
         <section className={styles.listaVagas}>
           {vagas.map((vaga) => (
@@ -75,7 +107,8 @@ function Home_aluno() {
                   {vaga.descricao}
                 </p>
                 <p>
-                  <label>reponsavel:</label> {vaga.reponsavel}
+                  <label>reponsavel: </label>
+                  {vaga.reponsavel}
                 </p>
                 <p>
                   <label>nível: </label>
@@ -94,19 +127,19 @@ function Home_aluno() {
                   {vaga.local}
                 </p>
                 <p>
-                  <label>carga_hor: </label>
+                  <label>carga horária: </label>
                   {vaga.carga_hor}
                 </p>
                 <p>
-                  <label>num_max: </label>
+                  <label>máximo de pessoas: </label>
                   {vaga.num_max}
                 </p>
                 <p>
-                  <label>data_inicio: </label>
+                  <label>data início: </label>
                   {vaga.data_inicio}
                 </p>
                 <p>
-                  <label>data_final: </label>
+                  <label>data final: </label>
                   {vaga.data_final}
                 </p>
                 <p>
