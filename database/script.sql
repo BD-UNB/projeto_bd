@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS curso (
     FOREIGN KEY (idUniversidade) REFERENCES universidade(idUniversidade)
 );
 
-CREATE TABLE curso_departamento (
+CREATE TABLE IF NOT EXISTS curso_departamento (
     idCurso INT,
     idDepartamento INT,
     PRIMARY KEY (idCurso, idDepartamento),
@@ -76,7 +76,7 @@ CREATE TABLE IF NOT EXISTS usuario (
     matricula VARCHAR(20) UNIQUE NOT NULL,
     nome VARCHAR(100) NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
-    data_nasci DATE,
+    data_nasc DATE,
     perfil ENUM('aluno', 'professor', 'admin') NOT NULL DEFAULT 'aluno',
     senha VARCHAR(255) NOT NULL
 );

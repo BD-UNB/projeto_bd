@@ -1,0 +1,22 @@
+services:
+  api:
+    build: ./api
+    container_name: projeto_bd_api
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+
+  frontend:
+    build: ./frontend
+    container_name: projeto_bd_frontend
+    restart: always
+    ports:
+      - "5173:5173"
+    depends_on:
+      - api

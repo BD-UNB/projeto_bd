@@ -2,12 +2,13 @@ import mysql.connector
 import os
 
 
-def connect():
+def get_connection():
     return mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="12345678",
-        database="projeto_bd"
+        host=os.getenv("DB_HOST", "localhost"),
+        port=int(os.getenv("DB_PORT", 3306)),
+        database=os.getenv("DB_NAME", "projeto_bd"),
+        user=os.getenv("DB_USER", "user_bd"),
+        password=os.getenv("DB_PASSWORD", "senha_bd")
     )
 
 def init_database():
@@ -15,7 +16,7 @@ def init_database():
         return False
     with open("../database/script.sql", "r") as script:
         try:
-            connection = connect()
+            connection = get_connection()
             cursor = connection.cursor()
             cursor.execute(script.read())
             connection.commit()
@@ -29,7 +30,7 @@ def init_database():
     # Depois arrumar direito
 
 def get_eventos():
-    connection = connect()
+    connection = get_connection()
     cursor = connection.cursor()
     cursor.execute("SELECT * FROM eventos")
     eventos = cursor.fetchall()
@@ -38,7 +39,7 @@ def get_eventos():
     return eventos
 
 def get_user_by_matricula(matricula):
-    connection = connect()
+    connection = get_connection()
     cursor = connection.cursor()
     cursor.execute("SELECT * FROM usuario WHERE matricula = %s", (matricula,))
     user = cursor.fetchall()
@@ -48,7 +49,7 @@ def get_user_by_matricula(matricula):
 
 
 def criar_professor(matricula, nome, email, data_de_nasci, perfil, senha, area_de_pesquisa, departamento, departamento_coordenado):
-    connection = connect()
+    connection = get_connection()
     cursor = connection.cursor()
     try:
         # Inserir no usuário
@@ -98,7 +99,7 @@ def criar_professor(matricula, nome, email, data_de_nasci, perfil, senha, area_d
     
 
 def criar_aluno(matricula, nome, email, senha, telefone, cpf, data_nasc, nivel, curriculo, area_interesse):
-    connection = connect()
+    connection = get_connection()
     cursor = connection.cursor()
     try:
         # Inserir primeiro na tabela usuario
