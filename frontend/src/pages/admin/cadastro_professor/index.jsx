@@ -12,7 +12,16 @@ function Cadastro_professor() {
     setDep_coordenado(evento.target.value);
   };
 
-  async function post_cadastro_professor(matricula, nome, email, data_de_nasci, area_de_pesquisa, departamento, departamento_coordenado, senha) {
+  async function post_cadastro_professor(
+    matricula,
+    nome,
+    email,
+    data_de_nasci,
+    area_de_pesquisa,
+    departamento,
+    departamento_coordenado,
+    senha,
+  ) {
     const response = await fetch("http://127.0.0.1:8000/cadastro_professor", {
       method: "POST",
       headers: {
@@ -26,7 +35,7 @@ function Cadastro_professor() {
         area_de_pesquisa,
         departamento,
         departamento_coordenado,
-        senha
+        senha,
       }),
     });
 
@@ -40,6 +49,7 @@ function Cadastro_professor() {
   return (
     <>
       <div className={styles.container}>
+        <h1>cadastro de professor</h1>
         <p>Siga as informações abaixo</p>
         <form className={styles.formulario}>
           <label>matricula</label>
@@ -88,12 +98,24 @@ function Cadastro_professor() {
           const matricula = document.querySelector("input[type='text']").value;
           const nome = document.querySelector("input[type='text']").value;
           const email = document.querySelector("input[type='email']").value;
-          const data_de_nasci = document.querySelector("input[type='date']").value;
-          const area_de_pesquisa = document.querySelector("input[type='text']").value;
+          const data_de_nasci =
+            document.querySelector("input[type='date']").value;
+          const area_de_pesquisa =
+            document.querySelector("input[type='text']").value;
           const departamento = document.querySelector("select").value;
-          const departamento_coordenado = document.querySelector("select").value;
+          const departamento_coordenado =
+            document.querySelector("select").value;
           const senha = document.querySelector("input[type='password']").value;
-          post_cadastro_professor(matricula, nome, email, data_de_nasci, area_de_pesquisa, departamento, departamento_coordenado, senha);
+          post_cadastro_professor(
+            matricula,
+            nome,
+            email,
+            data_de_nasci,
+            area_de_pesquisa,
+            departamento,
+            departamento_coordenado,
+            senha,
+          );
         }}
       >
         salvar informações

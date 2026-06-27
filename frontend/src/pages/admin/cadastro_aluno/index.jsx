@@ -30,7 +30,7 @@ function Cadastro_aluno() {
     cpf,
     nivel,
     curriculo,
-    area_interesse
+    area_interesse,
   ) {
     const response = await fetch("http://127.0.0.1:8000/cadastro_aluno", {
       method: "POST",
@@ -89,28 +89,23 @@ function Cadastro_aluno() {
       cpf,
       nivel,
       curriculo,
-      area_interesse
+      area_interesse,
     );
   }
 
   return (
     <>
       <div className={styles.container}>
+        <h1>cadastro de aluno</h1>
         <p>Siga as informações abaixo</p>
         <form className={styles.formulario}>
-          <label>matrícula*</label>
-          <input
-            type="text"
-            onChange={(e) => setMatricula(e.target.value)}
-          />
+          <label>matrícula</label>
+          <input type="text" onChange={(e) => setMatricula(e.target.value)} />
 
-          <label>nome completo*</label>
+          <label>nome completo</label>
           <input type="text" onChange={(e) => setNome(e.target.value)}></input>
-          <label>digite seu email*</label>
-          <input
-            type="email"
-            onChange={(e) => setEmail(e.target.value)}
-          />
+          <label>digite seu email</label>
+          <input type="email" onChange={(e) => setEmail(e.target.value)} />
 
           <label>data de nascimento*</label>
           <input
@@ -134,7 +129,7 @@ function Cadastro_aluno() {
             onChange={(e) => setCpf(e.target.value)}
           />
 
-          <label>nível*</label>
+          <label>nível</label>
           <select
             value={nivel}
             onChange={seleciona_nivel}
@@ -161,21 +156,19 @@ function Cadastro_aluno() {
           <input type="text"></input>
           <label>área de interesse</label>
           <input></input>
-          <label>crie uma senha*</label>
+          <label>crie uma senha</label>
           <input
             type="password"
             value={senha}
             onChange={(e) => setSenha(e.target.value)}
           />
 
-          <label>digite novamente*</label>
+          <label>digite novamente</label>
           <input
             type="password"
             value={conf_senha}
             onChange={(e) => setConf_senha(e.target.value)}
           />
-
-          <h6>*respostas obrigatórias</h6>
         </form>
       </div>
       <button
