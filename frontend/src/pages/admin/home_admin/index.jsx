@@ -6,15 +6,18 @@ import { useState } from "react";
 function Home_admin() {
   return (
     <>
-      <div className={styles.topo}>
-        <nav className={styles.menu}>
-          <h1>O QUE DESEJA ACESSAR?</h1>
-          <div className={styles.usuario}>
-            <p>matricula admin: aaaaaaaaaa</p>
-            <p>nome admin: </p>
-          </div>
-        </nav>
-      </div>
+      <nav className={styles.nav}>
+        <div className={styles.admin}>
+          <p>
+            matricula: <label>0000000</label>
+          </p>
+          <p>
+            nome: <label>nome nome</label>
+          </p>
+        </div>
+      </nav>
+      <h1 className={styles.titulo}>O QUE DESEJA ACESSAR?</h1>
+
       <div className={styles.container}>
         <div className={styles.acesso}>
           <button type="button">

@@ -1,59 +1,152 @@
+.h {
+  display: flex;
+  margin-top: 20px;
+}
+
 .header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  width: 50%;
+  width: 70%;
   margin: 0 auto;
-  background-color: azure;
+  background-color: var(--cor-unb-cinza-fraco);
   padding: 5px;
+  border-radius: 10px;
+  font-size: 22px;
 }
 
 .nav {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  padding: 20px;
+  padding-top: 20px;
   gap: 5px;
+
   & input {
     font-size: 25px;
-    width: 35%;
+    width: 37%;
     padding: 10px;
     border-radius: 13px;
+    background-color: var(--cor-unb-cinza-fraco);
   }
+
   & button {
+    background-color: var(--cor-unb-cinza-fraco);
     font-size: 25px;
     border-radius: 13px;
     padding: 10px;
+    cursor: pointer;
   }
 }
 
-.resp {
+.botaoMensagem {
+  cursor: pointer;
+}
+
+.mensagem {
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 400px;
+  height: 100%;
+  background: #1a263f;
+  box-shadow: 0px 2px 5px rgb(253, 253, 253);
+  padding: 20px;
+  color: white;
+  & button {
+    background-color: #133e79;
+    color: white;
+    margin: 20px;
+    cursor: pointer;
+  }
+}
+
+.subtitulo {
   display: flex;
   flex-direction: column;
   text-align: center;
-  color: aliceblue;
-  text-decoration: underline;
+  color: var(--cor-unb-branca);
+  font-size: 40px;
+  padding: 40px;
 }
 
 .container {
   display: flex;
   flex-direction: column;
   margin: 0 auto;
-  padding: 12px;
   width: 50%;
-  background-color: aliceblue;
+  background-color: var(--cor-unb-cinza-fraco);
+  border-radius: 10px;
 }
+
 .listaVagas {
-  background-color: bisque;
   display: flex;
   flex-direction: column;
   padding: 10px;
   gap: 10px;
   margin: 10px;
 }
+
 .card {
-  background-color: aqua;
+  background-color: lightgray;
   display: flex;
   flex-direction: column;
   padding: 10px;
+  border-radius: 10px;
+}
+
+.card_titulo {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  font-size: 30px;
+  margin-bottom: 20px;
+}
+
+.card_info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+  width: 80%;
+  margin: 0 auto;
+  font-size: 22px;
+
+  & p {
+    text-align: left;
+  }
+
+  & label {
+    text-align: right;
+  }
+}
+
+.comentario {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 400px;
+  height: 100%;
+  background: rgb(170, 170, 170);
+  box-shadow: 0px 2px 5px rgb(253, 253, 253);
+  padding: 20px;
+  color: black;
+
+  & button {
+    color: white;
+    margin: 20px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.botaoComentario {
+  cursor: pointer;
+  background-color: var(--cor-unb-cinza-fraco);
+  padding: 5px;
+}
+
+.bu {
+  font-size: 30px;
+  cursor: pointer;
 }

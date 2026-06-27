@@ -2,16 +2,15 @@
 
 @theme {
   --cor-unb-primaria: #008940;
-  --cor-unb-secundaria: #133E79;
-  --cor-unb-branca: #FFFFFF;
+  --cor-unb-secundaria: #133e79;
+  --cor-unb-branca: #ffffff;
   --cor-unb-cinza-fraco: #e9e9e9;
 }
-
 
 body,
 #root {
   min-height: 100vh;
   margin: 0;
-  background-color: var(--cor-unb-branca);
+  background-color: #133e79;
   font-style: normal;
 }

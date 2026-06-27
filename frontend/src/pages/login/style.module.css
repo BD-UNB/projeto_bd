@@ -1,6 +1,6 @@
 .header_logo {
   & img {
-    background-color: var(--cor-unb-branca);
+    background-color: var(--cor-unb-secundaria);
     width: 128px;
     padding-left: 10px;
     padding-top: 10px;
@@ -8,10 +8,9 @@
 }
 
 .div_boas_vindas {
-
   padding-top: 40px;
   text-align: center;
-  color: var(--cor-unb-secundaria);
+  color: var(--cor-unb-branca);
   font-weight: 300px;
 
   & h1 {
@@ -23,16 +22,13 @@
     font-size: 18px;
     margin-top: 10px;
   }
-
 }
-
-
 
 .container {
   padding-top: 50px;
 
   & h1 {
-    color: var(--cor-unb-secundaria);
+    color: var(--cor-unb-branca);
     text-align: center;
     padding-bottom: 20px;
     font-size: 30px;

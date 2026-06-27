@@ -1,37 +1,17 @@
-.topo {
-  width: 90%;
-  padding: 50px;
-  & h1 {
-    padding-top: 25px;
-    width: 60px;
-    display: flex;
-    flex-direction: column;
-    white-space: nowrap;
-    margin: 0 auto;
-  }
+.titulo {
+  color: #f4fcfb;
+  font-size: 25px;
+  text-align: center;
+  padding: 20px;
 }
 
-.menu {
-  color: aliceblue;
-  display: flex;
-  justify-content: space-between;
-  & p {
-    display: flex;
-    flex-direction: column;
-    white-space: nowrap;
-    min-width: 0;
-    flex-shrink: 1;
-  }
-}
-
-.usuario {
+.nav {
+  color: #f4fcfb;
   display: flex;
   flex-direction: column;
   justify-content: right;
-  padding-right: 15px;
-  padding-left: 15px;
-  background-color: burlywood;
-  color: black;
+  text-align: right;
+  padding: 25px;
 }
 
 .container {
