@@ -4,6 +4,7 @@ import { useState } from "react";
 
 function Home_professor() {
   const [mostraMensagem, setMostraMensagem] = useState(false);
+  const [mostraComentario, setMostraComentario] = useState(false);
 
   const vagas = [
     {
@@ -103,10 +104,6 @@ function Home_professor() {
               <h2 className={styles.card_titulo}>{vaga.titulo}</h2>
               <div className={styles.card_info}>
                 <p>
-                  <label>descrição: </label>
-                  {vaga.descricao}
-                </p>
-                <p>
                   <label>reponsavel: </label>
                   {vaga.reponsavel}
                 </p>
@@ -154,7 +151,39 @@ function Home_professor() {
                   <label>departamento: </label>
                   {vaga.departamento}
                 </p>
-                <p>{vaga.comentarios}</p>
+
+                <div>
+                  <button
+                    className={styles.botaoComentario}
+                    onClick={() => setMostraComentario(true)}
+                  >
+                    comentários
+                  </button>
+                  {mostraComentario && (
+                    <div className={styles.comentario}>
+                      <button
+                        className={styles.fechar}
+                        onClick={() => setMostraComentario(false)}
+                      >
+                        ✕ Fechar
+                      </button>
+                      <h2
+                        style={{
+                          fontSize: "30px",
+                        }}
+                      >
+                        Comentários
+                      </h2>
+                      <div className={styles.conteudoComentario}>
+                        <p>Conteúdo dos comentários...</p>
+                      </div>
+                    </div>
+                  )}
+                </div>
+                <p>
+                  <label>descrição: </label>
+                  {vaga.descricao}
+                </p>
               </div>
             </article>
           ))}

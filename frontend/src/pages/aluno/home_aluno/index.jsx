@@ -4,7 +4,7 @@ import styles from "./style.module.css";
 
 function Home_aluno() {
   const [mostraMensagem, setMostraMensagem] = useState(false);
-
+  const [mostraComentario, setMostraComentario] = useState(false);
   const vagas = [
     {
       idVagas: 1,
@@ -23,7 +23,7 @@ function Home_aluno() {
       campus: "campus 1",
       departamento: "departamento 1",
       comentarios: (
-        <button type="button" className={styles.bu}>
+        <button type="button" className={styles.botaoComentario}>
           comentários
         </button>
       ),
@@ -103,10 +103,6 @@ function Home_aluno() {
               <h2 className={styles.card_titulo}>{vaga.titulo}</h2>
               <div className={styles.card_info}>
                 <p>
-                  <label>descrição: </label>
-                  {vaga.descricao}
-                </p>
-                <p>
                   <label>reponsavel: </label>
                   {vaga.reponsavel}
                 </p>
@@ -154,9 +150,41 @@ function Home_aluno() {
                   <label>departamento: </label>
                   {vaga.departamento}
                 </p>
-                <p>{vaga.comentarios}</p>
+
+                <div>
+                  <button
+                    className={styles.botaoComentario}
+                    onClick={() => setMostraComentario(true)}
+                  >
+                    comentários
+                  </button>
+                  {mostraComentario && (
+                    <div className={styles.comentario}>
+                      <button
+                        className={styles.fechar}
+                        onClick={() => setMostraComentario(false)}
+                      >
+                        ✕ Fechar
+                      </button>
+                      <h2
+                        style={{
+                          fontSize: "30px",
+                        }}
+                      >
+                        Comentários
+                      </h2>
+                      <div className={styles.conteudoComentario}>
+                        <p>Conteúdo dos comentários...</p>
+                      </div>
+                    </div>
+                  )}
+                </div>
+                <p>
+                  <label>descrição: </label>
+                  {vaga.descricao}
+                </p>
               </div>
-              <button className={styles.bu}>Inscrever-se</button>
+              <button className={styles.botaoInscrever}>Inscrever-se</button>
             </article>
           ))}
         </section>
