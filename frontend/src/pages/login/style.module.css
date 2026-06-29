@@ -125,4 +125,12 @@
     color: aliceblue;
     width: 200px;
   }
+
+.error_message {
+  color: #dc3545; /* Vermelho para erros */
+  font-size: 0.9em;
+  margin-top: 10px;
+  text-align: center;
+}
+
 }
