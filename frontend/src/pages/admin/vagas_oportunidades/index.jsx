@@ -5,7 +5,7 @@ function VagasOportunidades() {
   return (
     <>
       <div className={styles.container}>
-        <h1>Criação de vagas / oportunidades</h1>
+        <h1>Criação de vagas e oportunidades</h1>
         <h2>Preencha os campos abaixo</h2>
         <div>
           <form className={styles.formulario}>
@@ -51,6 +51,7 @@ function VagasOportunidades() {
             <label>descrição</label>
             <textarea className={styles.descricao}></textarea>
           </form>
+          <button type="button">criar</button>
         </div>
       </div>{" "}
     </>

@@ -4,10 +4,15 @@ import { useState } from "react";
 
 function Cadastro_aluno() {
   const navigate = useNavigate();
+  const [matricula, setMatricula] = useState("");
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [data_nasc, setData_nasc] = useState("");
   const [nivel, setNivel] = useState("");
+  const [telefone, setTelefone] = useState("");
+  const [cpf, setCpf] = useState("");
+  const [curriculo, setCurriculo] = useState("");
+  const [area_interesse, setArea_interesse] = useState("");
   const [senha, setSenha] = useState("");
   const [conf_senha, setConf_senha] = useState("");
 
@@ -15,8 +20,49 @@ function Cadastro_aluno() {
     setNivel(evento.target.value);
   };
 
+  async function post_cadastro_aluno(
+    matricula,
+    nome,
+    email,
+    data_nasc,
+    senha,
+    telefone,
+    cpf,
+    nivel,
+    curriculo,
+    area_interesse,
+  ) {
+    const response = await fetch("http://127.0.0.1:8000/cadastro_aluno", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        matricula,
+        nome,
+        email,
+        data_nasc,
+        senha,
+        telefone,
+        cpf,
+        nivel,
+        curriculo,
+        area_interesse,
+      }),
+    });
+
+    if (response.ok) {
+      alert("Aluno criado com sucesso!");
+      navigate("/");
+    } else {
+      alert("Erro ao criar aluno.");
+      console.log("Erro ao criar aluno", response);
+    }
+  }
+
   function verifica_cadastro() {
     if (
+      matricula.trim() === "" ||
       nome.trim() === "" ||
       email.trim() === "" ||
       data_nasc.trim() === "" ||
@@ -25,31 +71,65 @@ function Cadastro_aluno() {
       conf_senha.trim() === ""
     ) {
       alert("Campos com * são obrigatórios");
-    } else {
-      navigate("/");
+      return;
     }
+
+    if (senha !== conf_senha) {
+      alert("As senhas não coincidem!");
+      return;
+    }
+
+    post_cadastro_aluno(
+      matricula,
+      nome,
+      email,
+      data_nasc,
+      senha,
+      telefone,
+      cpf,
+      nivel,
+      curriculo,
+      area_interesse,
+    );
   }
 
   return (
     <>
       <div className={styles.container}>
+        <h1>cadastro de aluno</h1>
         <p>Siga as informações abaixo</p>
         <form className={styles.formulario}>
-          <label>nome completo*</label>
+          <label>matrícula</label>
+          <input type="text" onChange={(e) => setMatricula(e.target.value)} />
+
+          <label>nome completo</label>
           <input type="text" onChange={(e) => setNome(e.target.value)}></input>
-          <label>digite seu email*</label>
-          <input
-            type="email"
-            onChange={(e) => setEmail(e.target.value)}
-          ></input>
+          <label>digite seu email</label>
+          <input type="email" onChange={(e) => setEmail(e.target.value)} />
+
           <label>data de nascimento*</label>
           <input
             type="date"
             min="1926-01-01"
             max={"2016-01-01"}
             onChange={(e) => setData_nasc(e.target.value)}
-          ></input>
-          <label>nível*</label>
+          />
+
+          <label>telefone</label>
+          <input
+            type="text"
+            value={telefone}
+            onChange={(e) => setTelefone(e.target.value)}
+          />
+
+          <label>cpf</label>
+          <input
+            type="text"
+            value={cpf}
+            onChange={(e) => setCpf(e.target.value)}
+          />
+
+          <label>nível</label>
           <select
             value={nivel}
             onChange={seleciona_nivel}
@@ -76,20 +156,28 @@ function Cadastro_aluno() {
           <input type="text"></input>
           <label>área de interesse</label>
           <input></input>
-          <label>crie uma senha*</label>
-          <input onChange={(e) => setSenha(e.target.value)}></input>
-          <label>digite novamente*</label>
-          <input onChange={(e) => setConf_senha(e.target.value)}></input>
-          <h6>*respostas obrigatórias</h6>
+          <label>crie uma senha</label>
+          <input
+            type="password"
+            value={senha}
+            onChange={(e) => setSenha(e.target.value)}
+          />
+
+          <label>digite novamente</label>
+          <input
+            type="password"
+            value={conf_senha}
+            onChange={(e) => setConf_senha(e.target.value)}
+          />
         </form>
-        <button
-          type="button"
-          className={styles.button}
-          onClick={verifica_cadastro}
-        >
-          salvar informações
-        </button>
       </div>
+      <button
+        type="button"
+        className={styles.button}
+        onClick={verifica_cadastro}
+      >
+        salvar informações
+      </button>
     </>
   );
 }
