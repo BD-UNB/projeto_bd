@@ -2,6 +2,26 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import styles from "./style.module.css";
 
+async function buscarPerfil() {
+  const matricula = localStorage.getItem("matricula");
+  const response = await fetch(`http://localhost:8000/auth/perfil/${matricula}`, { method: 'GET', headers: { 'Content-Type': 'application/json' } });
+  const data = await response.json();
+  if (response.ok) {
+    return data;
+  }
+  else {
+    console.log("Erro ao buscar perfil do aluno");
+    navigate("/login");
+  }
+}
+
+async function buscarVagas() {
+  return {}
+}
+
+const perfil = await buscarPerfil();
+const vagas = await buscarVagas();
+
 function Home_aluno() {
   const [mostraMensagem, setMostraMensagem] = useState(false);
   const [mostraComentario, setMostraComentario] = useState(false);
@@ -56,9 +76,9 @@ function Home_aluno() {
     <>
       <div className={styles.h}>
         <header className={styles.header}>
-          <h2>COLOCAR NOME DO ALUNO</h2>
-          <h2>COLOCAR NOME DA UNIVERSIDADE</h2>
-          <h2>COLOCAR NOME DO DEPARTAMENTO</h2>
+          <h2>{perfil.nome}</h2>
+          <h2>{perfil.nomeUniversidade}</h2>
+          <h2>{perfil.nomeDepartamento}</h2>
         </header>
       </div>
       <nav className={styles.nav}>

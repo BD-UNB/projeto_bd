@@ -23,6 +23,17 @@ def get_professor_repository() -> ProfessorRepository:
 def get_auth_service(user_repo: Annotated[UserRepository, Depends(get_user_repository)], aluno_repo: Annotated[AlunoRepository, Depends(get_aluno_repository)], professor_repo: Annotated[ProfessorRepository, Depends(get_professor_repository)]) -> AuthService:
     return AuthService(user_repo, aluno_repo, professor_repo)
 
+@router.get("/perfil/{matricula}")
+async def get_user_by_matricula_router(user_repo: Annotated[UserRepository, Depends(get_user_repository)], matricula: str):
+    try:
+        user = user_repo.get_user_by_matricula(matricula)
+        if not user:
+            raise HTTPException(status_code = status.HTTP_404_NOT_FOUND, detail = "Usuário não encontrado.")
+        return user
+    except Exception as e:
+        print(f"Erro ao buscar usuário base: {e}")
+        raise HTTPException(status_code = status.HTTP_500_INTERNAL_SERVER_ERROR, detail = "Erro ao buscar usuário base.")
+
 @router.post("/login")
 async def login_route(request: Request, auth_service: Annotated[AuthService, Depends(get_auth_service)]):
     json_data = await request.json()

@@ -12,7 +12,7 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const handleLogin = async () => { 
+  const handleLogin = async () => {
     setErrorMessage("");
 
     if (matricula.trim() === "" || senha.trim() === "") {
@@ -21,7 +21,7 @@ function Login() {
     }
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/auth/login", {
+      const response = await fetch("http://localhost:8000/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -35,6 +35,7 @@ function Login() {
       const data = await response.json();
 
       if (response.ok) {
+        localStorage.setItem("matricula", matricula);
         if (data.perfil === "aluno") {
           navigate("/home_aluno");
         } else if (data.perfil === "professor") {
