@@ -98,3 +98,28 @@ async def update_aluno_admin_route(id_aluno: int, request: Request, aluno_servic
 @router.delete("/alunos/{id_aluno}")
 async def delete_aluno_admin_route(id_aluno: int, aluno_service: Annotated[AlunoService, Depends(get_aluno_service)]):
     return aluno_service.delete_aluno_admin(id_aluno)
+
+@router.get("/professores/{id_professor}")
+async def get_professor_admin_route(id_professor: int, professor_service: Annotated[ProfessorService, Depends(get_professor_service)]):
+    return professor_service.get_professor_by_id_admin(id_professor)
+
+@router.put("/professores/{id_professor}")
+async def update_professor_admin_route(id_professor: int, request: Request, professor_service: Annotated[ProfessorService, Depends(get_professor_service)]):
+    dados = await request.json()
+
+    return professor_service.update_professor_admin(
+        id_professor = id_professor,
+        matricula = dados.get("matricula"),
+        nome = dados.get("nome"),
+        email = dados.get("email"),
+        senha = dados.get("senha"),
+        data_nasc = dados.get("data_nasc"),
+        perfil = dados.get("perfil"),
+        area_de_pesquisa = dados.get("area_de_pesquisa"),
+        departamento = dados.get("departamento"),
+        departamento_coordenado = dados.get("departamento_coordenado")
+    )
+
+@router.delete("/professores/{id_professor}")
+async def delete_professor_admin_route(id_professor: int, professor_service: Annotated[ProfessorService, Depends(get_professor_service)]):
+    return professor_service.delete_professor_admin(id_professor)
