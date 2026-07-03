@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Request
-from typing import Annotated
+from typing import Annotated, Optional # Optional ainda é útil para parâmetros de função
 
 from repositories.userRepository import UserRepository
 from repositories.alunoRepository import AlunoRepository
@@ -32,10 +32,13 @@ def get_professor_service(user_repo: Annotated[UserRepository, Depends(get_user_
 async def register_professor_admin_route(request: Request, professor_service: Annotated[ProfessorService, Depends(get_professor_service)]):
     dados = await request.json()
 
-    required_fields = ["matricula", "nome", "email", "data_nasc", "senha", "area_de_pesquisa", "departamento", "departamento_coordenado"]
+    required_fields = ["matricula", "nome", "email", "data_nasc", "senha", "area_de_pesquisa"]
     for field in required_fields:
         if field not in dados:
             raise HTTPException(status_code = status.HTTP_400_BAD_REQUEST, detail = f"Campo '{field}' é obrigatório.")
+
+    departamento = dados.get("departamento")
+    departamento_coordenado = dados.get("departamento_coordenado")
 
     return professor_service.register_professor(
         matricula = dados["matricula"],
@@ -44,20 +47,21 @@ async def register_professor_admin_route(request: Request, professor_service: An
         data_nasc = dados["data_nasc"],
         senha = dados["senha"],
         area_de_pesquisa = dados["area_de_pesquisa"],
-        departamento = dados["departamento"],
-        departamento_coordenado = dados["departamento_coordenado"]
+        departamento = departamento,
+        departamento_coordenado = departamento_coordenado
     )
 
 @router.post("/cadastro_aluno")
 async def register_aluno_admin_route(request: Request, aluno_service: Annotated[AlunoService, Depends(get_aluno_service)]):
     dados = await request.json()
 
-    required_fields = ["matricula", "nome", "email", "senha", "data_nasc", "nivel", "area_interesse"]
+    required_fields = ["matricula", "nome", "email", "senha", "data_nasc", "nivel"]
     for field in required_fields:
         if field not in dados:
             raise HTTPException(status_code = status.HTTP_400_BAD_REQUEST, detail = f"Campo '{field}' é obrigatório.")
 
     curriculo = dados.get("curriculo")
+    area_interesse = dados.get("area_interesse")
 
     return aluno_service.register_aluno(
         matricula = dados["matricula"],
@@ -67,5 +71,30 @@ async def register_aluno_admin_route(request: Request, aluno_service: Annotated[
         data_nasc = dados["data_nasc"],
         nivel = dados["nivel"],
         curriculo = curriculo,
-        area_interesse = dados["area_interesse"]
+        area_interesse = area_interesse
     )
+
+@router.get("/alunos/{id_aluno}")
+async def get_aluno_admin_route(id_aluno: int, aluno_service: Annotated[AlunoService, Depends(get_aluno_service)]):
+    return aluno_service.get_aluno_by_id_admin(id_aluno)
+
+@router.put("/alunos/{id_aluno}")
+async def update_aluno_admin_route(id_aluno: int, request: Request, aluno_service: Annotated[AlunoService, Depends(get_aluno_service)]):
+    dados = await request.json()
+
+    return aluno_service.update_aluno_admin(
+        id_aluno = id_aluno,
+        matricula = dados.get("matricula"),
+        nome = dados.get("nome"),
+        email = dados.get("email"),
+        senha = dados.get("senha"),
+        data_nasc = dados.get("data_nasc"),
+        perfil = dados.get("perfil"),
+        nivel = dados.get("nivel"),
+        curriculo = dados.get("curriculo"),
+        area_interesse = dados.get("area_interesse")
+    )
+
+@router.delete("/alunos/{id_aluno}")
+async def delete_aluno_admin_route(id_aluno: int, aluno_service: Annotated[AlunoService, Depends(get_aluno_service)]):
+    return aluno_service.delete_aluno_admin(id_aluno)
