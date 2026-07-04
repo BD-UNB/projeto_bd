@@ -5,17 +5,17 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 function Cadastro_professor() {
   const navigate = useNavigate();
-  
+
   const [matricula, setMatricula] = useState("");
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [data_nasc, setData_nasc] = useState("");
   const [area_de_pesquisa, setArea_de_pesquisa] = useState("");
-  const [departamento, setDepartamento] = useState(""); 
-  const [departamento_coordenado, setDepartamento_coordenado] = useState(""); 
+  const [departamento, setDepartamento] = useState("");
+  const [departamento_coordenado, setDepartamento_coordenado] = useState("");
   const [senha, setSenha] = useState("");
-  const [conf_senha, setConf_senha] = useState(""); 
-  const [showSenha, setShowSenha] = useState(false); 
+  const [conf_senha, setConf_senha] = useState("");
+  const [showSenha, setShowSenha] = useState(false);
   const [showConfSenha, setShowConfSenha] = useState(false);
 
   // Funções de alternância de visibilidade de senha
@@ -34,6 +34,31 @@ function Cadastro_professor() {
     setDepartamento_coordenado(evento.target.value);
   };
 
+  const usuario = [
+    {
+      matricula: "123",
+      nome: " Carlos",
+      email: "prof1@gmail.com",
+      data_nasc: "01/01/2001",
+      perfil: "professor 1",
+      universidade: "Universidade de Brasília",
+      area_pesquisa: "Computação",
+      dep: "Computação",
+      dep_coordenado: "Ciência da Computação",
+    },
+    {
+      matricula: "321",
+      nome: "Ana",
+      email: "prof2@gmail.com",
+      data_nasc: "01/01/2001",
+      perfil: "professora 1",
+      universidade: "Universidade de São Paulo",
+      area_pesquisa: "Computação",
+      dep: "Computação",
+      dep_coordenado: "Ciência da Computação",
+    },
+  ];
+
   async function post_cadastro_professor(
     matricula,
     nome,
@@ -44,29 +69,34 @@ function Cadastro_professor() {
     departamento_coordenado,
     senha,
   ) {
-    const response = await fetch("http://127.0.0.1:8000/admin/cadastro_professor", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+    const response = await fetch(
+      "http://127.0.0.1:8000/admin/cadastro_professor",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          matricula,
+          nome,
+          email,
+          data_nasc,
+          area_de_pesquisa: area_de_pesquisa || null,
+          departamento,
+          departamento_coordenado: departamento_coordenado || null,
+          senha,
+        }),
       },
-      body: JSON.stringify({
-        matricula,
-        nome,
-        email,
-        data_nasc,
-        area_de_pesquisa: area_de_pesquisa || null,
-        departamento,
-        departamento_coordenado: departamento_coordenado || null, 
-        senha,
-      }),
-    });
+    );
 
     if (response.ok) {
       alert("Professor criado com sucesso!");
       navigate("/home_admin");
     } else {
       const errorData = await response.json();
-      alert(`Erro ao criar professor: ${errorData.detail || "Erro desconhecido"}`);
+      alert(
+        `Erro ao criar professor: ${errorData.detail || "Erro desconhecido"}`,
+      );
       console.error("Erro ao criar professor", response, errorData);
     }
   }
@@ -90,16 +120,41 @@ function Cadastro_professor() {
       return;
     }
 
-    post_cadastro_professor(matricula, nome, email, data_nasc, area_de_pesquisa, departamento, departamento_coordenado, senha,);
+    post_cadastro_professor(
+      matricula,
+      nome,
+      email,
+      data_nasc,
+      area_de_pesquisa,
+      departamento,
+      departamento_coordenado,
+      senha,
+    );
   }
 
   return (
     <>
       <div className={styles.container}>
-        <h1>Cadastro de Professor</h1>
-        <p className={styles.infoText}>Preencha as informações abaixo para cadastrar um novo professor.</p>
-        <form className={styles.formulario} onSubmit={(e) => { e.preventDefault(); verifica_cadastro(); }}>
-          <label htmlFor="matricula">Matrícula</label>
+        <h1>
+          <strong>cadastro de professor</strong>
+        </h1>
+        <p>Siga as informações abaixo</p>
+        <form className={styles.formulario}>
+          <label>
+            <strong>matricula</strong>
+          </label>
+          <input type="text"></input>
+          <label>
+            <strong>nome completo</strong>
+          </label>
+          <input type="text"></input>
+          <label>
+            <strong>digite seu email</strong>
+          </label>
+          <input type="email"></input>
+          <label>
+            <strong>data de nascimento</strong>
+          </label>
           <input
             id="matricula"
             type="text"
@@ -135,22 +190,15 @@ function Cadastro_professor() {
             type="date"
             min="1926-01-01"
             max={"2016-01-01"}
-            value={data_nasc}
-            onChange={(e) => setData_nasc(e.target.value)}
-            placeholder="Selecione a sua Data de Nascimento (obrigatório)"
-            required
-          />
-
-          <label htmlFor="area_de_pesquisa">Área de Pesquisa</label>
-          <input
-            id="area_de_pesquisa"
-            type="text"
-            value={area_de_pesquisa}
-            onChange={(e) => setArea_de_pesquisa(e.target.value)}
-            placeholder="Ex: Inteligência Artificial, Robótica (Opcional)"
-          />
-
-          <label htmlFor="departamento">Selecione seu Departamento</label>
+            value={"2000-01-01"}
+          ></input>
+          <label>
+            <strong>área de pesquisa</strong>
+          </label>
+          <input type="text"></input>
+          <label>
+            <strong>Selecione seu departamento</strong>
+          </label>
           <select
             id="departamento"
             value={departamento}
@@ -164,8 +212,9 @@ function Cadastro_professor() {
             <option value="Computação">Computação</option>
             <option value="Engenharia">Engenharia</option>
           </select>
-
-          <label htmlFor="departamento_coordenado">Departamento que te Coordena</label>
+          <label>
+            <strong>Departamento que te coordena</strong>
+          </label>
           <select
             id="departamento_coordenado"
             value={departamento_coordenado}
@@ -178,52 +227,108 @@ function Cadastro_professor() {
             <option value="Computação">Computação</option>
             <option value="Engenharia">Engenharia</option>
           </select>
-
-          <label htmlFor="senha">Senha</label>
-          <div className={styles.passwordInputContainer}>
-            <input
-              id="senha"
-              type={showSenha ? "text" : "password"}
-              value={senha}
-              onChange={(e) => setSenha(e.target.value)}
-              placeholder="Mínimo 6 caracteres (obrigatório)"
-              required
-            />
-            <span
-              className={styles.passwordToggle}
-              onClick={toggleSenhaVisibility}
-            >
-              {showSenha ? <FaEyeSlash /> : <FaEye />}
-            </span>
-          </div>
-
-          <label htmlFor="conf_senha">Confirmar Senha</label>
-          <div className={styles.passwordInputContainer}>
-            <input
-              id="conf_senha"
-              type={showConfSenha ? "text" : "password"}
-              value={conf_senha}
-              onChange={(e) => setConf_senha(e.target.value)}
-              placeholder="Confirme sua senha (obrigatório)"
-              required
-            />
-            <span
-              className={styles.passwordToggle}
-              onClick={toggleConfSenhaVisibility}
-            >
-              {showConfSenha ? <FaEyeSlash /> : <FaEye />}
-            </span>
-          </div>
+          <label>
+            <strong>senha</strong>
+          </label>
+          <input type="password"></input>
         </form>
       </div>
-      <div className={styles.buttonContainer}>
-        <button
-          type="submit"
-          className={styles.button}
-          onClick={verifica_cadastro}
-        >
-          Salvar as Informações
-        </button>
+      <button
+        type="button"
+        className={styles.button}
+        onClick={() => {
+          const matricula = document.querySelector("input[type='text']").value;
+          const nome = document.querySelector("input[type='text']").value;
+          const email = document.querySelector("input[type='email']").value;
+          const data_de_nasci =
+            document.querySelector("input[type='date']").value;
+          const area_de_pesquisa =
+            document.querySelector("input[type='text']").value;
+          const departamento = document.querySelector("select").value;
+          const departamento_coordenado =
+            document.querySelector("select").value;
+          const senha = document.querySelector("input[type='password']").value;
+          post_cadastro_professor(
+            matricula,
+            nome,
+            email,
+            data_de_nasci,
+            area_de_pesquisa,
+            departamento,
+            departamento_coordenado,
+            senha,
+          );
+        }}
+      >
+        salvar informações
+      </button>
+      <div className={styles.containerCadastro}>
+        <div className={styles.cabecalhoLista}>
+          <h2>
+            <strong>Lista de alunos cadastrados</strong>
+          </h2>
+        </div>
+        <div className={styles.containerLista}>
+          {usuario.map((item) => (
+            <article className={styles.usuario} key={item.matricula}>
+              <div className={styles.informacaoAluno}>
+                <p>
+                  <strong>matrícula: </strong>
+                  {item.matricula}
+                </p>
+                <p>
+                  <strong>nome: </strong>
+                  {item.nome}
+                </p>
+                <p>
+                  <strong>email: </strong>
+                  {item.email}
+                </p>
+                <p>
+                  <strong>data de nascimento: </strong>
+                  {item.data_nasc}
+                </p>
+                <p>
+                  <strong>perfil: </strong>
+                  {item.perfil}
+                </p>
+                <p>
+                  <strong>Universidade: </strong>
+                  {item.universidade}
+                </p>
+                <p>
+                  <strong>área de pesquisa: </strong>
+                  {item.area_pesquisa}
+                </p>
+                <p>
+                  <strong>departamento: </strong>
+                  {item.dep}
+                </p>
+                <p>
+                  <strong>departamento coordenado: </strong>
+                  {item.dep_coordenado}
+                </p>
+
+                <div className={styles.botao}>
+                  <button
+                    type="button"
+                    onClick={() => editarProf(item)}
+                    className={styles.editar}
+                  >
+                    editar
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => excluirProf(item.matricula)}
+                    className={styles.excluir}
+                  >
+                    excluir
+                  </button>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
       </div>
     </>
   );

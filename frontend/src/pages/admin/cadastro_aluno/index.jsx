@@ -21,10 +21,19 @@ function Cadastro_aluno() {
     setNivel(evento.target.value);
   };
 
-  async function post_cadastro_aluno(matricula, nome, email, data_nasc, senha, nivel, curriculo, area_interesse) {
+  async function post_cadastro_aluno(
+    matricula,
+    nome,
+    email,
+    data_nasc,
+    senha,
+    nivel,
+    curriculo,
+    area_interesse,
+  ) {
     const response = await fetch("http://127.0.0.1:8000/admin/cadastro_aluno", {
       method: "POST",
-      headers: { "Content-Type": "application/json", },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         matricula,
         nome,
@@ -40,7 +49,6 @@ function Cadastro_aluno() {
     if (response.ok) {
       alert("Aluno criado com sucesso!");
       navigate("/home_admin");
-
     } else {
       const errorData = await response.json();
       alert(`Erro ao criar aluno: ${errorData.detail || "Erro desconhecido"}`);
@@ -67,25 +75,68 @@ function Cadastro_aluno() {
       return;
     }
 
-    post_cadastro_aluno(matricula, nome, email, data_nasc, senha, nivel, curriculo, area_interesse);
-
+    post_cadastro_aluno(
+      matricula,
+      nome,
+      email,
+      data_nasc,
+      senha,
+      nivel,
+      curriculo,
+      area_interesse,
+    );
   }
 
-  const toggleSenhaVisibility = () => {
-    setShowSenha(!showSenha);
-  };
-
-  const toggleConfSenhaVisibility = () => {
-    setShowConfSenha(!showConfSenha);
-  };
+  const usuario = [
+    {
+      matricula: "123",
+      nome: " Carlos",
+      email: "aluno1@gmail.com",
+      data_nasc: "01/01/2001",
+      perfil: "aluno",
+      universidade: "Universidade de Brasília",
+      curso: "Ciência da Computação",
+      nivel: "graduacao",
+      curriculo: "curriculo aluno 1",
+      area_interesse: "minha área de interesse é...",
+    },
+    {
+      matricula: "321",
+      nome: "Ana",
+      email: "aluno2@gmail.com",
+      data_nasc: "01/01/2001",
+      perfil: "aluno",
+      universidade: "Universidade de São Paulo",
+      curso: "Ciência da Computação",
+      nivel: "pós-graduação",
+      curriculo: "curriculo aluno 2",
+      area_interesse: "minha área de interesse é...",
+    },
+  ];
 
   return (
     <>
       <div className={styles.container}>
-        <h1>Cadastro dos Alunos</h1>
-        <p className={styles.infoText}>Preencha as Informações abaixo para Cadastrar um Novo Aluno.</p>
-        <form className={styles.formulario} onSubmit={(e) => { e.preventDefault(); verifica_cadastro(); }}>
-          <label htmlFor="matricula">Matrícula</label>
+        <h1>cadastro de aluno</h1>
+        <p>Siga as informações abaixo</p>
+        <form className={styles.formulario}>
+          <label>
+            <strong>matrícula</strong>
+          </label>
+          <input type="text" onChange={(e) => setMatricula(e.target.value)} />
+
+          <label>
+            <strong>nome completo</strong>
+          </label>
+          <input type="text" onChange={(e) => setNome(e.target.value)}></input>
+          <label>
+            <strong>digite seu email</strong>
+          </label>
+          <input type="email" onChange={(e) => setEmail(e.target.value)} />
+
+          <label>
+            <strong>data de nascimento*</strong>
+          </label>
           <input
             id="matricula"
             type="text"
@@ -127,7 +178,27 @@ function Cadastro_aluno() {
             required
           />
 
-          <label htmlFor="nivel">Nível</label>
+          <label>
+            <strong>telefone</strong>
+          </label>
+          <input
+            type="text"
+            value={telefone}
+            onChange={(e) => setTelefone(e.target.value)}
+          />
+
+          <label>
+            <strong>cpf</strong>
+          </label>
+          <input
+            type="text"
+            value={cpf}
+            onChange={(e) => setCpf(e.target.value)}
+          />
+
+          <label>
+            <strong>nível</strong>
+          </label>
           <select
             id="nivel"
             value={nivel}
@@ -142,8 +213,17 @@ function Cadastro_aluno() {
             <option value="Doutorado">Doutorado</option>
             <option value="Pós-doutorado">Pós-doutorado</option>
           </select>
-
-          <label htmlFor="curriculo">Currículo</label>
+          <label>
+            <strong>adicione seu curriculo</strong>
+          </label>
+          <input type="text"></input>
+          <label>
+            <strong>área de interesse</strong>
+          </label>
+          <input></input>
+          <label>
+            <strong>crie uma senha</strong>
+          </label>
           <input
             id="curriculo"
             type="text"
@@ -152,7 +232,9 @@ function Cadastro_aluno() {
             placeholder="URL do currículo ou Base64 (Opcional)"
           />
 
-          <label htmlFor="area_interesse">Área de Interesse</label>
+          <label>
+            <strong>digite novamente</strong>
+          </label>
           <input
             id="area_interesse"
             type="text"
@@ -161,7 +243,7 @@ function Cadastro_aluno() {
             placeholder="Ex: Inteligência Artificial, Robótica (Opcional)"
           />
 
-         <label htmlFor="senha">Senha</label>
+          <label htmlFor="senha">Senha</label>
           <div className={styles.passwordInputContainer}>
             <input
               id="senha"
@@ -198,14 +280,85 @@ function Cadastro_aluno() {
           </div>
         </form>
       </div>
-      <div className={styles.buttonContainer}>
-        <button
-          type="submit"
-          className={styles.button}
-          onClick={verifica_cadastro}
-        >
-          Salvar as Informações
-        </button>
+      <button
+        type="button"
+        className={styles.button}
+        onClick={verifica_cadastro}
+      >
+        salvar informações
+      </button>
+
+      <div className={styles.containerCadastro}>
+        <div className={styles.cabecalhoLista}>
+          <h2>
+            <strong>Lista de alunos cadastrados</strong>
+          </h2>
+        </div>
+        <div className={styles.containerLista}>
+          {usuario.map((item) => (
+            <article className={styles.usuario} key={item.matricula}>
+              <div className={styles.informacaoAluno}>
+                <p>
+                  <strong>matrícula: </strong>
+                  {item.matricula}
+                </p>
+                <p>
+                  <strong>nome: </strong>
+                  {item.nome}
+                </p>
+                <p>
+                  <strong>email: </strong>
+                  {item.email}
+                </p>
+                <p>
+                  <strong>data de nascimento: </strong>
+                  {item.data_nasc}
+                </p>
+                <p>
+                  <strong>perfil: </strong>
+                  {item.perfil}
+                </p>
+                <p>
+                  <strong>nivel: </strong>
+                  {item.nivel}
+                </p>
+                <p>
+                  <strong>Universidade: </strong>
+                  {item.universidade}
+                </p>
+                <p>
+                  <strong>curso: </strong>
+                  {item.curso}
+                </p>
+                <p>
+                  <strong>curriculo: </strong>
+                  {item.curriculo}
+                </p>
+                <p>
+                  <strong>area de interesse: </strong>
+                  {item.area_interesse}
+                </p>
+
+                <div className={styles.botao}>
+                  <button
+                    type="button"
+                    onClick={() => editarAluno(item)}
+                    className={styles.editar}
+                  >
+                    editar
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => excluirAluno(item.matricula)}
+                    className={styles.excluir}
+                  >
+                    excluir
+                  </button>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
       </div>
     </>
   );

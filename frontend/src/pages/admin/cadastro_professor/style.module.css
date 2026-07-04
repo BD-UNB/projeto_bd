@@ -133,3 +133,79 @@
 .passwordToggle:hover {
   color: var(--cor-unb-primaria);
 }
+
+.containerCadastro {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  background-color: #f4fcfb;
+  width: 650px;
+  padding: 16px;
+  border-radius: 10px;
+  justify-content: center;
+  margin: 0 auto;
+  margin-top: 50px;
+  margin-bottom: 15px;
+}
+
+.cabecalhoLista {
+  h2 {
+    font-size: 25px;
+  }
+}
+
+.containerLista {
+  background-color: var(--cor-unb-cinza-fraco);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-radius: 10px;
+}
+
+.usuario {
+  display: flex;
+  padding: 10px;
+}
+
+.informacaoAluno {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  background-color: #f4fcfb;
+  width: 98%;
+  margin: 0 auto;
+  padding: 5px;
+  border-radius: 10px;
+  font-size: 22px;
+}
+.botao {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin: 10px;
+}
+
+.editar {
+  background-color: rgb(89, 129, 240);
+  width: 50%;
+  cursor: pointer;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  margin: 0 auto;
+  border-radius: 9px;
+}
+.editar:hover {
+  opacity: 0.9;
+}
+
+.excluir {
+  background-color: rgb(245, 59, 59);
+  width: 50%;
+  cursor: pointer;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  margin: 0 auto;
+  border-radius: 9px;
+}
+.excluir:hover {
+  opacity: 0.9;
+}

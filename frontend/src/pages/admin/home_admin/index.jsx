@@ -8,22 +8,34 @@ function Home_admin() {
       <nav className={styles.nav}>
         <div className={styles.adminInfoBox}>
           <p>
-            <span className={styles.labelBold}>Matricula:</span> <label className={styles.valueBold}>ADM00001</label>
+            <strong>matricula:</strong> <label>0000000</label>
           </p>
           <p>
-            <span className={styles.labelBold}>Nome:</span> <label className={styles.valueBold}>Carlo Anchelotti</label>
+            <strong>nome:</strong> <label>nome nome</label>
           </p>
         </div>
       </nav>
-      <h1 className={styles.titulo}>O Deseja Acessar ?</h1>
+      <h1 className={styles.titulo}>
+        <strong>O QUE DESEJA ACESSAR?</strong>
+      </h1>
 
       <div className={styles.container}>
         <div className={styles.acesso}>
-          <Link to="/vagas_oportunidades" className={styles.acessoButton}>Vagas e Oportunidades</Link>
-          <Link to="/cursos" className={styles.acessoButton}>Cursos e Disciplinas</Link>
-          <Link to="/cadastro_aluno" className={styles.acessoButton}>Cadastro de Alunos</Link>
-          <Link to="/cadastro_professor" className={styles.acessoButton}>Cadastro de Professores</Link>
-          <Link to="/vagas_criadas" className={styles.acessoButton}>Verificar Vagas Criadas</Link>
+          <button type="button">
+            <Link to="/vagas_oportunidades">gerenciar vagas</Link>
+          </button>
+          <button type="button">
+            <Link to="/cursos">gerenciar cursos e disciplinas</Link>
+          </button>
+          <button type="button">
+            <Link to="/cadastro_aluno">gerenciar aluno</Link>
+          </button>
+          <button type="button">
+            <Link to="/cadastro_professor">gerenciar professor</Link>
+          </button>
+          <button className={styles.vagas} type="button">
+            <Link to="/vagas_criadas">verificar vagas criadas</Link>
+          </button>
         </div>
       </div>
     </>
