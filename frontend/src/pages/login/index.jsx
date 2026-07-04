@@ -21,7 +21,7 @@ function Login() {
     }
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/auth/login", {
+      const response = await fetch("http://127.0.0.1:8000/auth/login/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -59,9 +59,6 @@ function Login() {
 
   return (
     <>
-      <div className={styles.header_logo}>
-        <img src={unbLogo} alt="Logo da UnB" />
-      </div>
       <div className={styles.div_boas_vindas}>
         <h1>Bem-vindo ao Portal de Vagas UnB</h1>
         <p>Conectando professores e alunos de forma facilitada</p>
