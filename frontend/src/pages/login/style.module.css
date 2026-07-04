@@ -66,6 +66,40 @@
   }
 }
 
+.password_input_container {
+  position: relative;
+  margin-bottom: 10px;
+  width: 300px;
+  margin: 10px auto;
+}
+
+.password_input_container input {
+  width: 100%; 
+  padding-right: 40px;
+  box-sizing: border-box; 
+  font-size: 15px;
+  padding: 10px;
+  background-color: #f4fcfb;
+  border-radius: 7px;
+  border: 1px solid #ccc;
+}
+
+.password_toggle {
+  position: absolute; 
+  right: 10px;
+  top: 50%; 
+  transform: translateY(-50%); 
+  cursor: pointer;
+  font-size: 1.2em;
+  color: #888; 
+  user-select: none; 
+  z-index: 1;
+}
+
+.password_toggle:hover {
+  color: #555;
+}
+
 .cadastro {
   display: flex;
   flex-direction: column;
@@ -82,4 +116,12 @@
     color: aliceblue;
     width: 200px;
   }
+
+.error_message {
+  color: #dc3545; /* Vermelho para erros */
+  font-size: 0.9em;
+  margin-top: 10px;
+  text-align: center;
+}
+
 }

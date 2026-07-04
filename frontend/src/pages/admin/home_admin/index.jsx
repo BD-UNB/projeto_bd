@@ -1,13 +1,12 @@
 import "../../../index.css";
 import styles from "./style.module.css";
-import { Navigate, useNavigate, Link } from "react-router-dom";
-import { useState } from "react";
+import { Link } from "react-router-dom";
 
 function Home_admin() {
   return (
     <>
       <nav className={styles.nav}>
-        <div className={styles.admin}>
+        <div className={styles.adminInfoBox}>
           <p>
             <strong>matricula:</strong> <label>0000000</label>
           </p>

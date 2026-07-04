@@ -1,15 +1,37 @@
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "./style.module.css";
+import { useState } from "react";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 function Cadastro_professor() {
-  const [departamento, setDepartamente] = useState("");
-  const [dep_coordenado, setDep_coordenado] = useState("");
+  const navigate = useNavigate();
+
+  const [matricula, setMatricula] = useState("");
+  const [nome, setNome] = useState("");
+  const [email, setEmail] = useState("");
+  const [data_nasc, setData_nasc] = useState("");
+  const [area_de_pesquisa, setArea_de_pesquisa] = useState("");
+  const [departamento, setDepartamento] = useState("");
+  const [departamento_coordenado, setDepartamento_coordenado] = useState("");
+  const [senha, setSenha] = useState("");
+  const [conf_senha, setConf_senha] = useState("");
+  const [showSenha, setShowSenha] = useState(false);
+  const [showConfSenha, setShowConfSenha] = useState(false);
+
+  // Funções de alternância de visibilidade de senha
+  const toggleSenhaVisibility = () => {
+    setShowSenha(!showSenha);
+  };
+
+  const toggleConfSenhaVisibility = () => {
+    setShowConfSenha(!showConfSenha);
+  };
 
   const seleciona_dep = (evento) => {
-    setDepartamente(evento.target.value);
+    setDepartamento(evento.target.value);
   };
   const seleciona_depCoordenado = (evento) => {
-    setDep_coordenado(evento.target.value);
+    setDepartamento_coordenado(evento.target.value);
   };
 
   const usuario = [
@@ -41,34 +63,73 @@ function Cadastro_professor() {
     matricula,
     nome,
     email,
-    data_de_nasci,
+    data_nasc,
     area_de_pesquisa,
     departamento,
     departamento_coordenado,
     senha,
   ) {
-    const response = await fetch("http://127.0.0.1:8000/cadastro_professor", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+    const response = await fetch(
+      "http://127.0.0.1:8000/admin/cadastro_professor",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          matricula,
+          nome,
+          email,
+          data_nasc,
+          area_de_pesquisa: area_de_pesquisa || null,
+          departamento,
+          departamento_coordenado: departamento_coordenado || null,
+          senha,
+        }),
       },
-      body: JSON.stringify({
-        matricula,
-        nome,
-        email,
-        data_de_nasci,
-        area_de_pesquisa,
-        departamento,
-        departamento_coordenado,
-        senha,
-      }),
-    });
+    );
 
     if (response.ok) {
-      console.log("Professor criado com sucesso");
+      alert("Professor criado com sucesso!");
+      navigate("/home_admin");
     } else {
-      console.log("Erro ao criar professor", response);
+      const errorData = await response.json();
+      alert(
+        `Erro ao criar professor: ${errorData.detail || "Erro desconhecido"}`,
+      );
+      console.error("Erro ao criar professor", response, errorData);
     }
+  }
+
+  function verifica_cadastro() {
+    if (
+      matricula.trim() === "" ||
+      nome.trim() === "" ||
+      email.trim() === "" ||
+      data_nasc.trim() === "" ||
+      departamento.trim() === "" ||
+      senha.trim() === "" ||
+      conf_senha.trim() === ""
+    ) {
+      alert("Preencha todos campos obrigatórios");
+      return;
+    }
+
+    if (senha !== conf_senha) {
+      alert("As senhas não coincidem!");
+      return;
+    }
+
+    post_cadastro_professor(
+      matricula,
+      nome,
+      email,
+      data_nasc,
+      area_de_pesquisa,
+      departamento,
+      departamento_coordenado,
+      senha,
+    );
   }
 
   return (
@@ -95,6 +156,37 @@ function Cadastro_professor() {
             <strong>data de nascimento</strong>
           </label>
           <input
+            id="matricula"
+            type="text"
+            value={matricula}
+            onChange={(e) => setMatricula(e.target.value)}
+            placeholder="Insira a Matrícula (obrigatório)"
+            required
+          />
+
+          <label htmlFor="nome">Nome</label>
+          <input
+            id="nome"
+            type="text"
+            value={nome}
+            onChange={(e) => setNome(e.target.value)}
+            placeholder="Insira o Nome Completo (obrigatório)"
+            required
+          />
+
+          <label htmlFor="email">Email</label>
+          <input
+            id="email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Ex: seuemail@dominio.com (obrigatório)"
+            required
+          />
+
+          <label htmlFor="data_nasc">Data de Nascimento</label>
+          <input
+            id="data_nasc"
             type="date"
             min="1926-01-01"
             max={"2016-01-01"}
@@ -108,25 +200,32 @@ function Cadastro_professor() {
             <strong>Selecione seu departamento</strong>
           </label>
           <select
+            id="departamento"
             value={departamento}
             onChange={seleciona_dep}
-            className={styles.select}
+            className={styles.selectField}
+            required
           >
-            <option value=""></option>
-            <option value="matemática">Matemática</option>
-            <option value="português">Português</option>
+            <option value="">Selecione o Departamento (obrigatório)</option>
+            <option value="Matemática">Matemática</option>
+            <option value="Português">Português</option>
+            <option value="Computação">Computação</option>
+            <option value="Engenharia">Engenharia</option>
           </select>
           <label>
             <strong>Departamento que te coordena</strong>
           </label>
           <select
-            value={dep_coordenado}
+            id="departamento_coordenado"
+            value={departamento_coordenado}
             onChange={seleciona_depCoordenado}
-            className={styles.select}
+            className={styles.selectField}
           >
-            <option value=""></option>
-            <option value="matemática">Matemática</option>
-            <option value="português">Português</option>
+            <option value="">Selecione o Departamento (Opcional)</option>
+            <option value="Matemática">Matemática</option>
+            <option value="Português">Português</option>
+            <option value="Computação">Computação</option>
+            <option value="Engenharia">Engenharia</option>
           </select>
           <label>
             <strong>senha</strong>
