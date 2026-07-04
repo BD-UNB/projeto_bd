@@ -1,39 +1,112 @@
-.container {
-  padding-top: 40px;
-  & h1 {
-    color: #f4fcfb;
-    text-align: center;
+.header_logo {
+  & img {
+    background-color: var(--cor-unb-secundaria);
+    width: 128px;
+    padding-left: 10px;
+    padding-top: 10px;
   }
 }
+
+.div_boas_vindas {
+  padding-top: 40px;
+  text-align: center;
+  color: var(--cor-unb-branca);
+  font-weight: 300px;
+
+  & h1 {
+    font-size: 30px;
+    font-weight: bold;
+  }
+
+  & p {
+    font-size: 18px;
+    margin-top: 10px;
+  }
+}
+
+.container {
+  padding-top: 50px;
+
+  & h1 {
+    color: var(--cor-unb-branca);
+    text-align: center;
+    padding-bottom: 20px;
+    font-size: 30px;
+    font-weight: bold;
+  }
+}
+
 .acesso {
-  background-color: #698696;
+  background-color: var(--cor-unb-cinza-fraco);
   display: flex;
   flex-direction: column;
   margin: 0 auto;
-  padding: 30px;
+  padding: 15px 25px 15px 18px;
   width: 330px;
   border-radius: 20px;
 
   & p {
-    margin-left: 10px;
     text-align: left;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: bold;
   }
 
   & input {
-    font-size: 20px;
+    margin: 0 auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 15px;
     padding: 10px;
     width: 300px;
+    background-color: #f4fcfb;
+    border-radius: 7px;
   }
+
   & button {
-    background-color: #5289ad;
+    background-color: var(--cor-unb-primaria);
+    color: var(--cor-unb-branca);
     display: flex;
-    margin-left: 130px;
+    margin: 0 auto;
+    border-radius: 5px;
+    padding: 5px;
     cursor: pointer;
-    font-size: 20px;
-    margin-top: 35px;
+    font-size: 15px;
+    margin-top: 10px;
   }
+}
+
+.password_input_container {
+  position: relative;
+  margin-bottom: 10px;
+  width: 300px;
+  margin: 10px auto;
+}
+
+.password_input_container input {
+  width: 100%; 
+  padding-right: 40px;
+  box-sizing: border-box; 
+  font-size: 15px;
+  padding: 10px;
+  background-color: #f4fcfb;
+  border-radius: 7px;
+  border: 1px solid #ccc;
+}
+
+.password_toggle {
+  position: absolute; 
+  right: 10px;
+  top: 50%; 
+  transform: translateY(-50%); 
+  cursor: pointer;
+  font-size: 1.2em;
+  color: #888; 
+  user-select: none; 
+  z-index: 1;
+}
+
+.password_toggle:hover {
+  color: #555;
 }
 
 .cadastro {
@@ -42,7 +115,9 @@
   margin: 0 auto;
   margin-top: 30px;
   text-align: center;
+  padding-top: 10px;
   gap: 20px;
+
   & a {
     display: flex;
     flex-direction: column;
@@ -50,4 +125,12 @@
     color: aliceblue;
     width: 200px;
   }
+
+.error_message {
+  color: #dc3545; /* Vermelho para erros */
+  font-size: 0.9em;
+  margin-top: 10px;
+  text-align: center;
+}
+
 }

@@ -1,9 +1,12 @@
-CREATE TABLE universidade (
+CREATE DATABASE IF NOT EXISTS projeto_bd;
+USE projeto_bd;
+
+CREATE TABLE IF NOT EXISTS universidade (
     idUniversidade INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(100) NOT NULL
 );
 
-CREATE TABLE campus (
+CREATE TABLE IF NOT EXISTS campus (
     idCampus INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(50) NOT NULL,
     local VARCHAR(100),
@@ -11,7 +14,7 @@ CREATE TABLE campus (
     FOREIGN KEY (idUniversidade) REFERENCES universidade(idUniversidade)
 );
 
-CREATE TABLE departamento (
+CREATE TABLE IF NOT EXISTS departamento (
     idDepartamento INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(100) UNIQUE NOT NULL,
     email VARCHAR(100) UNIQUE,
@@ -20,14 +23,24 @@ CREATE TABLE departamento (
     FOREIGN KEY (idUniversidade) REFERENCES universidade(idUniversidade)
 );
 
-CREATE TABLE curso (
+CREATE TABLE IF NOT EXISTS curso (
     idCurso INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(100) UNIQUE NOT NULL,
     duracao_semestres INT NOT NULL,
-    descricao TEXT
+    descricao TEXT,
+    idUniversidade INT,
+    FOREIGN KEY (idUniversidade) REFERENCES universidade(idUniversidade)
 );
 
-CREATE TABLE disciplina (
+CREATE TABLE IF NOT EXISTS curso_departamento (
+    idCurso INT,
+    idDepartamento INT,
+    PRIMARY KEY (idCurso, idDepartamento),
+    FOREIGN KEY (idCurso) REFERENCES curso(idCurso),
+    FOREIGN KEY (idDepartamento) REFERENCES departamento(idDepartamento)
+);
+
+CREATE TABLE IF NOT EXISTS disciplina (
     idDisciplina INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(100) NOT NULL,
     carga_horaria INT NOT NULL,
@@ -36,7 +49,7 @@ CREATE TABLE disciplina (
     FOREIGN KEY (idDepartamento) REFERENCES departamento(idDepartamento)
 );
 
-CREATE TABLE pre_requisito (
+CREATE TABLE IF NOT EXISTS pre_requisito (
     idDisciplina INT,
     idPreRequisito INT,
     PRIMARY KEY (idDisciplina, idPreRequisito),
@@ -44,7 +57,7 @@ CREATE TABLE pre_requisito (
     FOREIGN KEY (idPreRequisito) REFERENCES disciplina(idDisciplina)
 );
 
-CREATE TABLE disc_curso (
+CREATE TABLE IF NOT EXISTS disc_curso (
     idDisciplina INT,
     idCurso INT,
     PRIMARY KEY (idDisciplina, idCurso),
@@ -52,13 +65,13 @@ CREATE TABLE disc_curso (
     FOREIGN KEY (idCurso) REFERENCES curso(idCurso)
 );
 
-CREATE TABLE tipo_vaga (
+CREATE TABLE IF NOT EXISTS tipo_vaga (
     idTipoVaga INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(50) NOT NULL,
     descricao TEXT
 );
 
-CREATE TABLE usuario (
+CREATE TABLE IF NOT EXISTS usuario (
     idUsuario INT PRIMARY KEY AUTO_INCREMENT,
     matricula VARCHAR(20) UNIQUE NOT NULL,
     nome VARCHAR(100) NOT NULL,
@@ -68,7 +81,7 @@ CREATE TABLE usuario (
     senha VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE aluno (
+CREATE TABLE IF NOT EXISTS aluno (
     idAluno INT PRIMARY KEY,
     nivel ENUM('graduacao', 'pos-graduacao') NOT NULL,
     curriculo LONGBLOB,
@@ -76,7 +89,7 @@ CREATE TABLE aluno (
     FOREIGN KEY (idAluno) REFERENCES usuario(idUsuario)
 );
 
-CREATE TABLE professor (
+CREATE TABLE IF NOT EXISTS professor (
     idProfessor INT PRIMARY KEY,
     area_pesquisa TEXT,
     idDepartamento INT,
@@ -86,7 +99,7 @@ CREATE TABLE professor (
     FOREIGN KEY (idDeptCoordenado) REFERENCES departamento(idDepartamento)
 );
 
-CREATE TABLE vagas_oportunidades (
+CREATE TABLE IF NOT EXISTS vagas_oportunidades (
     idVagas INT PRIMARY KEY AUTO_INCREMENT,
     titulo VARCHAR(100) NOT NULL,
     descricao TEXT NOT NULL,
@@ -107,7 +120,7 @@ CREATE TABLE vagas_oportunidades (
     FOREIGN KEY (idDepartamento) REFERENCES departamento(idDepartamento)
 );
 
-CREATE TABLE responsavel_vaga (
+CREATE TABLE IF NOT EXISTS responsavel_vaga (
     idProfessor INT,
     idVagas INT,
     PRIMARY KEY (idProfessor, idVagas),
@@ -115,7 +128,7 @@ CREATE TABLE responsavel_vaga (
     FOREIGN KEY (idVagas) REFERENCES vagas_oportunidades(idVagas)
 );
 
-CREATE TABLE candidatura (
+CREATE TABLE IF NOT EXISTS candidatura (
     idAluno INT,
     idVagas INT,
     data_candidatura DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -127,7 +140,7 @@ CREATE TABLE candidatura (
     FOREIGN KEY (idVagas) REFERENCES vagas_oportunidades(idVagas)
 );
 
-CREATE TABLE inscricao (
+CREATE TABLE IF NOT EXISTS inscricao (
     idAluno INT,
     idCurso INT,
     PRIMARY KEY (idAluno, idCurso),
@@ -135,7 +148,7 @@ CREATE TABLE inscricao (
     FOREIGN KEY (idCurso) REFERENCES curso(idCurso)
 );
 
-CREATE TABLE faz (
+CREATE TABLE IF NOT EXISTS faz (
     idAluno INT,
     idDisciplina INT,
     semestre VARCHAR(20) NOT NULL,
@@ -144,7 +157,7 @@ CREATE TABLE faz (
     FOREIGN KEY (idDisciplina) REFERENCES disciplina(idDisciplina)
 );
 
-CREATE TABLE conversa (
+CREATE TABLE IF NOT EXISTS conversa (
     idConversa INT PRIMARY KEY AUTO_INCREMENT,
     dataCriacao DATETIME DEFAULT CURRENT_TIMESTAMP,
     status ENUM('ativa', 'arquivada', 'encerrada') DEFAULT 'ativa',
@@ -152,7 +165,7 @@ CREATE TABLE conversa (
     FOREIGN KEY (idVagas) REFERENCES vagas_oportunidades(idVagas)
 );
 
-CREATE TABLE mensagem (
+CREATE TABLE IF NOT EXISTS mensagem (
     idMensagem INT PRIMARY KEY AUTO_INCREMENT,
     texto TEXT,
     dataHora DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -164,7 +177,7 @@ CREATE TABLE mensagem (
     FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario)
 );
 
-CREATE TABLE conversa_usuario (
+CREATE TABLE IF NOT EXISTS conversa_usuario (
     idConversa INT,
     idUsuario INT,
     PRIMARY KEY (idConversa, idUsuario),
@@ -172,7 +185,7 @@ CREATE TABLE conversa_usuario (
     FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario)
 );
 
-CREATE TABLE comentario_vaga (
+CREATE TABLE IF NOT EXISTS comentario_vaga (
     idComentario INT PRIMARY KEY AUTO_INCREMENT,
     idVagas INT NOT NULL,
     idUsuario INT NOT NULL,

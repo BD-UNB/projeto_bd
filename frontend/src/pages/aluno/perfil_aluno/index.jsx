@@ -13,16 +13,16 @@ function Perfil_aluno() {
       </div>
       <h1 className={style.titulo}>Seus dados</h1>
       <div className={style.container}>
-        <label>Matrícula</label>
-        <input type="number"></input>
-        <label>Nome</label>
-        <input type="text"></input>
-        <label>Email</label>
-        <input type="email"></input>
-        <label>Curriculo</label>
-        <input></input>
-        <label>Áreas de interesse</label>
-        <textarea typeof="text" className={style.textarea}></textarea>
+        <label>Matrícula: </label>
+        <label>matricula</label>
+        <label>Nome: </label>
+        <label>nome</label>
+        <label>Email: </label>
+        <label>email</label>
+        <label>Curriculo: </label>
+        <label>anexo</label>
+        <label>Áreas de interesse: </label>
+        <label>blablabla</label>
       </div>
     </>
   );
