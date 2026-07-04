@@ -1,5 +1,3 @@
-DELIMITER //
-
 CREATE TRIGGER trg_atualiza_status_vaga_apos_candidatura
 AFTER INSERT ON candidatura
 FOR EACH ROW
@@ -10,6 +8,3 @@ BEGIN
         WHERE idVagas = NEW.idVagas;
     END IF;
 END;
-//
-
-DELIMITER ;
