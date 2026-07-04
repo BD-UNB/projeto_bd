@@ -1,40 +1,29 @@
 import "../../../index.css";
 import styles from "./style.module.css";
-import { Navigate, useNavigate, Link } from "react-router-dom";
-import { useState } from "react";
+import { Link } from "react-router-dom";
 
 function Home_admin() {
   return (
     <>
       <nav className={styles.nav}>
-        <div className={styles.admin}>
+        <div className={styles.adminInfoBox}>
           <p>
-            matricula: <label>0000000</label>
+            <span className={styles.labelBold}>Matricula:</span> <label className={styles.valueBold}>ADM00001</label>
           </p>
           <p>
-            nome: <label>nome nome</label>
+            <span className={styles.labelBold}>Nome:</span> <label className={styles.valueBold}>Carlo Anchelotti</label>
           </p>
         </div>
       </nav>
-      <h1 className={styles.titulo}>O QUE DESEJA ACESSAR?</h1>
+      <h1 className={styles.titulo}>O Deseja Acessar ?</h1>
 
       <div className={styles.container}>
         <div className={styles.acesso}>
-          <button type="button">
-            <Link to="/vagas_oportunidades">vagas/oportunidades</Link>
-          </button>
-          <button type="button">
-            <Link to="/cursos">cursos e disciplinas</Link>
-          </button>
-          <button type="button">
-            <Link to="/cadastro_aluno">cadastrar aluno</Link>
-          </button>
-          <button type="button">
-            <Link to="/cadastro_professor">cadastrar professor</Link>
-          </button>
-          <button className={styles.vagas} type="button">
-            <Link to="/vagas_criadas">verificar vagas criadas</Link>
-          </button>
+          <Link to="/vagas_oportunidades" className={styles.acessoButton}>Vagas e Oportunidades</Link>
+          <Link to="/cursos" className={styles.acessoButton}>Cursos e Disciplinas</Link>
+          <Link to="/cadastro_aluno" className={styles.acessoButton}>Cadastro de Alunos</Link>
+          <Link to="/cadastro_professor" className={styles.acessoButton}>Cadastro de Professores</Link>
+          <Link to="/vagas_criadas" className={styles.acessoButton}>Verificar Vagas Criadas</Link>
         </div>
       </div>
     </>
