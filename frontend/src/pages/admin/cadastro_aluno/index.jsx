@@ -93,21 +93,56 @@ function Cadastro_aluno() {
     );
   }
 
+  const usuario = [
+    {
+      matricula: "123",
+      nome: " Carlos",
+      email: "aluno1@gmail.com",
+      data_nasc: "01/01/2001",
+      perfil: "aluno",
+      universidade: "Universidade de Brasília",
+      curso: "Ciência da Computação",
+      nivel: "graduacao",
+      curriculo: "curriculo aluno 1",
+      area_interesse: "minha área de interesse é...",
+    },
+    {
+      matricula: "321",
+      nome: "Ana",
+      email: "aluno2@gmail.com",
+      data_nasc: "01/01/2001",
+      perfil: "aluno",
+      universidade: "Universidade de São Paulo",
+      curso: "Ciência da Computação",
+      nivel: "pós-graduação",
+      curriculo: "curriculo aluno 2",
+      area_interesse: "minha área de interesse é...",
+    },
+  ];
+
   return (
     <>
       <div className={styles.container}>
         <h1>cadastro de aluno</h1>
         <p>Siga as informações abaixo</p>
         <form className={styles.formulario}>
-          <label>matrícula</label>
+          <label>
+            <strong>matrícula</strong>
+          </label>
           <input type="text" onChange={(e) => setMatricula(e.target.value)} />
 
-          <label>nome completo</label>
+          <label>
+            <strong>nome completo</strong>
+          </label>
           <input type="text" onChange={(e) => setNome(e.target.value)}></input>
-          <label>digite seu email</label>
+          <label>
+            <strong>digite seu email</strong>
+          </label>
           <input type="email" onChange={(e) => setEmail(e.target.value)} />
 
-          <label>data de nascimento*</label>
+          <label>
+            <strong>data de nascimento*</strong>
+          </label>
           <input
             type="date"
             min="1926-01-01"
@@ -115,21 +150,27 @@ function Cadastro_aluno() {
             onChange={(e) => setData_nasc(e.target.value)}
           />
 
-          <label>telefone</label>
+          <label>
+            <strong>telefone</strong>
+          </label>
           <input
             type="text"
             value={telefone}
             onChange={(e) => setTelefone(e.target.value)}
           />
 
-          <label>cpf</label>
+          <label>
+            <strong>cpf</strong>
+          </label>
           <input
             type="text"
             value={cpf}
             onChange={(e) => setCpf(e.target.value)}
           />
 
-          <label>nível</label>
+          <label>
+            <strong>nível</strong>
+          </label>
           <select
             value={nivel}
             onChange={seleciona_nivel}
@@ -152,18 +193,26 @@ function Cadastro_aluno() {
               Pós-doutorado
             </option>
           </select>
-          <label>adicione seu curriculo</label>
+          <label>
+            <strong>adicione seu curriculo</strong>
+          </label>
           <input type="text"></input>
-          <label>área de interesse</label>
+          <label>
+            <strong>área de interesse</strong>
+          </label>
           <input></input>
-          <label>crie uma senha</label>
+          <label>
+            <strong>crie uma senha</strong>
+          </label>
           <input
             type="password"
             value={senha}
             onChange={(e) => setSenha(e.target.value)}
           />
 
-          <label>digite novamente</label>
+          <label>
+            <strong>digite novamente</strong>
+          </label>
           <input
             type="password"
             value={conf_senha}
@@ -178,6 +227,79 @@ function Cadastro_aluno() {
       >
         salvar informações
       </button>
+
+      <div className={styles.containerCadastro}>
+        <div className={styles.cabecalhoLista}>
+          <h2>
+            <strong>Lista de alunos cadastrados</strong>
+          </h2>
+        </div>
+        <div className={styles.containerLista}>
+          {usuario.map((item) => (
+            <article className={styles.usuario} key={item.matricula}>
+              <div className={styles.informacaoAluno}>
+                <p>
+                  <strong>matrícula: </strong>
+                  {item.matricula}
+                </p>
+                <p>
+                  <strong>nome: </strong>
+                  {item.nome}
+                </p>
+                <p>
+                  <strong>email: </strong>
+                  {item.email}
+                </p>
+                <p>
+                  <strong>data de nascimento: </strong>
+                  {item.data_nasc}
+                </p>
+                <p>
+                  <strong>perfil: </strong>
+                  {item.perfil}
+                </p>
+                <p>
+                  <strong>nivel: </strong>
+                  {item.nivel}
+                </p>
+                <p>
+                  <strong>Universidade: </strong>
+                  {item.universidade}
+                </p>
+                <p>
+                  <strong>curso: </strong>
+                  {item.curso}
+                </p>
+                <p>
+                  <strong>curriculo: </strong>
+                  {item.curriculo}
+                </p>
+                <p>
+                  <strong>area de interesse: </strong>
+                  {item.area_interesse}
+                </p>
+
+                <div className={styles.botao}>
+                  <button
+                    type="button"
+                    onClick={() => editarAluno(item)}
+                    className={styles.editar}
+                  >
+                    editar
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => excluirAluno(item.matricula)}
+                    className={styles.excluir}
+                  >
+                    excluir
+                  </button>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
     </>
   );
 }

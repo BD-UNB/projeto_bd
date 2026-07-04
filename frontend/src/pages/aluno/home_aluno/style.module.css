@@ -123,6 +123,22 @@
   padding: 5px;
 }
 
+.conteudoComentario {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cardComentario {
+  background-color: #e9e9e9;
+  border-radius: 10px;
+  padding: 10px;
+
+  & p {
+    margin-bottom: 8px;
+  }
+}
+
 .mensagem {
   position: fixed;
   right: 0;
@@ -138,6 +154,23 @@
     color: white;
     margin: 20px;
     cursor: pointer;
+  }
+}
+
+.conteudoMensagem {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cardMensagem {
+  background-color: #e9e9e9;
+  border-radius: 10px;
+  color: black;
+  padding: 10px;
+
+  & p {
+    margin-bottom: 8px;
   }
 }
 

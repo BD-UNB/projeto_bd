@@ -2,7 +2,6 @@ import { Link, useNavigate } from "react-router-dom";
 import styles from "./style.module.css";
 import "../../index.css";
 import { useState } from "react";
-
 function Login() {
   const navigate = useNavigate("");
   const [matricula, setMatricula] = useState("");
@@ -45,9 +44,6 @@ function Login() {
 
   return (
     <>
-      <div className={styles.header_logo}>
-        <img src="src/assets/unb_logo.webp" alt="Logo da UnB" />
-      </div>
       <div className={styles.div_boas_vindas}>
         <h1>Bem-vindo ao Portal de Vagas UnB</h1>
         <p>Conectando professores e alunos de forma facilitada</p>

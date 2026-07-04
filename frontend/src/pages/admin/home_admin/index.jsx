@@ -9,28 +9,30 @@ function Home_admin() {
       <nav className={styles.nav}>
         <div className={styles.admin}>
           <p>
-            matricula: <label>0000000</label>
+            <strong>matricula:</strong> <label>0000000</label>
           </p>
           <p>
-            nome: <label>nome nome</label>
+            <strong>nome:</strong> <label>nome nome</label>
           </p>
         </div>
       </nav>
-      <h1 className={styles.titulo}>O QUE DESEJA ACESSAR?</h1>
+      <h1 className={styles.titulo}>
+        <strong>O QUE DESEJA ACESSAR?</strong>
+      </h1>
 
       <div className={styles.container}>
         <div className={styles.acesso}>
           <button type="button">
-            <Link to="/vagas_oportunidades">vagas/oportunidades</Link>
+            <Link to="/vagas_oportunidades">gerenciar vagas</Link>
           </button>
           <button type="button">
-            <Link to="/cursos">cursos e disciplinas</Link>
+            <Link to="/cursos">gerenciar cursos e disciplinas</Link>
           </button>
           <button type="button">
-            <Link to="/cadastro_aluno">cadastrar aluno</Link>
+            <Link to="/cadastro_aluno">gerenciar aluno</Link>
           </button>
           <button type="button">
-            <Link to="/cadastro_professor">cadastrar professor</Link>
+            <Link to="/cadastro_professor">gerenciar professor</Link>
           </button>
           <button className={styles.vagas} type="button">
             <Link to="/vagas_criadas">verificar vagas criadas</Link>
