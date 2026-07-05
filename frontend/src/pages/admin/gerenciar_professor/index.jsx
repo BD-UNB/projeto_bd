@@ -134,204 +134,206 @@ function Cadastro_professor() {
 
   return (
     <>
-      <div className={styles.container}>
-        <h1>
-          <strong>cadastro de professor</strong>
-        </h1>
-        <p>Siga as informações abaixo</p>
-        <form className={styles.formulario}>
-          <label>
-            <strong>matricula</strong>
-          </label>
-          <input type="text"></input>
-          <label>
-            <strong>nome completo</strong>
-          </label>
-          <input type="text"></input>
-          <label>
-            <strong>digite seu email</strong>
-          </label>
-          <input type="email"></input>
-          <label>
-            <strong>data de nascimento</strong>
-          </label>
-          <input
-            id="matricula"
-            type="text"
-            value={matricula}
-            onChange={(e) => setMatricula(e.target.value)}
-            placeholder="Insira a Matrícula (obrigatório)"
-            required
-          />
+      <div className={styles.separa}>
+        <div className={styles.container}>
+          <h1>
+            <strong>cadastro de professor</strong>
+          </h1>
+          <p>Siga as informações abaixo</p>
+          <form className={styles.formulario}>
+            <label>
+              <strong>matricula</strong>
+            </label>
+            <input type="text"></input>
+            <label>
+              <strong>nome completo</strong>
+            </label>
+            <input type="text"></input>
+            <label>
+              <strong>digite seu email</strong>
+            </label>
+            <input type="email"></input>
+            <label>
+              <strong>data de nascimento</strong>
+            </label>
+            <input
+              id="matricula"
+              type="text"
+              value={matricula}
+              onChange={(e) => setMatricula(e.target.value)}
+              placeholder="Insira a Matrícula (obrigatório)"
+              required
+            />
 
-          <label htmlFor="nome">Nome</label>
-          <input
-            id="nome"
-            type="text"
-            value={nome}
-            onChange={(e) => setNome(e.target.value)}
-            placeholder="Insira o Nome Completo (obrigatório)"
-            required
-          />
+            <label htmlFor="nome">Nome</label>
+            <input
+              id="nome"
+              type="text"
+              value={nome}
+              onChange={(e) => setNome(e.target.value)}
+              placeholder="Insira o Nome Completo (obrigatório)"
+              required
+            />
 
-          <label htmlFor="email">Email</label>
-          <input
-            id="email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Ex: seuemail@dominio.com (obrigatório)"
-            required
-          />
+            <label htmlFor="email">Email</label>
+            <input
+              id="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Ex: seuemail@dominio.com (obrigatório)"
+              required
+            />
 
-          <label htmlFor="data_nasc">Data de Nascimento</label>
-          <input
-            id="data_nasc"
-            type="date"
-            min="1926-01-01"
-            max={"2016-01-01"}
-            value={"2000-01-01"}
-          ></input>
-          <label>
-            <strong>área de pesquisa</strong>
-          </label>
-          <input type="text"></input>
-          <label>
-            <strong>Selecione seu departamento</strong>
-          </label>
-          <select
-            id="departamento"
-            value={departamento}
-            onChange={seleciona_dep}
-            className={styles.selectField}
-            required
+            <label htmlFor="data_nasc">Data de Nascimento</label>
+            <input
+              id="data_nasc"
+              type="date"
+              min="1926-01-01"
+              max={"2016-01-01"}
+              value={"2000-01-01"}
+            ></input>
+            <label>
+              <strong>área de pesquisa</strong>
+            </label>
+            <input type="text"></input>
+            <label>
+              <strong>Selecione seu departamento</strong>
+            </label>
+            <select
+              id="departamento"
+              value={departamento}
+              onChange={seleciona_dep}
+              className={styles.selectField}
+              required
+            >
+              <option value="">Selecione o Departamento (obrigatório)</option>
+              <option value="Matemática">Matemática</option>
+              <option value="Português">Português</option>
+              <option value="Computação">Computação</option>
+              <option value="Engenharia">Engenharia</option>
+            </select>
+            <label>
+              <strong>Departamento que te coordena</strong>
+            </label>
+            <select
+              id="departamento_coordenado"
+              value={departamento_coordenado}
+              onChange={seleciona_depCoordenado}
+              className={styles.selectField}
+            >
+              <option value="">Selecione o Departamento (Opcional)</option>
+              <option value="Matemática">Matemática</option>
+              <option value="Português">Português</option>
+              <option value="Computação">Computação</option>
+              <option value="Engenharia">Engenharia</option>
+            </select>
+            <label>
+              <strong>senha</strong>
+            </label>
+            <input type="password"></input>
+          </form>
+          <button
+            type="button"
+            className={styles.button}
+            onClick={() => {
+              const matricula =
+                document.querySelector("input[type='text']").value;
+              const nome = document.querySelector("input[type='text']").value;
+              const email = document.querySelector("input[type='email']").value;
+              const data_de_nasci =
+                document.querySelector("input[type='date']").value;
+              const area_de_pesquisa =
+                document.querySelector("input[type='text']").value;
+              const departamento = document.querySelector("select").value;
+              const departamento_coordenado =
+                document.querySelector("select").value;
+              const senha = document.querySelector(
+                "input[type='password']",
+              ).value;
+              post_cadastro_professor(
+                matricula,
+                nome,
+                email,
+                data_de_nasci,
+                area_de_pesquisa,
+                departamento,
+                departamento_coordenado,
+                senha,
+              );
+            }}
           >
-            <option value="">Selecione o Departamento (obrigatório)</option>
-            <option value="Matemática">Matemática</option>
-            <option value="Português">Português</option>
-            <option value="Computação">Computação</option>
-            <option value="Engenharia">Engenharia</option>
-          </select>
-          <label>
-            <strong>Departamento que te coordena</strong>
-          </label>
-          <select
-            id="departamento_coordenado"
-            value={departamento_coordenado}
-            onChange={seleciona_depCoordenado}
-            className={styles.selectField}
-          >
-            <option value="">Selecione o Departamento (Opcional)</option>
-            <option value="Matemática">Matemática</option>
-            <option value="Português">Português</option>
-            <option value="Computação">Computação</option>
-            <option value="Engenharia">Engenharia</option>
-          </select>
-          <label>
-            <strong>senha</strong>
-          </label>
-          <input type="password"></input>
-        </form>
-        <button
-          type="button"
-          className={styles.button}
-          onClick={() => {
-            const matricula =
-              document.querySelector("input[type='text']").value;
-            const nome = document.querySelector("input[type='text']").value;
-            const email = document.querySelector("input[type='email']").value;
-            const data_de_nasci =
-              document.querySelector("input[type='date']").value;
-            const area_de_pesquisa =
-              document.querySelector("input[type='text']").value;
-            const departamento = document.querySelector("select").value;
-            const departamento_coordenado =
-              document.querySelector("select").value;
-            const senha = document.querySelector(
-              "input[type='password']",
-            ).value;
-            post_cadastro_professor(
-              matricula,
-              nome,
-              email,
-              data_de_nasci,
-              area_de_pesquisa,
-              departamento,
-              departamento_coordenado,
-              senha,
-            );
-          }}
-        >
-          salvar informações
-        </button>
-      </div>
-
-      <div className={styles.containerCadastro}>
-        <div className={styles.cabecalhoLista}>
-          <h2>
-            <strong>Lista de alunos cadastrados</strong>
-          </h2>
+            salvar informações
+          </button>
         </div>
-        <div className={styles.containerLista}>
-          {usuario.map((item) => (
-            <article className={styles.usuario} key={item.matricula}>
-              <div className={styles.informacaoAluno}>
-                <p>
-                  <strong>matrícula: </strong>
-                  {item.matricula}
-                </p>
-                <p>
-                  <strong>nome: </strong>
-                  {item.nome}
-                </p>
-                <p>
-                  <strong>email: </strong>
-                  {item.email}
-                </p>
-                <p>
-                  <strong>data de nascimento: </strong>
-                  {item.data_nasc}
-                </p>
-                <p>
-                  <strong>perfil: </strong>
-                  {item.perfil}
-                </p>
-                <p>
-                  <strong>Universidade: </strong>
-                  {item.universidade}
-                </p>
-                <p>
-                  <strong>área de pesquisa: </strong>
-                  {item.area_pesquisa}
-                </p>
-                <p>
-                  <strong>departamento: </strong>
-                  {item.dep}
-                </p>
-                <p>
-                  <strong>departamento coordenado: </strong>
-                  {item.dep_coordenado}
-                </p>
 
-                <div className={styles.botao}>
-                  <button
-                    type="button"
-                    onClick={() => editarProf(item)}
-                    className={styles.editar}
-                  >
-                    editar
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => excluirProf(item.matricula)}
-                    className={styles.excluir}
-                  >
-                    excluir
-                  </button>
+        <div className={styles.containerCadastro}>
+          <div className={styles.cabecalhoLista}>
+            <h2>
+              <strong>Lista de professores cadastrados</strong>
+            </h2>
+          </div>
+          <div className={styles.containerLista}>
+            {usuario.map((item) => (
+              <article className={styles.usuario} key={item.matricula}>
+                <div className={styles.informacaoAluno}>
+                  <p>
+                    <strong>matrícula: </strong>
+                    {item.matricula}
+                  </p>
+                  <p>
+                    <strong>nome: </strong>
+                    {item.nome}
+                  </p>
+                  <p>
+                    <strong>email: </strong>
+                    {item.email}
+                  </p>
+                  <p>
+                    <strong>data de nascimento: </strong>
+                    {item.data_nasc}
+                  </p>
+                  <p>
+                    <strong>perfil: </strong>
+                    {item.perfil}
+                  </p>
+                  <p>
+                    <strong>Universidade: </strong>
+                    {item.universidade}
+                  </p>
+                  <p>
+                    <strong>área de pesquisa: </strong>
+                    {item.area_pesquisa}
+                  </p>
+                  <p>
+                    <strong>departamento: </strong>
+                    {item.dep}
+                  </p>
+                  <p>
+                    <strong>departamento coordenado: </strong>
+                    {item.dep_coordenado}
+                  </p>
+
+                  <div className={styles.botao}>
+                    <button
+                      type="button"
+                      onClick={() => editarProf(item)}
+                      className={styles.editar}
+                    >
+                      editar
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => excluirProf(item.matricula)}
+                      className={styles.excluir}
+                    >
+                      excluir
+                    </button>
+                  </div>
                 </div>
-              </div>
-            </article>
-          ))}
+              </article>
+            ))}
+          </div>
         </div>
       </div>
     </>

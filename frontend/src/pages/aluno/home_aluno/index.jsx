@@ -102,8 +102,8 @@ function Home_aluno() {
           {mostraMensagem && (
             <div className={styles.mensagem}>
               <button
-                className={styles.fechar}
                 onClick={() => setMostraMensagem(false)}
+                className={styles.fechar}
               >
                 ✕ Fechar
               </button>
