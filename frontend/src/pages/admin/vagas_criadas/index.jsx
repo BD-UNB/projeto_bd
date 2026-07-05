@@ -83,9 +83,14 @@ function Vagas_criadas() {
                 <p>
                   <strong>local:</strong> {vaga.local}
                 </p>
-                <button type={styles.excluir}>
-                  <strong>excluir vaga</strong>
-                </button>
+                <div className={styles.botao}>
+                  <button className={styles.editar}>
+                    <strong>editar</strong>
+                  </button>
+                  <button className={styles.excluir}>
+                    <strong>excluir</strong>
+                  </button>
+                </div>
               </div>
             </article>
           ))}

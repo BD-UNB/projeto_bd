@@ -9,6 +9,10 @@ function Cadastro_aluno() {
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [data_nasc, setData_nasc] = useState("");
+
+  const [telefone, setTelefone] = useState("");
+  const [cpf, setCpf] = useState("");
+
   const [nivel, setNivel] = useState("");
   const [curriculo, setCurriculo] = useState("");
   const [area_interesse, setArea_interesse] = useState("");
@@ -253,10 +257,8 @@ function Cadastro_aluno() {
               placeholder="Mínimo 6 caracteres (obrigatório)"
               required
             />
-            <span
-              className={styles.passwordToggle}
-              onClick={toggleSenhaVisibility}
-            >
+            {/*onClick={toggleSenhaVisibility}*/}
+            <span className={styles.passwordToggle}>
               {showSenha ? <FaEyeSlash /> : <FaEye />}
             </span>
           </div>
@@ -271,10 +273,8 @@ function Cadastro_aluno() {
               placeholder="Confirme sua senha (obrigatório)"
               required
             />
-            <span
-              className={styles.passwordToggle}
-              onClick={toggleConfSenhaVisibility}
-            >
+            {/*onClick={toggleConfSenhaVisibility}*/}
+            <span className={styles.passwordToggle}>
               {showConfSenha ? <FaEyeSlash /> : <FaEye />}
             </span>
           </div>
