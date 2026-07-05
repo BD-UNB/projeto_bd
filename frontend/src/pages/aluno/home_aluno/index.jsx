@@ -1,30 +1,46 @@
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 import styles from "./style.module.css";
 
-async function buscarPerfil() {
-  const matricula = localStorage.getItem("matricula");
-  const response = await fetch(`http://localhost:8000/auth/perfil/${matricula}`, { method: 'GET', headers: { 'Content-Type': 'application/json' } });
-  const data = await response.json();
-  if (response.ok) {
-    return data;
-  }
-  else {
-    console.log("Erro ao buscar perfil do aluno");
-    navigate("/login");
-  }
-}
-
-async function buscarVagas() {
-  return {}
-}
-
-const perfil = await buscarPerfil();
-const vagas = await buscarVagas();
-
 function Home_aluno() {
+  const navigate = useNavigate();
+  const [perfil, setPerfil] = useState(null);
   const [mostraMensagem, setMostraMensagem] = useState(false);
   const [mostraComentario, setMostraComentario] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login");
+      return;
+    }
+
+    fetch("http://localhost:8000/profile/me", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Erro ao buscar perfil");
+        return res.json();
+      })
+      .then((data) => setPerfil(data))
+      .catch((err) => {
+        console.log("Erro ao buscar perfil do aluno:", err);
+        navigate("/login");
+      });
+  }, [navigate]);
+
+  if (!perfil) {
+    return (
+      <div className={styles.carregando}>
+        <div className={styles.spinner}></div>
+        Carregando perfil...
+      </div>
+    );
+  }
   const vagas = [
     {
       idVagas: 1,

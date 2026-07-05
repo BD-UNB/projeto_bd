@@ -1,32 +1,41 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "./style.module.css";
-import { useState } from "react";
-
-async function buscarPerfil() {
-  const matricula = localStorage.getItem("matricula");
-  const response = await fetch(`http://localhost:8000/auth/perfil/${matricula}`, { method: 'GET', headers: { 'Content-Type': 'application/json' } });
-  const data = await response.json();
-  if (response.ok) {
-    return data;
-  }
-  else {
-    console.log("Erro ao buscar perfil do professor");
-    navigate("/login");
-  }
-}
-
-async function buscarVagas() {
-  return {}
-}
-
-const perfil = await buscarPerfil();
-const vagas = await buscarVagas();
+import { useState, useEffect } from "react";
 
 function Home_professor() {
+  const navigate = useNavigate();
+  const [perfil, setPerfil] = useState(null);
   const [mostraMensagem, setMostraMensagem] = useState(false);
   const [mostraComentario, setMostraComentario] = useState(false);
 
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login");
+      return;
+    }
 
+    fetch("http://localhost:8000/profile/me", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Erro ao buscar perfil");
+        return res.json();
+      })
+      .then((data) => setPerfil(data))
+      .catch((err) => {
+        console.log("Erro ao buscar perfil do professor:", err);
+        navigate("/login");
+      });
+  }, [navigate]);
+
+  if (!perfil) {
+    return <p>Carregando...</p>;
+  }
   const vagas = [
     {
       idVagas: 1,

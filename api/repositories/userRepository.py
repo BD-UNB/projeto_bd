@@ -16,6 +16,17 @@ class UserRepository:
             cursor.close()
             conn.close()
 
+    def get_user_by_id(self, id_usuario):
+        conn = self.get_conn()
+        cursor = conn.cursor(dictionary = True)
+        try:
+            cursor.execute("SELECT * FROM usuario WHERE idUsuario = %s", (id_usuario,))
+            user = cursor.fetchone()
+            return user
+        finally:
+            cursor.close()
+            conn.close()
+
     def create_user(self, matricula, nome, email, data_nasc, perfil, senha_hash):
         conn = self.get_conn()
         cursor = conn.cursor()

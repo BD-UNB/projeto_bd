@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from infra.database import init_database
 
-from routers import authRouter, adminRouter
+from routers import authRouter, adminRouter, sessionRouter
 
 app = FastAPI()
 
@@ -24,6 +24,7 @@ async def on_startup():
 
 app.include_router(authRouter.router)
 app.include_router(adminRouter.router)
+app.include_router(sessionRouter.router)
 
 @app.get("/")
 def get_root():

@@ -19,12 +19,16 @@ class AuthService:
 
         perfil = user["perfil"]
         senha_hash = user["senha"]
+        id_usuario = user["idUsuario"]
 
         try:
             if not bcrypt.checkpw(senha.encode('utf-8'), senha_hash.encode('utf-8')):
                 raise HTTPException(status_code = status.HTTP_401_UNAUTHORIZED, detail = "Senha incorreta." )
             
-            return {"status": "ok", "perfil": perfil}
+            from infra.security import create_access_token
+            token = create_access_token(data={"idUsuario": id_usuario, "perfil": perfil})
+            
+            return {"status": "ok", "perfil": perfil, "token": token}
 
         except Exception as e:
             print(f"Erro ao verificar senha: {e}")

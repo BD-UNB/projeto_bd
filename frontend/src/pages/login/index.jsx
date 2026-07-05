@@ -35,7 +35,7 @@ function Login() {
       const data = await response.json();
 
       if (response.ok) {
-        localStorage.setItem("matricula", matricula);
+        localStorage.setItem("token", data.token);
         if (data.perfil === "aluno") {
           navigate("/home_aluno");
         } else if (data.perfil === "professor") {

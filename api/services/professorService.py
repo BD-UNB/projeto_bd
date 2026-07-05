@@ -37,4 +37,19 @@ class ProfessorService:
             print(f"Erro ao criar professor: {e}")
             raise HTTPException(status_code = status.HTTP_500_INTERNAL_SERVER_ERROR, detail = f"Erro interno ao registrar professor: {e}")
 
+
+    def get_perfil_professor(self, matricula):
+        try:
+            professor = self.professor_repo.get_professor_by_id(user["idUsuario"])
+            if not professor:
+                raise HTTPException(status_code = status.HTTP_404_NOT_FOUND, detail = "Professor não encontrado.")
+            return {
+                "nome": user["nome"],
+                "nomeUniversidade": user["nomeUniversidade"],
+                "nomeDepartamento": user["nomeDepartamento"],
+            }
+        except Exception as e:
+            print(f"Erro ao buscar perfil do professor: {e}")
+            raise HTTPException(status_code = status.HTTP_500_INTERNAL_SERVER_ERROR, detail = "Erro ao buscar perfil do professor.")
+
     # Outros métodos relacionados a Professor (ex: get_professor, update_professor, delete_professor) viriam aqui

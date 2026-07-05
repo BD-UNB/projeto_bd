@@ -38,3 +38,21 @@ class ProfessorRepository:
             cursor.close()
             conn.close()
 
+    def get_professor_repository(self, id_usuario):
+        conn = self.get_conn()
+        cursor = conn.cursor()
+        try:
+            cursor.execute("""
+                SELECT u.nome AS nomeUniversidade, d.nome AS nomeDepartamento
+                FROM professor p
+                LEFT JOIN departamento d ON p.idDepartamento = d.idDepartamento
+                LEFT JOIN departamento u ON p.idDeptCoordenado = u.idDepartamento
+                WHERE p.idProfessor = %s
+            """, (id_usuario,))
+            return cursor.fetchone()
+        except Exception as e:
+            print(f"Erro ao buscar professor: {e}")
+            raise e
+        finally:
+            cursor.close()
+            conn.close()

@@ -29,3 +29,16 @@ class AlunoRepository:
         finally:
             cursor.close()
             conn.close()
+
+    def get_aluno_repository(self, id_usuario):
+        conn = self.get_conn()
+        cursor = conn.cursor()
+        try:
+            cursor.execute("SELECT nivel, curriculo, area_interesse FROM aluno WHERE idAluno = %s", (id_usuario,))
+            return cursor.fetchone()
+        except Exception as e:
+            print(f"Erro ao buscar aluno: {e}")
+            raise e
+        finally:
+            cursor.close()
+            conn.close()

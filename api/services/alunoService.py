@@ -43,4 +43,17 @@ class AlunoService:
                 detail = f"Erro interno ao registrar aluno: {e}"
             )
 
-    # Outros métodos relacionados a Aluno (ex: get_aluno, update_aluno, delete_aluno) viriam aqui
+    def get_perfil_aluno(self, idUsuario):
+        try:
+            aluno = self.aluno_repo.get_aluno_by_id(idUsuario)
+            
+            if not aluno:
+                raise HTTPException(status_code = status.HTTP_404_NOT_FOUND, detail = "Aluno não encontrado.")
+            return {
+                "nivel": aluno["nivel"],
+                "curriculo": aluno["curriculo"],
+                "area_interesse": aluno["area_interesse"],
+            }
+        except Exception as e:
+            print(f"Erro ao buscar perfil do aluno: {e}")
+            raise HTTPException(status_code = status.HTTP_500_INTERNAL_SERVER_ERROR, detail = "Erro ao buscar perfil do aluno.")

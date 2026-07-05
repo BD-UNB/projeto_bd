@@ -5,6 +5,8 @@ services:
     restart: always
     ports:
       - "8000:8000"
+    volumes:
+      - ./api:/app
     environment:
       DB_HOST: ${DB_HOST}
       DB_PORT: ${DB_PORT}
