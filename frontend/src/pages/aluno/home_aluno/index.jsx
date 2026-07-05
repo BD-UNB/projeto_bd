@@ -5,6 +5,7 @@ import styles from "./style.module.css";
 function Home_aluno() {
   const navigate = useNavigate();
   const [perfil, setPerfil] = useState(null);
+  const [vagas, setVagas] = useState([]);
   const [mostraMensagem, setMostraMensagem] = useState(false);
   const [mostraComentario, setMostraComentario] = useState(false);
 
@@ -31,6 +32,22 @@ function Home_aluno() {
         console.log("Erro ao buscar perfil do aluno:", err);
         navigate("/login");
       });
+
+    fetch("http://localhost:8000/vagas/", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Erro ao buscar vagas");
+        return res.json();
+      })
+      .then((data) => setVagas(data))
+      .catch((err) => {
+        console.log("Erro ao buscar vagas:", err);
+      });
   }, [navigate]);
 
   if (!perfil) {
@@ -41,52 +58,6 @@ function Home_aluno() {
       </div>
     );
   }
-  const vagas = [
-    {
-      idVagas: 1,
-      titulo: "Título 1",
-      descricao: "Descrição 1",
-      reponsavel: "Professor 1",
-      nível: "graduação 1",
-      modalidade: "presencial 1",
-      status: "status",
-      local: "local 1",
-      carga_hor: 100,
-      num_max: 60,
-      data_inicio: "01/01/2026",
-      data_final: "01/05/2026",
-      tipo: "tipo 1",
-      campus: "campus 1",
-      departamento: "departamento 1",
-      comentarios: (
-        <button type="button" className={styles.botaoComentario}>
-          comentários
-        </button>
-      ),
-    },
-    {
-      idVagas: 2,
-      titulo: "Título 1",
-      descricao: "Descrição 1",
-      reponsavel: "Professor 1",
-      nível: "graduação 1",
-      modalidade: "presencial 1",
-      status: "status",
-      local: "local 1",
-      carga_hor: 100,
-      num_max: 60,
-      data_inicio: "01/01/2026",
-      data_final: "01/05/2026",
-      tipo: "tipo 1",
-      campus: "campus 1",
-      departamento: "departamento 1",
-      comentarios: (
-        <button type="button" className={styles.bu}>
-          comentários
-        </button>
-      ),
-    },
-  ];
   const comentario = [
     {
       nome_usuario: "aluno 1",
@@ -185,11 +156,11 @@ function Home_aluno() {
               <div className={styles.card_info}>
                 <p>
                   <label>reponsavel: </label>
-                  {vaga.reponsavel}
+                  {vaga.responsavel}
                 </p>
                 <p>
                   <label>nível: </label>
-                  {vaga.nível}
+                  {vaga.nivel}
                 </p>
                 <p>
                   <label>modalidade: </label>
@@ -205,7 +176,7 @@ function Home_aluno() {
                 </p>
                 <p>
                   <label>carga horária: </label>
-                  {vaga.carga_hor}
+                  {vaga.carga_horaria}
                 </p>
                 <p>
                   <label>máximo de pessoas: </label>
@@ -213,11 +184,11 @@ function Home_aluno() {
                 </p>
                 <p>
                   <label>data início: </label>
-                  {vaga.data_inicio}
+                  {vaga.data_inicio_candidatura}
                 </p>
                 <p>
                   <label>data final: </label>
-                  {vaga.data_final}
+                  {vaga.data_fim_candidatura}
                 </p>
                 <p>
                   <label>tipo: </label>

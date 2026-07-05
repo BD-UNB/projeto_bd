@@ -121,9 +121,23 @@ class AlunoRepository:
 
     def get_aluno_repository(self, id_usuario):
         conn = self.get_conn()
-        cursor = conn.cursor()
+        cursor = conn.cursor(dictionary = True)
         try:
-            cursor.execute("SELECT nivel, curriculo, area_interesse FROM aluno WHERE idAluno = %s", (id_usuario,))
+            cursor.execute("""
+                SELECT
+                    a.nivel, a.curriculo, a.area_interesse,
+                    c.nome AS nomeCurso,
+                    uni.nome AS nomeUniversidade,
+                    d.nome AS nomeDepartamento
+                FROM aluno a
+                LEFT JOIN inscricao i ON i.idAluno = a.idAluno
+                LEFT JOIN curso c ON c.idCurso = i.idCurso
+                LEFT JOIN universidade uni ON uni.idUniversidade = c.idUniversidade
+                LEFT JOIN curso_departamento cd ON cd.idCurso = c.idCurso
+                LEFT JOIN departamento d ON d.idDepartamento = cd.idDepartamento
+                WHERE a.idAluno = %s
+                LIMIT 1
+            """, (id_usuario,))
             return cursor.fetchone()
         except Exception as e:
             print(f"Erro ao buscar aluno: {e}")

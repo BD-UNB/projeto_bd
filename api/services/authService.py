@@ -30,6 +30,9 @@ class AuthService:
             
             return {"status": "ok", "perfil": perfil, "token": token}
 
+        except HTTPException:
+            raise
+
         except Exception as e:
             print(f"Erro ao verificar senha: {e}")
             raise HTTPException(status_code = status.HTTP_500_INTERNAL_SERVER_ERROR, detail = "Erro interno de autenticação")

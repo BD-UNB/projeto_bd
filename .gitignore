@@ -36,3 +36,5 @@ dist-ssr
 
 # Docker
 mysql_data/
+__pycache__/
+*.pyc
