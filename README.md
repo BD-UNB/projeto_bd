@@ -49,6 +49,21 @@ Seu objetivo principal é centralizar a divulgação de vagas e permitir que alu
 ```plaintext
 📂 projeto-unb-vagas/ 
 ├── 📂 api/
+│   ├── 📂 infra/
+│   │   └── 📄 database.py
+│   ├── 📂 models/
+│   │   └── 📄 models.py
+│   ├── 📂 repositories/
+│   │   ├── 📄 alunoRepository.py
+│   │   ├── 📄 professorRepository.py
+│   │   └── 📄 userRepository.py
+│   ├── 📂 routers/
+│   │   ├── 📄 adminRouter.py
+│   │   └── 📄 authRouter.py
+│   ├── 📂 services/
+│   │   ├── 📄 alunoService.py
+│   │   ├── 📄 authService.py
+│   │   └── 📄 professorService.py
 │   ├── 📂 tests/
 │   ├── 📄 Dockerfile 
 │   └── 📄 requirements.txt 

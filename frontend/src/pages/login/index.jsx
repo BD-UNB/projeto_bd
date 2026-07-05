@@ -48,7 +48,9 @@ function Login() {
       }
     } catch (error) {
       console.error("Erro na requisição de login:", error);
-      setErrorMessage("Não foi possível conectar ao servidor. Tente novamente mais tarde.");
+      setErrorMessage(
+        "Não foi possível conectar ao servidor. Tente novamente mais tarde.",
+      );
     }
   };
 
@@ -58,9 +60,6 @@ function Login() {
 
   return (
     <>
-      <div className={styles.header_logo}>
-        <img src={unbLogo} alt="Logo da UnB" />
-      </div>
       <div className={styles.div_boas_vindas}>
         <h1>Bem-vindo ao Portal de Vagas UnB</h1>
         <p>Conectando professores e alunos de forma facilitada</p>
@@ -68,7 +67,12 @@ function Login() {
       <div className={styles.container}>
         <h1 className={styles.h1}>Acesse sua Conta</h1>
         <div className={styles.acesso}>
-          <form onSubmit={(e) => { e.preventDefault(); handleLogin(); }}>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleLogin();
+            }}
+          >
             <p>Matrícula</p>
             <input
               placeholder="Matrícula"
@@ -91,10 +95,10 @@ function Login() {
                 {showPassword ? <FaEyeSlash /> : <FaEye />}
               </span>
             </div>
-            {errorMessage && <p className={styles.error_message}>{errorMessage}</p>}
-            <button type="submit">
-              Entrar
-            </button>
+            {errorMessage && (
+              <p className={styles.error_message}>{errorMessage}</p>
+            )}
+            <button type="submit">Entrar</button>
           </form>
         </div>
       </div>

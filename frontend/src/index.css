@@ -14,3 +14,21 @@ body,
   background-color: #133e79;
   font-style: normal;
 }
+
+.header_logo {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.header_logo img {
+  display: block;
+  box-sizing: border-box;
+  background-color: var(--cor-unb-secundaria);
+  width: 128px;
+  padding-left: 10px;
+  padding-top: 10px;
+  opacity: 0.2;
+}

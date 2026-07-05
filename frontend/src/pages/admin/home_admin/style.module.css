@@ -6,39 +6,73 @@
 }
 
 .nav {
+  display: flex;
+  justify-content: flex-end;
+  padding: 15px 25px;
   color: #f4fcfb;
+}
+
+.adminInfoBox {
+  background-color: #2a2a2a;
+  border: 1px solid #555;
+  border-radius: 8px;
+  padding: 20px 30px;
   display: flex;
   flex-direction: column;
-  justify-content: right;
-  text-align: right;
-  padding: 25px;
+  gap: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  min-width: 250px;
+}
+
+.adminInfoBox p {
+  margin: 0;
+  font-size: 18px;
+  color: #f4fcfb;
+}
+
+.labelBold {
+  font-weight: bold;
+  color: #f4fcfb;
+}
+
+.valueBold {
+  font-weight: bold;
+  color: #276fd4;
 }
 
 .container {
   width: 600px;
+  max-width: 90%;
   display: flex;
   flex-direction: column;
   margin: 0 auto;
-  font-size: 150px;
-  & select {
-    font-size: 20px;
+}
+
+.acesso {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.acesso {
+  & Button {
+    display: block;
+    width: 100%;
+    font-size: 25px;
+    letter-spacing: 1px;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 10px;
+    cursor: pointer;
+    background-color: #f4fcfb;
+    color: #333;
+    text-decoration: none;
+    text-align: center;
+    transition: opacity 0.3s ease;
   }
 }
 
-.acesso button {
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-  font-size: 25px;
-  letter-spacing: 1px;
-  padding: 10px;
-  margin: 10px;
-  border-radius: 10px;
-  cursor: pointer;
-  background-color: #f4fcfb;
-}
-
-.button:hover {
+.acessoButton:hover {
   opacity: 0.9;
 }
 
