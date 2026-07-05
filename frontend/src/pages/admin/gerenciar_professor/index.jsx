@@ -232,36 +232,40 @@ function Cadastro_professor() {
           </label>
           <input type="password"></input>
         </form>
+        <button
+          type="button"
+          className={styles.button}
+          onClick={() => {
+            const matricula =
+              document.querySelector("input[type='text']").value;
+            const nome = document.querySelector("input[type='text']").value;
+            const email = document.querySelector("input[type='email']").value;
+            const data_de_nasci =
+              document.querySelector("input[type='date']").value;
+            const area_de_pesquisa =
+              document.querySelector("input[type='text']").value;
+            const departamento = document.querySelector("select").value;
+            const departamento_coordenado =
+              document.querySelector("select").value;
+            const senha = document.querySelector(
+              "input[type='password']",
+            ).value;
+            post_cadastro_professor(
+              matricula,
+              nome,
+              email,
+              data_de_nasci,
+              area_de_pesquisa,
+              departamento,
+              departamento_coordenado,
+              senha,
+            );
+          }}
+        >
+          salvar informações
+        </button>
       </div>
-      <button
-        type="button"
-        className={styles.button}
-        onClick={() => {
-          const matricula = document.querySelector("input[type='text']").value;
-          const nome = document.querySelector("input[type='text']").value;
-          const email = document.querySelector("input[type='email']").value;
-          const data_de_nasci =
-            document.querySelector("input[type='date']").value;
-          const area_de_pesquisa =
-            document.querySelector("input[type='text']").value;
-          const departamento = document.querySelector("select").value;
-          const departamento_coordenado =
-            document.querySelector("select").value;
-          const senha = document.querySelector("input[type='password']").value;
-          post_cadastro_professor(
-            matricula,
-            nome,
-            email,
-            data_de_nasci,
-            area_de_pesquisa,
-            departamento,
-            departamento_coordenado,
-            senha,
-          );
-        }}
-      >
-        salvar informações
-      </button>
+
       <div className={styles.containerCadastro}>
         <div className={styles.cabecalhoLista}>
           <h2>

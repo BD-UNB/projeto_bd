@@ -5,14 +5,14 @@ import { HashRouter, Routes, Route } from "react-router-dom";
 import "./index.css";
 
 import Login from "./pages/login";
-import Cadastro_aluno from "./pages/admin/cadastro_aluno";
-import Cadastro_professor from "./pages/admin/cadastro_professor";
+import Cadastro_aluno from "./pages/admin/gerenciar_aluno";
+import Cadastro_professor from "./pages/admin/gerenciar_professor";
 import Home_aluno from "./pages/aluno/home_aluno";
 import Home_professor from "./pages/professor/home_professor";
 import Home_admin from "./pages/admin/home_admin";
-import Cursos from "./pages/admin/cursos";
+import Cursos from "./pages/admin/curso_disciplina";
 import VagasOportunidades from "./pages/admin/vagas_oportunidades";
-import Vagas_criadas from "./pages/admin/vagas_criadas";
+import Vagas_criadas from "./pages/admin/gerenciar_vagas";
 import Perfil_aluno from "./pages/aluno/perfil_aluno";
 import Perfil_professor from "./pages/professor/perfil_professor";
 

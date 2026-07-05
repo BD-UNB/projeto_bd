@@ -279,14 +279,14 @@ function Cadastro_aluno() {
             </span>
           </div>
         </form>
+        <button
+          type="button"
+          className={styles.button}
+          onClick={verifica_cadastro}
+        >
+          salvar informações
+        </button>
       </div>
-      <button
-        type="button"
-        className={styles.button}
-        onClick={verifica_cadastro}
-      >
-        salvar informações
-      </button>
 
       <div className={styles.containerCadastro}>
         <div className={styles.cabecalhoLista}>
