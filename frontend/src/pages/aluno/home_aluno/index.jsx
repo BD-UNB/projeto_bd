@@ -132,10 +132,14 @@ function Home_aluno() {
                   </div>
                 ))}
               </div>
+              <div className={styles.escreve_mensagem}>
+                <textarea placeholder="digite sua mensagem aqui."></textarea>
+              </div>
             </div>
           )}
         </div>
       </nav>
+
       <h1 className={styles.subtitulo}>vagas publicadas</h1>
       <div className={styles.container}>
         <section className={styles.listaVagas}>
@@ -202,7 +206,7 @@ function Home_aluno() {
                   {mostraComentario && (
                     <div className={styles.comentario}>
                       <button
-                        className={styles.fechar}
+                        className={styles.fechar_comentario}
                         onClick={() => setMostraComentario(false)}
                       >
                         ✕ Fechar
@@ -217,6 +221,9 @@ function Home_aluno() {
 
                       <div className={styles.conteudoComentario}>
                         <Comentarios idVaga={vaga.idVagas} />
+                      </div>
+                      <div className={styles.escreve_comentario}>
+                        <textarea placeholder="digite sua mensagem aqui."></textarea>
                       </div>
                     </div>
                   )}
