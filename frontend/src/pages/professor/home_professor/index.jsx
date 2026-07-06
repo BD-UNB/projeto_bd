@@ -7,7 +7,7 @@ function Home_professor() {
   const navigate = useNavigate();
   const [perfil, setPerfil] = useState(null);
   const [mostraMensagem, setMostraMensagem] = useState(false);
-  const [mostraComentario, setMostraComentario] = useState(false);
+  const [comentarioAberto, setComentarioAberto] = useState(null);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -219,15 +219,15 @@ function Home_professor() {
                 <div>
                   <button
                     className={styles.botaoComentario}
-                    onClick={() => setMostraComentario(true)}
+                    onClick={() => setComentarioAberto(vaga.idVagas)}
                   >
                     comentários
                   </button>
-                  {mostraComentario && (
+                  {comentarioAberto === vaga.idVagas && (
                     <div className={styles.comentario}>
                       <button
                         className={styles.fechar}
-                        onClick={() => setMostraComentario(false)}
+                        onClick={() => setComentarioAberto(null)}
                       >
                         ✕ Fechar
                       </button>

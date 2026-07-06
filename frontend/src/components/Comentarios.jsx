@@ -120,51 +120,56 @@ function Comentarios({ idVaga }) {
         {!carregando && comentarios.length === 0 && <p>Nenhum comentário ainda.</p>}
         {!carregando &&
           comentarios.map((c) => (
-          <div key={c.idComentario} className={styles.card}>
-            <p>
-              <label>nome: </label>
-              {c.nome_usuario}
-            </p>
-            {editandoId === c.idComentario ? (
-              <div className={styles.edicao}>
-                <input
-                  value={textoEdicao}
-                  onChange={(e) => setTextoEdicao(e.target.value)}
-                />
-                <button onClick={() => salvarEdicao(c.idComentario)}>Salvar</button>
-                <button onClick={() => setEditandoId(null)}>Cancelar</button>
-              </div>
-            ) : (
+            <div key={c.idComentario} className={styles.card}>
               <p>
-                <label>mensagem: </label>
-                {c.texto}
+                <label>nome: </label>
+                {c.nome_usuario}
               </p>
-            )}
-            {c.idUsuario === idUsuario && editandoId !== c.idComentario && (
-              <div className={styles.acoes}>
-                <button
-                  onClick={() => {
-                    setEditandoId(c.idComentario);
-                    setTextoEdicao(c.texto);
-                  }}
-                >
-                  editar
-                </button>
-                <button onClick={() => deletarComentario(c.idComentario)}>
-                  deletar
-                </button>
-              </div>
-            )}
-          </div>
-        ))}
+              {editandoId === c.idComentario ? (
+                <div className={styles.edicao}>
+                  <input
+                    value={textoEdicao}
+                    onChange={(e) => setTextoEdicao(e.target.value)}
+                  />
+                  <button onClick={() => salvarEdicao(c.idComentario)}>Salvar</button>
+                  <button onClick={() => setEditandoId(null)}>Cancelar</button>
+                </div>
+              ) : (
+                <p>
+                  <label>mensagem: </label>
+                  {c.texto}
+                </p>
+              )}
+              {c.idUsuario === idUsuario && editandoId !== c.idComentario && (
+                <div className={styles.acoes}>
+                  <button
+                    onClick={() => {
+                      setEditandoId(c.idComentario);
+                      setTextoEdicao(c.texto);
+                    }}
+                  >
+                    editar
+                  </button>
+                  <button onClick={() => deletarComentario(c.idComentario)}>
+                    deletar
+                  </button>
+                </div>
+              )}
+            </div>
+          ))}
       </div>
-      <div className={styles.novo}>
-        <input
-          placeholder="escreva um comentário"
+      <div className={styles.escreve_comentario}>
+        <textarea
+          placeholder="digite sua mensagem aqui."
           value={novoTexto}
           onChange={(e) => setNovoTexto(e.target.value)}
-        />
-        <button onClick={adicionarComentario}>comentar</button>
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && !e.shiftKey) {
+              e.preventDefault();
+              adicionarComentario();
+            }
+          }}
+        ></textarea>
       </div>
     </div>
   );

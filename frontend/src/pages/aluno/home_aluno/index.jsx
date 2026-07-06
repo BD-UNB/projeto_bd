@@ -8,7 +8,7 @@ function Home_aluno() {
   const [perfil, setPerfil] = useState(null);
   const [vagas, setVagas] = useState([]);
   const [mostraMensagem, setMostraMensagem] = useState(false);
-  const [mostraComentario, setMostraComentario] = useState(false);
+  const [comentarioAberto, setComentarioAberto] = useState(null);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -199,15 +199,15 @@ function Home_aluno() {
                 <div>
                   <button
                     className={styles.botaoComentario}
-                    onClick={() => setMostraComentario(true)}
+                    onClick={() => setComentarioAberto(vaga.idVagas)}
                   >
                     comentários
                   </button>
-                  {mostraComentario && (
+                  {comentarioAberto === vaga.idVagas && (
                     <div className={styles.comentario}>
                       <button
                         className={styles.fechar_comentario}
-                        onClick={() => setMostraComentario(false)}
+                        onClick={() => setComentarioAberto(null)}
                       >
                         ✕ Fechar
                       </button>
@@ -221,9 +221,6 @@ function Home_aluno() {
 
                       <div className={styles.conteudoComentario}>
                         <Comentarios idVaga={vaga.idVagas} />
-                      </div>
-                      <div className={styles.escreve_comentario}>
-                        <textarea placeholder="digite sua mensagem aqui."></textarea>
                       </div>
                     </div>
                   )}
