@@ -58,7 +58,9 @@
   width: 50%;
   background-color: #e9e9e9;
   border-radius: 10px;
+  margin-bottom: 20px;
 }
+
 .listaVagas {
   display: flex;
   flex-direction: column;
@@ -66,6 +68,7 @@
   gap: 10px;
   margin: 10px;
 }
+
 .card {
   background-color: lightgray;
   display: flex;
@@ -110,16 +113,20 @@
   box-shadow: 0px 2px 5px rgb(253, 253, 253);
   padding: 20px;
   color: black;
+  font-size: px;
   & button {
     color: black;
     margin: 20px;
     cursor: pointer;
+    margin-left: auto;
   }
 }
-.fechar {
+
+.fechar_comentario {
   background-color: #e9e9e9;
   padding: 5px;
   border-radius: 9px;
+  width: 150px;
 }
 
 .botaoComentario {
@@ -133,13 +140,33 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+  font-size: 18px;
+}
+
+.escreve_comentario {
+  background-color: #e9e9e9;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+  height: 15vh;
+  border-radius: 10px;
+  padding: 10px;
+  width: 370px;
+  & textarea {
+    font-size: 20px;
+    word-break: break-all;
+    height: 100%;
+    width: 100%;
+  }
 }
 
 .cardComentario {
   background-color: #e9e9e9;
   border-radius: 10px;
   padding: 10px;
-
   & p {
     margin-bottom: 8px;
   }
@@ -163,10 +190,32 @@
   }
 }
 
+.escreve_mensagem {
+  background-color: #e9e9e9;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+  height: 15vh;
+  border-radius: 10px;
+  padding: 10px;
+  width: 370px;
+  & textarea {
+    font-size: 20px;
+    word-break: break-all;
+    height: 100%;
+    width: 100%;
+    color: black;
+  }
+}
+
 .conteudoMensagem {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  font-size: 18px;
 }
 
 .cardMensagem {

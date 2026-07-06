@@ -51,6 +51,7 @@ function Home_aluno() {
       ),
     },
   ];
+
   const comentario = [
     {
       nome_usuario: "aluno 1",
@@ -63,6 +64,7 @@ function Home_aluno() {
       data: "01/01/2001",
     },
   ];
+  
   const mensagem = [
     {
       tipo: "professor",
@@ -136,10 +138,14 @@ function Home_aluno() {
                   </div>
                 ))}
               </div>
+              <div className={styles.escreve_mensagem}>
+                <textarea placeholder="digite sua mensagem aqui."></textarea>
+              </div>
             </div>
           )}
         </div>
       </nav>
+
       <h1 className={styles.subtitulo}>vagas publicadas</h1>
       <div className={styles.container}>
         <section className={styles.listaVagas}>
@@ -206,7 +212,7 @@ function Home_aluno() {
                   {mostraComentario && (
                     <div className={styles.comentario}>
                       <button
-                        className={styles.fechar}
+                        className={styles.fechar_comentario}
                         onClick={() => setMostraComentario(false)}
                       >
                         ✕ Fechar
@@ -236,6 +242,9 @@ function Home_aluno() {
                             </p>
                           </div>
                         ))}
+                      </div>
+                      <div className={styles.escreve_comentario}>
+                        <textarea placeholder="digite sua mensagem aqui."></textarea>
                       </div>
                     </div>
                   )}
