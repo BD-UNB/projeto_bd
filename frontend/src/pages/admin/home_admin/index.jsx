@@ -22,7 +22,7 @@ function Home_admin() {
       <div className={styles.container}>
         <div className={styles.acesso}>
           <button type="button">
-            <Link to="/vagas_oportunidades">gerenciar vagas</Link>
+            <Link to="/gerenciar_vagas">gerenciar vagas</Link>
           </button>
           <button type="button">
             <Link to="/cursos">gerenciar cursos e disciplinas</Link>
@@ -32,9 +32,6 @@ function Home_admin() {
           </button>
           <button type="button">
             <Link to="/cadastro_professor">gerenciar professor</Link>
-          </button>
-          <button className={styles.vagas} type="button">
-            <Link to="/vagas_criadas">verificar vagas criadas</Link>
           </button>
         </div>
       </div>

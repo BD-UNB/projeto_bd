@@ -82,6 +82,32 @@ function Home_professor() {
       ),
     },
   ];
+  const comentario = [
+    {
+      nome_usuario: "aluno 1",
+      mensagem: "comentario teste 1",
+      data: "01/01/2001",
+    },
+    {
+      nome_usuario: "aluno 2",
+      mensagem: "comentario teste 2",
+      data: "01/01/2001",
+    },
+  ];
+  const mensagem = [
+    {
+      tipo: "professor",
+      nome_usuario: "usuario 1",
+      mensagem: "mensagem 1",
+      data: "01/01/2001",
+    },
+    {
+      tipo: "aluno",
+      nome_usuario: "usuario 2",
+      mensagem: "mensagem 2",
+      data: "01/01/2001",
+    },
+  ];
 
   return (
     <>
@@ -107,8 +133,8 @@ function Home_professor() {
           {mostraMensagem && (
             <div className={styles.mensagem}>
               <button
-                className={styles.fechar}
                 onClick={() => setMostraMensagem(false)}
+                className={styles.fechar}
               >
                 ✕ Fechar
               </button>
@@ -120,7 +146,26 @@ function Home_professor() {
                 Mensagens
               </h2>
               <div className={styles.conteudoMensagem}>
-                <p>Conteúdo das mensagens aqui...</p>
+                {mensagem.map((mensagemItem, index) => (
+                  <div key={index} className={styles.cardMensagem}>
+                    <p>
+                      <label>tipo: </label>
+                      {mensagemItem.tipo}
+                    </p>
+                    <p>
+                      <label>nome: </label>
+                      {mensagemItem.nome_usuario}
+                    </p>
+                    <p>
+                      <label>mensagem: </label>
+                      {mensagemItem.mensagem}
+                    </p>
+                    <p>
+                      <label>data: </label>
+                      {mensagemItem.data}
+                    </p>
+                  </div>
+                ))}
               </div>
             </div>
           )}
@@ -204,8 +249,24 @@ function Home_professor() {
                       >
                         Comentários
                       </h2>
+
                       <div className={styles.conteudoComentario}>
-                        <p>Conteúdo dos comentários...</p>
+                        {comentario.map((comentarioItem, index) => (
+                          <div key={index} className={styles.cardComentario}>
+                            <p>
+                              <label>nome: </label>
+                              {comentarioItem.nome_usuario}
+                            </p>
+                            <p>
+                              <label>mensagem: </label>
+                              {comentarioItem.mensagem}
+                            </p>
+                            <p>
+                              <label>data: </label>
+                              {comentarioItem.data}
+                            </p>
+                          </div>
+                        ))}
                       </div>
                     </div>
                   )}

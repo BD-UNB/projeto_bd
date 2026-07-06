@@ -120,244 +120,249 @@ function Cadastro_aluno() {
 
   return (
     <>
-      <div className={styles.container}>
-        <h1>cadastro de aluno</h1>
-        <p>Siga as informações abaixo</p>
-        <form className={styles.formulario}>
-          <label>
-            <strong>matrícula</strong>
-          </label>
-          <input type="text" onChange={(e) => setMatricula(e.target.value)} />
+      <div className={styles.separa}>
+        <div className={styles.container}>
+          <h1>cadastro de aluno</h1>
+          <p>Siga as informações abaixo</p>
+          <form className={styles.formulario}>
+            <label>
+              <strong>matrícula</strong>
+            </label>
+            <input type="text" onChange={(e) => setMatricula(e.target.value)} />
 
-          <label>
-            <strong>nome completo</strong>
-          </label>
-          <input type="text" onChange={(e) => setNome(e.target.value)}></input>
-          <label>
-            <strong>digite seu email</strong>
-          </label>
-          <input type="email" onChange={(e) => setEmail(e.target.value)} />
+            <label>
+              <strong>nome completo</strong>
+            </label>
+            <input
+              type="text"
+              onChange={(e) => setNome(e.target.value)}
+            ></input>
+            <label>
+              <strong>digite seu email</strong>
+            </label>
+            <input type="email" onChange={(e) => setEmail(e.target.value)} />
 
-          <label>
-            <strong>data de nascimento*</strong>
-          </label>
-          <input
-            id="matricula"
-            type="text"
-            value={matricula}
-            onChange={(e) => setMatricula(e.target.value)}
-            placeholder="Insira a Matrícula (obrigatório)"
-            required
-          />
+            <label>
+              <strong>data de nascimento*</strong>
+            </label>
+            <input
+              id="matricula"
+              type="text"
+              value={matricula}
+              onChange={(e) => setMatricula(e.target.value)}
+              placeholder="Insira a Matrícula (obrigatório)"
+              required
+            />
 
-          <label htmlFor="nome">Nome Completo</label>
-          <input
-            id="nome"
-            type="text"
-            value={nome}
-            onChange={(e) => setNome(e.target.value)}
-            placeholder="Insira o Nome Completo (obrigatório)"
-            required
-          />
+            <label htmlFor="nome">Nome Completo</label>
+            <input
+              id="nome"
+              type="text"
+              value={nome}
+              onChange={(e) => setNome(e.target.value)}
+              placeholder="Insira o Nome Completo (obrigatório)"
+              required
+            />
 
-          <label htmlFor="email">Email</label>
-          <input
-            id="email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Ex: seuemail@dominio.com (obrigatório)"
-            required
-          />
+            <label htmlFor="email">Email</label>
+            <input
+              id="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Ex: seuemail@dominio.com (obrigatório)"
+              required
+            />
 
-          <label htmlFor="data_nasc">Data de Nascimento</label>
-          <input
-            id="data_nasc"
-            type="date"
-            min="1926-01-01"
-            max={"2016-01-01"}
-            value={data_nasc}
-            onChange={(e) => setData_nasc(e.target.value)}
-            placeholder="Selecione a sua Data de Nascimento (obrigatório)"
-            required
-          />
+            <label htmlFor="data_nasc">Data de Nascimento</label>
+            <input
+              id="data_nasc"
+              type="date"
+              min="1926-01-01"
+              max={"2016-01-01"}
+              value={data_nasc}
+              onChange={(e) => setData_nasc(e.target.value)}
+              placeholder="Selecione a sua Data de Nascimento (obrigatório)"
+              required
+            />
 
-          <label>
-            <strong>telefone</strong>
-          </label>
-          <input
-            type="text"
-            value={telefone}
-            onChange={(e) => setTelefone(e.target.value)}
-          />
+            <label>
+              <strong>telefone</strong>
+            </label>
+            <input
+              type="text"
+              value={telefone}
+              onChange={(e) => setTelefone(e.target.value)}
+            />
 
-          <label>
-            <strong>cpf</strong>
-          </label>
-          <input
-            type="text"
-            value={cpf}
-            onChange={(e) => setCpf(e.target.value)}
-          />
+            <label>
+              <strong>cpf</strong>
+            </label>
+            <input
+              type="text"
+              value={cpf}
+              onChange={(e) => setCpf(e.target.value)}
+            />
 
-          <label>
-            <strong>nível</strong>
-          </label>
-          <select
-            id="nivel"
-            value={nivel}
-            onChange={seleciona_nivel}
-            className={styles.selectField}
-            required
+            <label>
+              <strong>nível</strong>
+            </label>
+            <select
+              id="nivel"
+              value={nivel}
+              onChange={seleciona_nivel}
+              className={styles.selectField}
+              required
+            >
+              <option value="">Selecione o Nível (obrigatório)</option>
+              <option value="Graduação">Graduação</option>
+              <option value="Pós-graduação">Pós-graduação</option>
+              <option value="Mestrado">Mestrado</option>
+              <option value="Doutorado">Doutorado</option>
+              <option value="Pós-doutorado">Pós-doutorado</option>
+            </select>
+            <label>
+              <strong>adicione seu curriculo</strong>
+            </label>
+            <input type="text"></input>
+            <label>
+              <strong>área de interesse</strong>
+            </label>
+            <input></input>
+            <label>
+              <strong>crie uma senha</strong>
+            </label>
+            <input
+              id="curriculo"
+              type="text"
+              value={curriculo}
+              onChange={(e) => setCurriculo(e.target.value)}
+              placeholder="URL do currículo ou Base64 (Opcional)"
+            />
+
+            <label>
+              <strong>digite novamente</strong>
+            </label>
+            <input
+              id="area_interesse"
+              type="text"
+              value={area_interesse}
+              onChange={(e) => setArea_interesse(e.target.value)}
+              placeholder="Ex: Inteligência Artificial, Robótica (Opcional)"
+            />
+
+            <label htmlFor="senha">Senha</label>
+            <div className={styles.passwordInputContainer}>
+              <input
+                id="senha"
+                type={showSenha ? "text" : "password"}
+                value={senha}
+                onChange={(e) => setSenha(e.target.value)}
+                placeholder="Mínimo 6 caracteres (obrigatório)"
+                required
+              />
+              {/*onClick={toggleSenhaVisibility}*/}
+              <span className={styles.passwordToggle}>
+                {showSenha ? <FaEyeSlash /> : <FaEye />}
+              </span>
+            </div>
+
+            <label htmlFor="conf_senha">Confirmar Senha</label>
+            <div className={styles.passwordInputContainer}>
+              <input
+                id="conf_senha"
+                type={showConfSenha ? "text" : "password"}
+                value={conf_senha}
+                onChange={(e) => setConf_senha(e.target.value)}
+                placeholder="Confirme sua senha (obrigatório)"
+                required
+              />
+              {/*onClick={toggleConfSenhaVisibility}*/}
+              <span className={styles.passwordToggle}>
+                {showConfSenha ? <FaEyeSlash /> : <FaEye />}
+              </span>
+            </div>
+          </form>
+          <button
+            type="button"
+            className={styles.button}
+            onClick={verifica_cadastro}
           >
-            <option value="">Selecione o Nível (obrigatório)</option>
-            <option value="Graduação">Graduação</option>
-            <option value="Pós-graduação">Pós-graduação</option>
-            <option value="Mestrado">Mestrado</option>
-            <option value="Doutorado">Doutorado</option>
-            <option value="Pós-doutorado">Pós-doutorado</option>
-          </select>
-          <label>
-            <strong>adicione seu curriculo</strong>
-          </label>
-          <input type="text"></input>
-          <label>
-            <strong>área de interesse</strong>
-          </label>
-          <input></input>
-          <label>
-            <strong>crie uma senha</strong>
-          </label>
-          <input
-            id="curriculo"
-            type="text"
-            value={curriculo}
-            onChange={(e) => setCurriculo(e.target.value)}
-            placeholder="URL do currículo ou Base64 (Opcional)"
-          />
-
-          <label>
-            <strong>digite novamente</strong>
-          </label>
-          <input
-            id="area_interesse"
-            type="text"
-            value={area_interesse}
-            onChange={(e) => setArea_interesse(e.target.value)}
-            placeholder="Ex: Inteligência Artificial, Robótica (Opcional)"
-          />
-
-          <label htmlFor="senha">Senha</label>
-          <div className={styles.passwordInputContainer}>
-            <input
-              id="senha"
-              type={showSenha ? "text" : "password"}
-              value={senha}
-              onChange={(e) => setSenha(e.target.value)}
-              placeholder="Mínimo 6 caracteres (obrigatório)"
-              required
-            />
-            {/*onClick={toggleSenhaVisibility}*/}
-            <span className={styles.passwordToggle}>
-              {showSenha ? <FaEyeSlash /> : <FaEye />}
-            </span>
-          </div>
-
-          <label htmlFor="conf_senha">Confirmar Senha</label>
-          <div className={styles.passwordInputContainer}>
-            <input
-              id="conf_senha"
-              type={showConfSenha ? "text" : "password"}
-              value={conf_senha}
-              onChange={(e) => setConf_senha(e.target.value)}
-              placeholder="Confirme sua senha (obrigatório)"
-              required
-            />
-            {/*onClick={toggleConfSenhaVisibility}*/}
-            <span className={styles.passwordToggle}>
-              {showConfSenha ? <FaEyeSlash /> : <FaEye />}
-            </span>
-          </div>
-        </form>
-        <button
-          type="button"
-          className={styles.button}
-          onClick={verifica_cadastro}
-        >
-          salvar informações
-        </button>
-      </div>
-
-      <div className={styles.containerCadastro}>
-        <div className={styles.cabecalhoLista}>
-          <h2>
-            <strong>Lista de alunos cadastrados</strong>
-          </h2>
+            salvar informações
+          </button>
         </div>
-        <div className={styles.containerLista}>
-          {usuario.map((item) => (
-            <article className={styles.usuario} key={item.matricula}>
-              <div className={styles.informacaoAluno}>
-                <p>
-                  <strong>matrícula: </strong>
-                  {item.matricula}
-                </p>
-                <p>
-                  <strong>nome: </strong>
-                  {item.nome}
-                </p>
-                <p>
-                  <strong>email: </strong>
-                  {item.email}
-                </p>
-                <p>
-                  <strong>data de nascimento: </strong>
-                  {item.data_nasc}
-                </p>
-                <p>
-                  <strong>perfil: </strong>
-                  {item.perfil}
-                </p>
-                <p>
-                  <strong>nivel: </strong>
-                  {item.nivel}
-                </p>
-                <p>
-                  <strong>Universidade: </strong>
-                  {item.universidade}
-                </p>
-                <p>
-                  <strong>curso: </strong>
-                  {item.curso}
-                </p>
-                <p>
-                  <strong>curriculo: </strong>
-                  {item.curriculo}
-                </p>
-                <p>
-                  <strong>area de interesse: </strong>
-                  {item.area_interesse}
-                </p>
 
-                <div className={styles.botao}>
-                  <button
-                    type="button"
-                    onClick={() => editarAluno(item)}
-                    className={styles.editar}
-                  >
-                    editar
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => excluirAluno(item.matricula)}
-                    className={styles.excluir}
-                  >
-                    excluir
-                  </button>
+        <div className={styles.containerCadastro}>
+          <div className={styles.cabecalhoLista}>
+            <h2>
+              <strong>Lista de alunos cadastrados</strong>
+            </h2>
+          </div>
+          <div className={styles.containerLista}>
+            {usuario.map((item) => (
+              <article className={styles.usuario} key={item.matricula}>
+                <div className={styles.informacaoAluno}>
+                  <p>
+                    <strong>matrícula: </strong>
+                    {item.matricula}
+                  </p>
+                  <p>
+                    <strong>nome: </strong>
+                    {item.nome}
+                  </p>
+                  <p>
+                    <strong>email: </strong>
+                    {item.email}
+                  </p>
+                  <p>
+                    <strong>data de nascimento: </strong>
+                    {item.data_nasc}
+                  </p>
+                  <p>
+                    <strong>perfil: </strong>
+                    {item.perfil}
+                  </p>
+                  <p>
+                    <strong>nivel: </strong>
+                    {item.nivel}
+                  </p>
+                  <p>
+                    <strong>Universidade: </strong>
+                    {item.universidade}
+                  </p>
+                  <p>
+                    <strong>curso: </strong>
+                    {item.curso}
+                  </p>
+                  <p>
+                    <strong>curriculo: </strong>
+                    {item.curriculo}
+                  </p>
+                  <p>
+                    <strong>area de interesse: </strong>
+                    {item.area_interesse}
+                  </p>
+
+                  <div className={styles.botao}>
+                    <button
+                      type="button"
+                      onClick={() => editarAluno(item)}
+                      className={styles.editar}
+                    >
+                      editar
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => excluirAluno(item.matricula)}
+                      className={styles.excluir}
+                    >
+                      excluir
+                    </button>
+                  </div>
                 </div>
-              </div>
-            </article>
-          ))}
+              </article>
+            ))}
+          </div>
         </div>
       </div>
     </>

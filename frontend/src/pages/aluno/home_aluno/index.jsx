@@ -109,8 +109,8 @@ function Home_aluno() {
           {mostraMensagem && (
             <div className={styles.mensagem}>
               <button
-                className={styles.fechar}
                 onClick={() => setMostraMensagem(false)}
+                className={styles.fechar}
               >
                 ✕ Fechar
               </button>
@@ -156,7 +156,7 @@ function Home_aluno() {
               <div className={styles.card_info}>
                 <p>
                   <label>reponsavel: </label>
-                  {vaga.responsavel}
+                  <Link to="/acessa_professor">{vaga.reponsavel}</Link>
                 </p>
                 <p>
                   <label>nível: </label>

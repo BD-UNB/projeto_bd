@@ -134,6 +134,8 @@
 }
 
 .comentario {
+  display: flex;
+  flex-direction: column;
   position: fixed;
   left: 0;
   top: 0;
@@ -145,18 +147,22 @@
   color: black;
 
   & button {
-    color: white;
+    color: black;
     margin: 20px;
     cursor: pointer;
-    display: flex;
-    flex-direction: column;
   }
+}
+.fechar {
+  background-color: #e9e9e9;
+  padding: 5px;
+  border-radius: 9px;
 }
 
 .botaoComentario {
   cursor: pointer;
   background-color: #e9e9e9;
   padding: 5px;
+  border-radius: 10px;
 }
 
 .conteudoComentario {

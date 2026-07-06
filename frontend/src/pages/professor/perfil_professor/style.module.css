@@ -1,28 +1,64 @@
 .nav {
   display: flex;
-  background-color: aliceblue;
+  background-color: #f4fcfb;
   flex-direction: column;
   text-align: center;
-  margin-bottom: 50px;
+  width: 43%;
+  margin: 0 auto;
+  margin-bottom: 30px;
+  margin-top: 70px;
+  font-size: 32px;
+  border-radius: 10px;
 }
 
-.container {
-  background-color: aqua;
+.dados {
+  background-color: var(--cor-unb-cinza-fraco);
   display: grid;
   grid-template-columns: auto 1fr;
   justify-content: center;
   margin: 0 auto;
-  width: fit-content;
+  width: 97%;
   text-align: right;
   gap: 10px;
   padding: 10px;
+  border-radius: 10px;
   & label {
-    font-size: 30px;
+    font-size: 25px;
   }
   & input {
     border-radius: 10px;
     font-size: 21px;
     width: 400px;
     padding: 5px;
+    background-color: #ffff;
   }
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  padding: 10px;
+  background-color: #f4fcfb;
+  width: 43%;
+  border-radius: 10px;
+}
+
+.botao {
+  background-color: rgb(135, 205, 245);
+  font-size: 24px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  padding: 5px;
+  padding-left: 9px;
+  padding-right: 9px;
+  border-radius: 9px;
+  & button {
+    cursor: pointer;
+  }
+}
+.botao:hover {
+  opacity: 0.8;
 }
