@@ -11,18 +11,23 @@ function Perfil_professor() {
         </nav>
       </div>
       <div className={styles.container}>
-        <label>Matrícula</label>
-        <input type="number"></input>
-        <label>Nome</label>
-        <input type="text"></input>
-        <label>Email</label>
-        <input type="email"></input>
-        <label>Dada de nascimento</label>
-        <input type="date"></input>
-        <label>Área de Pesquisa</label>
-        <input type="text"></input>
-        <label>Coordena dep</label>
-        <input type="text"></input>
+        <div className={styles.dados}>
+          <label>Matrícula</label>
+          <input type="number"></input>
+          <label>Nome</label>
+          <input type="text"></input>
+          <label>Email</label>
+          <input type="email"></input>
+          <label>Dada de nascimento</label>
+          <input type="date"></input>
+          <label>Área de Pesquisa</label>
+          <input type="text"></input>
+          <label>Coordena departamento</label>
+          <input type="text"></input>
+          <div className={styles.botao}>
+            <button>editar email</button>
+          </div>
+        </div>
       </div>
     </>
   );

@@ -11,18 +11,21 @@ function Perfil_aluno() {
           <label>CURSO QUE O ALUNO FAZ</label>
         </nav>
       </div>
-      <h1 className={style.titulo}>Seus dados</h1>
+
       <div className={style.container}>
-        <label>Matrícula: </label>
-        <label>matricula</label>
-        <label>Nome: </label>
-        <label>nome</label>
-        <label>Email: </label>
-        <label>email</label>
-        <label>Curriculo: </label>
-        <label>anexo</label>
-        <label>Áreas de interesse: </label>
-        <label>blablabla</label>
+        <div className={style.dados}>
+          <label>Matrícula: </label>
+          <input></input>
+          <label>Nome: </label>
+          <input></input>
+          <label>Email: </label>
+          <input className={style.pode_editar}></input>
+          <label>Curriculo (pdf): </label>
+          <input type="file" accept="pdf" className={style.pode_editar}></input>
+          <label>Áreas de interesse: </label>
+          <textarea className={style.pode_editar}></textarea>
+          <button>editar</button>
+        </div>
       </div>
     </>
   );

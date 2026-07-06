@@ -149,7 +149,7 @@ function Home_aluno() {
               <div className={styles.card_info}>
                 <p>
                   <label>reponsavel: </label>
-                  {vaga.reponsavel}
+                  <Link to="/acessa_professor">{vaga.reponsavel}</Link>
                 </p>
                 <p>
                   <label>nível: </label>

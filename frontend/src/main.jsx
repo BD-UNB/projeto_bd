@@ -14,6 +14,7 @@ import Cursos from "./pages/admin/curso_disciplina";
 import VagasOportunidades from "./pages/admin/gerenciar_vagas";
 import Perfil_aluno from "./pages/aluno/perfil_aluno";
 import Perfil_professor from "./pages/professor/perfil_professor";
+import AcessaProfessor from "./pages/professor/acessa_professor";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -29,6 +30,7 @@ createRoot(document.getElementById("root")).render(
         <Route path="gerenciar_vagas" element={<VagasOportunidades />} />
         <Route path="perfil_aluno" element={<Perfil_aluno />} />
         <Route path="perfil_professor" element={<Perfil_professor />} />
+        <Route path="acessa_professor" element={<AcessaProfessor />} />
       </Routes>
     </HashRouter>
   </StrictMode>,
