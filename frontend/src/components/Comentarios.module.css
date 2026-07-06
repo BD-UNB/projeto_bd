@@ -1,0 +1,72 @@
+.comentarios {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.lista {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.card {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 8px;
+}
+
+.card label {
+  font-weight: bold;
+}
+
+.acoes {
+  display: flex;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.edicao {
+  display: flex;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.novo {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.novo input {
+  flex: 1;
+}
+
+.carregando {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  gap: 10px;
+}
+
+.spinner {
+  width: 28px;
+  height: 28px;
+  border: 4px solid #e9e9e9;
+  border-top: 4px solid #133e79;
+  border-radius: 50%;
+  animation: girar 0.5s linear infinite;
+}
+
+@keyframes girar {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from infra.database import init_database
 
-from routers import authRouter, adminRouter, sessionRouter, vagaRouter
+from routers import authRouter, adminRouter, sessionRouter, vagaRouter, comentarioRouter
 
 app = FastAPI()
 
@@ -26,6 +26,7 @@ app.include_router(authRouter.router)
 app.include_router(adminRouter.router)
 app.include_router(sessionRouter.router)
 app.include_router(vagaRouter.router)
+app.include_router(comentarioRouter.router)
 
 @app.get("/")
 def get_root():

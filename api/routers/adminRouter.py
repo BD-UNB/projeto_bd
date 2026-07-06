@@ -8,9 +8,12 @@ from repositories.professorRepository import ProfessorRepository
 from services.alunoService import AlunoService
 from services.professorService import ProfessorService
 
+from infra.security import require_perfil
+
 router = APIRouter(
     prefix="/admin",
-    tags=["Admin"],  
+    tags=["Admin"],
+    dependencies=[Depends(require_perfil("admin"))],
 )
 
 def get_user_repository() -> UserRepository:

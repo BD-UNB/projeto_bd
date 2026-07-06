@@ -36,6 +36,7 @@ function Login() {
 
       if (response.ok) {
         localStorage.setItem("token", data.token);
+        localStorage.setItem("perfil", data.perfil);
         if (data.perfil === "aluno") {
           navigate("/home_aluno");
         } else if (data.perfil === "professor") {

@@ -39,3 +39,13 @@ def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(securit
         )
     except jwt.PyJWTError:
         raise credentials_exception
+
+def require_perfil(*perfis_permitidos):
+    def verificador(current_user: dict = Depends(get_current_user)):
+        if current_user["perfil"] not in perfis_permitidos:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Acesso negado para o seu perfil.",
+            )
+        return current_user
+    return verificador

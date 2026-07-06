@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import styles from "./style.module.css";
+import Comentarios from "../../../components/Comentarios";
 
 function Home_aluno() {
   const navigate = useNavigate();
@@ -12,7 +13,7 @@ function Home_aluno() {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
-      navigate("/login");
+      navigate("/");
       return;
     }
 
@@ -30,7 +31,7 @@ function Home_aluno() {
       .then((data) => setPerfil(data))
       .catch((err) => {
         console.log("Erro ao buscar perfil do aluno:", err);
-        navigate("/login");
+        navigate("/");
       });
 
     fetch("http://localhost:8000/vagas/", {
@@ -58,18 +59,6 @@ function Home_aluno() {
       </div>
     );
   }
-  const comentario = [
-    {
-      nome_usuario: "aluno 1",
-      mensagem: "comentario teste 1",
-      data: "01/01/2001",
-    },
-    {
-      nome_usuario: "aluno 2",
-      mensagem: "comentario teste 2",
-      data: "01/01/2001",
-    },
-  ];
   const mensagem = [
     {
       tipo: "professor",
@@ -227,22 +216,7 @@ function Home_aluno() {
                       </h2>
 
                       <div className={styles.conteudoComentario}>
-                        {comentario.map((comentarioItem, index) => (
-                          <div key={index} className={styles.cardComentario}>
-                            <p>
-                              <label>nome: </label>
-                              {comentarioItem.nome_usuario}
-                            </p>
-                            <p>
-                              <label>mensagem: </label>
-                              {comentarioItem.mensagem}
-                            </p>
-                            <p>
-                              <label>data: </label>
-                              {comentarioItem.data}
-                            </p>
-                          </div>
-                        ))}
+                        <Comentarios idVaga={vaga.idVagas} />
                       </div>
                     </div>
                   )}

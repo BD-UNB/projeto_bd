@@ -21,3 +21,8 @@ session_service = SessionService(user_repo, aluno_repo, professor_repo)
 @router.get("/me")
 async def get_profile(current_user: Annotated[dict, Depends(get_current_user)]):
     return session_service.profile_by_id(current_user["idUsuario"], current_user["perfil"])
+
+@router.put("/me")
+async def update_profile(request: Request, current_user: Annotated[dict, Depends(get_current_user)]):
+    dados = await request.json()
+    return session_service.update_profile(current_user["idUsuario"], current_user["perfil"], dados)

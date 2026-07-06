@@ -48,3 +48,34 @@ class SessionService:
         except Exception as e:
             print(f"Erro ao buscar perfil do usuário: {e}")
             raise HTTPException(status_code = status.HTTP_500_INTERNAL_SERVER_ERROR, detail = "Erro ao buscar perfil do usuário.")
+
+    def update_profile(self, id_usuario: int, perfil: str, dados: dict):
+        user = self.user_repo.get_user_by_id(id_usuario)
+        if not user:
+            raise HTTPException(status_code = status.HTTP_404_NOT_FOUND, detail = "Usuário não encontrado.")
+
+        if perfil != "aluno":
+            raise HTTPException(status_code = status.HTTP_400_BAD_REQUEST, detail = "Atualização de perfil disponível apenas para aluno.")
+
+        nome = dados.get("nome")
+        email = dados.get("email")
+        nivel = dados.get("nivel")
+        area_interesse = dados.get("area_interesse")
+
+        # Impede roubar o email de outro usuário (constraint UNIQUE)
+        if email and email != user["email"]:
+            dono_email = self.user_repo.get_user_by_email(email)
+            if dono_email and dono_email["idUsuario"] != id_usuario:
+                raise HTTPException(status_code = status.HTTP_409_CONFLICT, detail = "Email já cadastrado para outro usuário.")
+
+        try:
+            self.user_repo.update_user(id_usuario, nome = nome, email = email)
+            self.aluno_repo.update_aluno_details(id_usuario, nivel = nivel, area_interesse = area_interesse)
+
+            return self.profile_by_id(id_usuario, perfil)
+
+        except HTTPException:
+            raise
+        except Exception as e:
+            print(f"Erro ao atualizar perfil do usuário: {e}")
+            raise HTTPException(status_code = status.HTTP_500_INTERNAL_SERVER_ERROR, detail = "Erro ao atualizar perfil do usuário.")
