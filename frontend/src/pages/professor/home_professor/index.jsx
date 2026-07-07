@@ -2,10 +2,12 @@ import { Link, useNavigate } from "react-router-dom";
 import styles from "./style.module.css";
 import { useState, useEffect } from "react";
 import Comentarios from "../../../components/Comentarios";
+import BarraPesquisa, { filtrarVagas } from "../../../components/BarraPesquisa";
 
 function Home_professor() {
   const navigate = useNavigate();
   const [perfil, setPerfil] = useState(null);
+  const [termo, setTermo] = useState("");
   const [mostraMensagem, setMostraMensagem] = useState(false);
   const [comentarioAberto, setComentarioAberto] = useState(null);
 
@@ -108,7 +110,7 @@ function Home_professor() {
         </header>
       </div>
       <nav className={styles.nav}>
-        <input placeholder="pesquise por vagas"></input>
+        <BarraPesquisa valor={termo} onChange={setTermo} />
         <button>
           <Link to="/perfil_professor">Perfil</Link>
         </button>
@@ -163,7 +165,7 @@ function Home_professor() {
       <h1 className={styles.subtitulo}>Responsável por</h1>
       <div className={styles.container}>
         <section className={styles.listaVagas}>
-          {vagas.map((vaga) => (
+          {filtrarVagas(vagas, termo).map((vaga) => (
             <article key={vaga.idVagas} className={styles.card}>
               <h2 className={styles.card_titulo}>{vaga.titulo}</h2>
               <div className={styles.card_info}>
