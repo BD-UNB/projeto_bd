@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import styles from "./style.module.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 function Cadastro_professor() {
@@ -18,86 +18,114 @@ function Cadastro_professor() {
   const [showSenha, setShowSenha] = useState(false);
   const [showConfSenha, setShowConfSenha] = useState(false);
 
-  // Funções de alternância de visibilidade de senha
-  const toggleSenhaVisibility = () => {
-    setShowSenha(!showSenha);
+  const [professores, setProfessores] = useState([]);
+  const [editandoId, setEditandoId] = useState(null);
+
+  const carregarProfessores = () => {
+    const token = localStorage.getItem("token");
+    fetch("http://localhost:8000/admin/professores", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Erro ao buscar professores");
+        return res.json();
+      })
+      .then((data) => setProfessores(data))
+      .catch((err) => console.log("Erro ao buscar professores:", err));
   };
 
-  const toggleConfSenhaVisibility = () => {
-    setShowConfSenha(!showConfSenha);
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/");
+      return;
+    }
+    carregarProfessores();
+  }, [navigate]);
+
+  const limparFormulario = () => {
+    setMatricula("");
+    setNome("");
+    setEmail("");
+    setData_nasc("");
+    setArea_de_pesquisa("");
+    setDepartamento("");
+    setDepartamento_coordenado("");
+    setSenha("");
+    setConf_senha("");
+    setEditandoId(null);
   };
 
-  const seleciona_dep = (evento) => {
-    setDepartamento(evento.target.value);
-  };
-  const seleciona_depCoordenado = (evento) => {
-    setDepartamento_coordenado(evento.target.value);
-  };
+  async function post_cadastro_professor() {
+    const token = localStorage.getItem("token");
+    const response = await fetch("http://localhost:8000/admin/cadastro_professor", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        matricula,
+        nome,
+        email,
+        data_nasc,
+        area_de_pesquisa,
+        departamento: departamento || null,
+        departamento_coordenado: departamento_coordenado || null,
+        senha,
+      }),
+    });
 
-  const usuario = [
-    {
-      matricula: "123",
-      nome: " Carlos",
-      email: "prof1@gmail.com",
-      data_nasc: "01/01/2001",
-      perfil: "professor 1",
-      universidade: "Universidade de Brasília",
-      area_pesquisa: "Computação",
-      dep: "Computação",
-      dep_coordenado: "Ciência da Computação",
-    },
-    {
-      matricula: "321",
-      nome: "Ana",
-      email: "prof2@gmail.com",
-      data_nasc: "01/01/2001",
-      perfil: "professora 1",
-      universidade: "Universidade de São Paulo",
-      area_pesquisa: "Computação",
-      dep: "Computação",
-      dep_coordenado: "Ciência da Computação",
-    },
-  ];
+    if (response.ok) {
+      alert("Professor criado com sucesso!");
+      limparFormulario();
+      carregarProfessores();
+    } else {
+      const errorData = await response.json();
+      alert(`Erro ao criar professor: ${errorData.detail || "Erro desconhecido"}`);
+      console.error("Erro ao criar professor", response, errorData);
+    }
+  }
 
-  async function post_cadastro_professor(
-    matricula,
-    nome,
-    email,
-    data_nasc,
-    area_de_pesquisa,
-    departamento,
-    departamento_coordenado,
-    senha,
-  ) {
+  async function put_editar_professor() {
+    const token = localStorage.getItem("token");
+    const dados = {
+      matricula,
+      nome,
+      email,
+      data_nasc,
+      area_de_pesquisa,
+      departamento: departamento || null,
+      departamento_coordenado: departamento_coordenado || null,
+    };
+    if (senha.trim() !== "") {
+      dados.senha = senha;
+    }
+
     const response = await fetch(
-      "http://127.0.0.1:8000/admin/cadastro_professor",
+      `http://localhost:8000/admin/professores/${editandoId}`,
       {
-        method: "POST",
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
         },
-        body: JSON.stringify({
-          matricula,
-          nome,
-          email,
-          data_nasc,
-          area_de_pesquisa: area_de_pesquisa || null,
-          departamento,
-          departamento_coordenado: departamento_coordenado || null,
-          senha,
-        }),
+        body: JSON.stringify(dados),
       },
     );
 
     if (response.ok) {
-      alert("Professor criado com sucesso!");
-      navigate("/home_admin");
+      alert("Professor atualizado com sucesso!");
+      limparFormulario();
+      carregarProfessores();
     } else {
       const errorData = await response.json();
-      alert(
-        `Erro ao criar professor: ${errorData.detail || "Erro desconhecido"}`,
-      );
-      console.error("Erro ao criar professor", response, errorData);
+      alert(`Erro ao atualizar professor: ${errorData.detail || "Erro desconhecido"}`);
+      console.error("Erro ao atualizar professor", response, errorData);
     }
   }
 
@@ -107,11 +135,14 @@ function Cadastro_professor() {
       nome.trim() === "" ||
       email.trim() === "" ||
       data_nasc.trim() === "" ||
-      departamento.trim() === "" ||
-      senha.trim() === "" ||
-      conf_senha.trim() === ""
+      area_de_pesquisa.trim() === ""
     ) {
       alert("Preencha todos campos obrigatórios");
+      return;
+    }
+
+    if (editandoId === null && (senha.trim() === "" || conf_senha.trim() === "")) {
+      alert("Preencha a senha e a confirmação");
       return;
     }
 
@@ -120,16 +151,54 @@ function Cadastro_professor() {
       return;
     }
 
-    post_cadastro_professor(
-      matricula,
-      nome,
-      email,
-      data_nasc,
-      area_de_pesquisa,
-      departamento,
-      departamento_coordenado,
-      senha,
+    if (editandoId === null) {
+      post_cadastro_professor();
+    } else {
+      put_editar_professor();
+    }
+  }
+
+  function editarProf(professor) {
+    setEditandoId(professor.idUsuario);
+    setMatricula(professor.matricula || "");
+    setNome(professor.nome || "");
+    setEmail(professor.email || "");
+    setData_nasc(professor.data_nasc || "");
+    setArea_de_pesquisa(professor.area_pesquisa || "");
+    setDepartamento(professor.departamento || "");
+    setDepartamento_coordenado(professor.departamentoCoordenado || "");
+    setSenha("");
+    setConf_senha("");
+  }
+
+  async function excluirProf(idUsuario) {
+    if (!window.confirm("Tem certeza que deseja excluir este professor?")) {
+      return;
+    }
+
+    const token = localStorage.getItem("token");
+    const response = await fetch(
+      `http://localhost:8000/admin/professores/${idUsuario}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
+      },
     );
+
+    if (response.ok) {
+      alert("Professor excluído com sucesso!");
+      if (editandoId === idUsuario) {
+        limparFormulario();
+      }
+      carregarProfessores();
+    } else {
+      const errorData = await response.json();
+      alert(`Erro ao excluir professor: ${errorData.detail || "Erro desconhecido"}`);
+      console.error("Erro ao excluir professor", response, errorData);
+    }
   }
 
   return (
@@ -137,25 +206,13 @@ function Cadastro_professor() {
       <div className={styles.separa}>
         <div className={styles.container}>
           <h1>
-            <strong>cadastro de professor</strong>
+            <strong>
+              {editandoId === null ? "cadastro de professor" : "editar professor"}
+            </strong>
           </h1>
           <p>Siga as informações abaixo</p>
           <form className={styles.formulario}>
-            <label>
-              <strong>matricula</strong>
-            </label>
-            <input type="text"></input>
-            <label>
-              <strong>nome completo</strong>
-            </label>
-            <input type="text"></input>
-            <label>
-              <strong>digite seu email</strong>
-            </label>
-            <input type="email"></input>
-            <label>
-              <strong>data de nascimento</strong>
-            </label>
+            <label htmlFor="matricula">Matrícula</label>
             <input
               id="matricula"
               type="text"
@@ -190,81 +247,94 @@ function Cadastro_professor() {
               id="data_nasc"
               type="date"
               min="1926-01-01"
-              max={"2016-01-01"}
-              value={"2000-01-01"}
-            ></input>
-            <label>
-              <strong>área de pesquisa</strong>
-            </label>
-            <input type="text"></input>
-            <label>
-              <strong>Selecione seu departamento</strong>
-            </label>
-            <select
-              id="departamento"
-              value={departamento}
-              onChange={seleciona_dep}
-              className={styles.selectField}
+              max="2016-01-01"
+              value={data_nasc}
+              onChange={(e) => setData_nasc(e.target.value)}
               required
-            >
-              <option value="">Selecione o Departamento (obrigatório)</option>
-              <option value="Matemática">Matemática</option>
-              <option value="Português">Português</option>
-              <option value="Computação">Computação</option>
-              <option value="Engenharia">Engenharia</option>
-            </select>
-            <label>
-              <strong>Departamento que te coordena</strong>
+            />
+
+            <label htmlFor="area_de_pesquisa">Área de pesquisa</label>
+            <input
+              id="area_de_pesquisa"
+              type="text"
+              value={area_de_pesquisa}
+              onChange={(e) => setArea_de_pesquisa(e.target.value)}
+              placeholder="Ex: Inteligência Artificial (obrigatório)"
+              required
+            />
+
+            <label htmlFor="departamento">Departamento</label>
+            <input
+              id="departamento"
+              type="text"
+              value={departamento}
+              onChange={(e) => setDepartamento(e.target.value)}
+              placeholder="Ex: Departamento de Ciência da Computação"
+            />
+
+            <label htmlFor="departamento_coordenado">
+              Departamento que coordena
             </label>
-            <select
+            <input
               id="departamento_coordenado"
+              type="text"
               value={departamento_coordenado}
-              onChange={seleciona_depCoordenado}
-              className={styles.selectField}
-            >
-              <option value="">Selecione o Departamento (Opcional)</option>
-              <option value="Matemática">Matemática</option>
-              <option value="Português">Português</option>
-              <option value="Computação">Computação</option>
-              <option value="Engenharia">Engenharia</option>
-            </select>
-            <label>
-              <strong>senha</strong>
+              onChange={(e) => setDepartamento_coordenado(e.target.value)}
+              placeholder="Opcional"
+            />
+
+            <label htmlFor="senha">
+              Senha{editandoId !== null && " (deixe em branco para não alterar)"}
             </label>
-            <input type="password"></input>
+            <div className={styles.passwordInputContainer}>
+              <input
+                id="senha"
+                type={showSenha ? "text" : "password"}
+                value={senha}
+                onChange={(e) => setSenha(e.target.value)}
+                placeholder="Mínimo 6 caracteres"
+              />
+              <span
+                className={styles.passwordToggle}
+                onClick={() => setShowSenha(!showSenha)}
+              >
+                {showSenha ? <FaEyeSlash /> : <FaEye />}
+              </span>
+            </div>
+
+            <label htmlFor="conf_senha">Confirmar Senha</label>
+            <div className={styles.passwordInputContainer}>
+              <input
+                id="conf_senha"
+                type={showConfSenha ? "text" : "password"}
+                value={conf_senha}
+                onChange={(e) => setConf_senha(e.target.value)}
+                placeholder="Confirme sua senha"
+              />
+              <span
+                className={styles.passwordToggle}
+                onClick={() => setShowConfSenha(!showConfSenha)}
+              >
+                {showConfSenha ? <FaEyeSlash /> : <FaEye />}
+              </span>
+            </div>
           </form>
           <button
             type="button"
             className={styles.button}
-            onClick={() => {
-              const matricula =
-                document.querySelector("input[type='text']").value;
-              const nome = document.querySelector("input[type='text']").value;
-              const email = document.querySelector("input[type='email']").value;
-              const data_de_nasci =
-                document.querySelector("input[type='date']").value;
-              const area_de_pesquisa =
-                document.querySelector("input[type='text']").value;
-              const departamento = document.querySelector("select").value;
-              const departamento_coordenado =
-                document.querySelector("select").value;
-              const senha = document.querySelector(
-                "input[type='password']",
-              ).value;
-              post_cadastro_professor(
-                matricula,
-                nome,
-                email,
-                data_de_nasci,
-                area_de_pesquisa,
-                departamento,
-                departamento_coordenado,
-                senha,
-              );
-            }}
+            onClick={verifica_cadastro}
           >
-            salvar informações
+            {editandoId === null ? "salvar informações" : "salvar edição"}
           </button>
+          {editandoId !== null && (
+            <button
+              type="button"
+              className={styles.button}
+              onClick={limparFormulario}
+            >
+              cancelar edição
+            </button>
+          )}
         </div>
 
         <div className={styles.containerCadastro}>
@@ -274,8 +344,8 @@ function Cadastro_professor() {
             </h2>
           </div>
           <div className={styles.containerLista}>
-            {usuario.map((item) => (
-              <article className={styles.usuario} key={item.matricula}>
+            {professores.map((item) => (
+              <article className={styles.usuario} key={item.idUsuario}>
                 <div className={styles.informacaoAluno}>
                   <p>
                     <strong>matrícula: </strong>
@@ -298,20 +368,16 @@ function Cadastro_professor() {
                     {item.perfil}
                   </p>
                   <p>
-                    <strong>Universidade: </strong>
-                    {item.universidade}
-                  </p>
-                  <p>
                     <strong>área de pesquisa: </strong>
                     {item.area_pesquisa}
                   </p>
                   <p>
                     <strong>departamento: </strong>
-                    {item.dep}
+                    {item.departamento}
                   </p>
                   <p>
                     <strong>departamento coordenado: </strong>
-                    {item.dep_coordenado}
+                    {item.departamentoCoordenado}
                   </p>
 
                   <div className={styles.botao}>
@@ -324,7 +390,7 @@ function Cadastro_professor() {
                     </button>
                     <button
                       type="button"
-                      onClick={() => excluirProf(item.matricula)}
+                      onClick={() => excluirProf(item.idUsuario)}
                       className={styles.excluir}
                     >
                       excluir

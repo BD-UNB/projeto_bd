@@ -56,6 +56,9 @@ class AlunoService:
         except Exception as e:
             print(f"Erro ao buscar perfil do aluno: {e}")
             raise HTTPException(status_code = status.HTTP_500_INTERNAL_SERVER_ERROR, detail = "Erro ao buscar perfil do aluno.")
+    def get_all_alunos_admin(self):
+        return self.aluno_repo.get_all_alunos()
+
     def get_aluno_by_id_admin(self, id_aluno: int):
         aluno = self.aluno_repo.get_aluno_by_id(id_aluno)
         if not aluno:

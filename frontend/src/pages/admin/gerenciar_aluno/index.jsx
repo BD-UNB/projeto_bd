@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import styles from "./style.module.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 function Cadastro_aluno() {
@@ -9,10 +9,6 @@ function Cadastro_aluno() {
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [data_nasc, setData_nasc] = useState("");
-
-  const [telefone, setTelefone] = useState("");
-  const [cpf, setCpf] = useState("");
-
   const [nivel, setNivel] = useState("");
   const [curriculo, setCurriculo] = useState("");
   const [area_interesse, setArea_interesse] = useState("");
@@ -21,23 +17,60 @@ function Cadastro_aluno() {
   const [showSenha, setShowSenha] = useState(false);
   const [showConfSenha, setShowConfSenha] = useState(false);
 
+  const [alunos, setAlunos] = useState([]);
+  const [editandoId, setEditandoId] = useState(null);
+
+  const carregarAlunos = () => {
+    const token = localStorage.getItem("token");
+    fetch("http://localhost:8000/admin/alunos", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Erro ao buscar alunos");
+        return res.json();
+      })
+      .then((data) => setAlunos(data))
+      .catch((err) => console.log("Erro ao buscar alunos:", err));
+  };
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/");
+      return;
+    }
+    carregarAlunos();
+  }, [navigate]);
+
   const seleciona_nivel = (evento) => {
     setNivel(evento.target.value);
   };
 
-  async function post_cadastro_aluno(
-    matricula,
-    nome,
-    email,
-    data_nasc,
-    senha,
-    nivel,
-    curriculo,
-    area_interesse,
-  ) {
-    const response = await fetch("http://127.0.0.1:8000/admin/cadastro_aluno", {
+  const limparFormulario = () => {
+    setMatricula("");
+    setNome("");
+    setEmail("");
+    setData_nasc("");
+    setNivel("");
+    setCurriculo("");
+    setArea_interesse("");
+    setSenha("");
+    setConf_senha("");
+    setEditandoId(null);
+  };
+
+  async function post_cadastro_aluno() {
+    const token = localStorage.getItem("token");
+    const response = await fetch("http://localhost:8000/admin/cadastro_aluno", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
       body: JSON.stringify({
         matricula,
         nome,
@@ -52,11 +85,50 @@ function Cadastro_aluno() {
 
     if (response.ok) {
       alert("Aluno criado com sucesso!");
-      navigate("/home_admin");
+      limparFormulario();
+      carregarAlunos();
     } else {
       const errorData = await response.json();
       alert(`Erro ao criar aluno: ${errorData.detail || "Erro desconhecido"}`);
       console.error("Erro ao criar aluno", response, errorData);
+    }
+  }
+
+  async function put_editar_aluno() {
+    const token = localStorage.getItem("token");
+    const dados = {
+      matricula,
+      nome,
+      email,
+      data_nasc,
+      nivel,
+      curriculo: curriculo || null,
+      area_interesse: area_interesse || null,
+    };
+    if (senha.trim() !== "") {
+      dados.senha = senha;
+    }
+
+    const response = await fetch(
+      `http://localhost:8000/admin/alunos/${editandoId}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
+        body: JSON.stringify(dados),
+      },
+    );
+
+    if (response.ok) {
+      alert("Aluno atualizado com sucesso!");
+      limparFormulario();
+      carregarAlunos();
+    } else {
+      const errorData = await response.json();
+      alert(`Erro ao atualizar aluno: ${errorData.detail || "Erro desconhecido"}`);
+      console.error("Erro ao atualizar aluno", response, errorData);
     }
   }
 
@@ -66,11 +138,15 @@ function Cadastro_aluno() {
       nome.trim() === "" ||
       email.trim() === "" ||
       data_nasc.trim() === "" ||
-      nivel.trim() === "" ||
-      senha.trim() === "" ||
-      conf_senha.trim() === ""
+      nivel.trim() === ""
     ) {
       alert("Preencha todos campos obrigatórios");
+      return;
+    }
+
+    // Na criação a senha é obrigatória; na edição só valida se foi preenchida
+    if (editandoId === null && (senha.trim() === "" || conf_senha.trim() === "")) {
+      alert("Preencha a senha e a confirmação");
       return;
     }
 
@@ -79,72 +155,64 @@ function Cadastro_aluno() {
       return;
     }
 
-    post_cadastro_aluno(
-      matricula,
-      nome,
-      email,
-      data_nasc,
-      senha,
-      nivel,
-      curriculo,
-      area_interesse,
-    );
+    if (editandoId === null) {
+      post_cadastro_aluno();
+    } else {
+      put_editar_aluno();
+    }
   }
 
-  const usuario = [
-    {
-      matricula: "123",
-      nome: " Carlos",
-      email: "aluno1@gmail.com",
-      data_nasc: "01/01/2001",
-      perfil: "aluno",
-      universidade: "Universidade de Brasília",
-      curso: "Ciência da Computação",
-      nivel: "graduacao",
-      curriculo: "curriculo aluno 1",
-      area_interesse: "minha área de interesse é...",
-    },
-    {
-      matricula: "321",
-      nome: "Ana",
-      email: "aluno2@gmail.com",
-      data_nasc: "01/01/2001",
-      perfil: "aluno",
-      universidade: "Universidade de São Paulo",
-      curso: "Ciência da Computação",
-      nivel: "pós-graduação",
-      curriculo: "curriculo aluno 2",
-      area_interesse: "minha área de interesse é...",
-    },
-  ];
+  function editarAluno(aluno) {
+    setEditandoId(aluno.idUsuario);
+    setMatricula(aluno.matricula || "");
+    setNome(aluno.nome || "");
+    setEmail(aluno.email || "");
+    setData_nasc(aluno.data_nasc || "");
+    setNivel(aluno.nivel || "");
+    setArea_interesse(aluno.area_interesse || "");
+    setCurriculo("");
+    setSenha("");
+    setConf_senha("");
+  }
+
+  async function excluirAluno(idUsuario) {
+    if (!window.confirm("Tem certeza que deseja excluir este aluno?")) {
+      return;
+    }
+
+    const token = localStorage.getItem("token");
+    const response = await fetch(
+      `http://localhost:8000/admin/alunos/${idUsuario}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
+      },
+    );
+
+    if (response.ok) {
+      alert("Aluno excluído com sucesso!");
+      if (editandoId === idUsuario) {
+        limparFormulario();
+      }
+      carregarAlunos();
+    } else {
+      const errorData = await response.json();
+      alert(`Erro ao excluir aluno: ${errorData.detail || "Erro desconhecido"}`);
+      console.error("Erro ao excluir aluno", response, errorData);
+    }
+  }
 
   return (
     <>
       <div className={styles.separa}>
         <div className={styles.container}>
-          <h1>cadastro de aluno</h1>
+          <h1>{editandoId === null ? "cadastro de aluno" : "editar aluno"}</h1>
           <p>Siga as informações abaixo</p>
           <form className={styles.formulario}>
-            <label>
-              <strong>matrícula</strong>
-            </label>
-            <input type="text" onChange={(e) => setMatricula(e.target.value)} />
-
-            <label>
-              <strong>nome completo</strong>
-            </label>
-            <input
-              type="text"
-              onChange={(e) => setNome(e.target.value)}
-            ></input>
-            <label>
-              <strong>digite seu email</strong>
-            </label>
-            <input type="email" onChange={(e) => setEmail(e.target.value)} />
-
-            <label>
-              <strong>data de nascimento*</strong>
-            </label>
+            <label htmlFor="matricula">Matrícula</label>
             <input
               id="matricula"
               type="text"
@@ -179,34 +247,13 @@ function Cadastro_aluno() {
               id="data_nasc"
               type="date"
               min="1926-01-01"
-              max={"2016-01-01"}
+              max="2016-01-01"
               value={data_nasc}
               onChange={(e) => setData_nasc(e.target.value)}
-              placeholder="Selecione a sua Data de Nascimento (obrigatório)"
               required
             />
 
-            <label>
-              <strong>telefone</strong>
-            </label>
-            <input
-              type="text"
-              value={telefone}
-              onChange={(e) => setTelefone(e.target.value)}
-            />
-
-            <label>
-              <strong>cpf</strong>
-            </label>
-            <input
-              type="text"
-              value={cpf}
-              onChange={(e) => setCpf(e.target.value)}
-            />
-
-            <label>
-              <strong>nível</strong>
-            </label>
+            <label htmlFor="nivel">Nível</label>
             <select
               id="nivel"
               value={nivel}
@@ -215,23 +262,11 @@ function Cadastro_aluno() {
               required
             >
               <option value="">Selecione o Nível (obrigatório)</option>
-              <option value="Graduação">Graduação</option>
-              <option value="Pós-graduação">Pós-graduação</option>
-              <option value="Mestrado">Mestrado</option>
-              <option value="Doutorado">Doutorado</option>
-              <option value="Pós-doutorado">Pós-doutorado</option>
+              <option value="graduacao">Graduação</option>
+              <option value="pos-graduacao">Pós-graduação</option>
             </select>
-            <label>
-              <strong>adicione seu curriculo</strong>
-            </label>
-            <input type="text"></input>
-            <label>
-              <strong>área de interesse</strong>
-            </label>
-            <input></input>
-            <label>
-              <strong>crie uma senha</strong>
-            </label>
+
+            <label htmlFor="curriculo">Currículo</label>
             <input
               id="curriculo"
               type="text"
@@ -240,9 +275,7 @@ function Cadastro_aluno() {
               placeholder="URL do currículo ou Base64 (Opcional)"
             />
 
-            <label>
-              <strong>digite novamente</strong>
-            </label>
+            <label htmlFor="area_interesse">Área de interesse</label>
             <input
               id="area_interesse"
               type="text"
@@ -251,18 +284,21 @@ function Cadastro_aluno() {
               placeholder="Ex: Inteligência Artificial, Robótica (Opcional)"
             />
 
-            <label htmlFor="senha">Senha</label>
+            <label htmlFor="senha">
+              Senha{editandoId !== null && " (deixe em branco para não alterar)"}
+            </label>
             <div className={styles.passwordInputContainer}>
               <input
                 id="senha"
                 type={showSenha ? "text" : "password"}
                 value={senha}
                 onChange={(e) => setSenha(e.target.value)}
-                placeholder="Mínimo 6 caracteres (obrigatório)"
-                required
+                placeholder="Mínimo 6 caracteres"
               />
-              {/*onClick={toggleSenhaVisibility}*/}
-              <span className={styles.passwordToggle}>
+              <span
+                className={styles.passwordToggle}
+                onClick={() => setShowSenha(!showSenha)}
+              >
                 {showSenha ? <FaEyeSlash /> : <FaEye />}
               </span>
             </div>
@@ -274,11 +310,12 @@ function Cadastro_aluno() {
                 type={showConfSenha ? "text" : "password"}
                 value={conf_senha}
                 onChange={(e) => setConf_senha(e.target.value)}
-                placeholder="Confirme sua senha (obrigatório)"
-                required
+                placeholder="Confirme sua senha"
               />
-              {/*onClick={toggleConfSenhaVisibility}*/}
-              <span className={styles.passwordToggle}>
+              <span
+                className={styles.passwordToggle}
+                onClick={() => setShowConfSenha(!showConfSenha)}
+              >
                 {showConfSenha ? <FaEyeSlash /> : <FaEye />}
               </span>
             </div>
@@ -288,8 +325,17 @@ function Cadastro_aluno() {
             className={styles.button}
             onClick={verifica_cadastro}
           >
-            salvar informações
+            {editandoId === null ? "salvar informações" : "salvar edição"}
           </button>
+          {editandoId !== null && (
+            <button
+              type="button"
+              className={styles.button}
+              onClick={limparFormulario}
+            >
+              cancelar edição
+            </button>
+          )}
         </div>
 
         <div className={styles.containerCadastro}>
@@ -299,8 +345,8 @@ function Cadastro_aluno() {
             </h2>
           </div>
           <div className={styles.containerLista}>
-            {usuario.map((item) => (
-              <article className={styles.usuario} key={item.matricula}>
+            {alunos.map((item) => (
+              <article className={styles.usuario} key={item.idUsuario}>
                 <div className={styles.informacaoAluno}>
                   <p>
                     <strong>matrícula: </strong>
@@ -327,18 +373,6 @@ function Cadastro_aluno() {
                     {item.nivel}
                   </p>
                   <p>
-                    <strong>Universidade: </strong>
-                    {item.universidade}
-                  </p>
-                  <p>
-                    <strong>curso: </strong>
-                    {item.curso}
-                  </p>
-                  <p>
-                    <strong>curriculo: </strong>
-                    {item.curriculo}
-                  </p>
-                  <p>
                     <strong>area de interesse: </strong>
                     {item.area_interesse}
                   </p>
@@ -353,7 +387,7 @@ function Cadastro_aluno() {
                     </button>
                     <button
                       type="button"
-                      onClick={() => excluirAluno(item.matricula)}
+                      onClick={() => excluirAluno(item.idUsuario)}
                       className={styles.excluir}
                     >
                       excluir

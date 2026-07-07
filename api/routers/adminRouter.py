@@ -31,6 +31,10 @@ def get_aluno_service(user_repo: Annotated[UserRepository, Depends(get_user_repo
 def get_professor_service(user_repo: Annotated[UserRepository, Depends(get_user_repository)], professor_repo: Annotated[ProfessorRepository, Depends(get_professor_repository)]) -> ProfessorService:
     return ProfessorService(user_repo, professor_repo)
 
+@router.get("/alunos")
+async def get_alunos_admin_route(aluno_service: Annotated[AlunoService, Depends(get_aluno_service)]):
+    return aluno_service.get_all_alunos_admin()
+
 @router.post("/cadastro_professor")
 async def register_professor_admin_route(request: Request, professor_service: Annotated[ProfessorService, Depends(get_professor_service)]):
     dados = await request.json()
@@ -101,6 +105,10 @@ async def update_aluno_admin_route(id_aluno: int, request: Request, aluno_servic
 @router.delete("/alunos/{id_aluno}")
 async def delete_aluno_admin_route(id_aluno: int, aluno_service: Annotated[AlunoService, Depends(get_aluno_service)]):
     return aluno_service.delete_aluno_admin(id_aluno)
+
+@router.get("/professores")
+async def get_professores_admin_route(professor_service: Annotated[ProfessorService, Depends(get_professor_service)]):
+    return professor_service.get_all_professores_admin()
 
 @router.get("/professores/{id_professor}")
 async def get_professor_admin_route(id_professor: int, professor_service: Annotated[ProfessorService, Depends(get_professor_service)]):

@@ -32,6 +32,30 @@ class AlunoRepository:
             cursor.close()
             conn.close()
 
+    def get_all_alunos(self):
+        conn = self.get_conn()
+        cursor = conn.cursor(dictionary = True)
+
+        try:
+            cursor.execute("""
+                SELECT
+                    u.idUsuario, u.matricula, u.nome, u.email, u.data_nasc, u.perfil,
+                    a.nivel, a.area_interesse
+                FROM usuario u
+                JOIN aluno a ON u.idUsuario = a.idAluno
+                WHERE u.perfil = 'aluno'
+                ORDER BY u.nome
+            """)
+            return cursor.fetchall()
+
+        except Exception as e:
+            print(f"Erro ao buscar todos os alunos: {e}")
+            raise e
+
+        finally:
+            cursor.close()
+            conn.close()
+
     def get_aluno_by_id(self, id_aluno: int):
         conn = self.get_conn()
         cursor = conn.cursor(dictionary = True)

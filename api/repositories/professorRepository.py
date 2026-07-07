@@ -39,6 +39,34 @@ class ProfessorRepository:
             cursor.close()
             conn.close()
 
+    def get_all_professores(self):
+        conn = self.get_conn()
+        cursor = conn.cursor(dictionary = True)
+
+        try:
+            cursor.execute("""
+                SELECT
+                    u.idUsuario, u.matricula, u.nome, u.email, u.data_nasc, u.perfil,
+                    p.area_pesquisa,
+                    d.nome AS departamento,
+                    dc.nome AS departamentoCoordenado
+                FROM usuario u
+                JOIN professor p ON u.idUsuario = p.idProfessor
+                LEFT JOIN departamento d ON p.idDepartamento = d.idDepartamento
+                LEFT JOIN departamento dc ON p.idDeptCoordenado = dc.idDepartamento
+                WHERE u.perfil = 'professor'
+                ORDER BY u.nome
+            """)
+            return cursor.fetchall()
+
+        except Exception as e:
+            print(f"Erro ao buscar todos os professores: {e}")
+            raise e
+
+        finally:
+            cursor.close()
+            conn.close()
+
     def get_professor_by_id(self, id_professor: int):
         conn = self.get_conn()
         cursor = conn.cursor(dictionary=True) # Retorna resultados como dicionários

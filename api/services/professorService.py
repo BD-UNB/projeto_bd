@@ -67,6 +67,9 @@ class ProfessorService:
             raise HTTPException(status_code = status.HTTP_500_INTERNAL_SERVER_ERROR, detail = "Erro ao buscar perfil do professor.")
 
     # Outros métodos relacionados a Professor (ex: get_professor, update_professor, delete_professor) viriam aqui
+    def get_all_professores_admin(self):
+        return self.professor_repo.get_all_professores()
+
     def get_professor_by_id_admin(self, id_professor: int):
         professor = self.professor_repo.get_professor_by_id(id_professor)
         

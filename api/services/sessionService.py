@@ -54,13 +54,11 @@ class SessionService:
         if not user:
             raise HTTPException(status_code = status.HTTP_404_NOT_FOUND, detail = "Usuário não encontrado.")
 
-        if perfil != "aluno":
-            raise HTTPException(status_code = status.HTTP_400_BAD_REQUEST, detail = "Atualização de perfil disponível apenas para aluno.")
+        if perfil not in ("aluno", "professor"):
+            raise HTTPException(status_code = status.HTTP_400_BAD_REQUEST, detail = "Atualização de perfil disponível apenas para aluno e professor.")
 
         nome = dados.get("nome")
         email = dados.get("email")
-        nivel = dados.get("nivel")
-        area_interesse = dados.get("area_interesse")
 
         # Impede roubar o email de outro usuário (constraint UNIQUE)
         if email and email != user["email"]:
@@ -70,7 +68,20 @@ class SessionService:
 
         try:
             self.user_repo.update_user(id_usuario, nome = nome, email = email)
-            self.aluno_repo.update_aluno_details(id_usuario, nivel = nivel, area_interesse = area_interesse)
+
+            if perfil == "aluno":
+                self.aluno_repo.update_aluno_details(
+                    id_usuario,
+                    nivel = dados.get("nivel"),
+                    area_interesse = dados.get("area_interesse"),
+                )
+            elif perfil == "professor":
+                self.professor_repo.update_professor_details(
+                    id_usuario,
+                    area_pesquisa = dados.get("areaPesquisa"),
+                    departamento_nome = dados.get("departamento"),
+                    departamento_coordenado_nome = dados.get("departamentoCoordenado"),
+                )
 
             return self.profile_by_id(id_usuario, perfil)
 
