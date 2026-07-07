@@ -21,13 +21,19 @@ function Cadastro_professor() {
   const [professores, setProfessores] = useState([]);
   const [editandoId, setEditandoId] = useState(null);
 
+  const [uni, setUni] = useState("");
+
+  const seleciona_uni = (evento) => {
+    setNivel(evento.target.value);
+  };
+
   const carregarProfessores = () => {
     const token = localStorage.getItem("token");
     fetch("http://localhost:8000/admin/professores", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     })
       .then((res) => {
@@ -62,23 +68,26 @@ function Cadastro_professor() {
 
   async function post_cadastro_professor() {
     const token = localStorage.getItem("token");
-    const response = await fetch("http://localhost:8000/admin/cadastro_professor", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
+    const response = await fetch(
+      "http://localhost:8000/admin/cadastro_professor",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          matricula,
+          nome,
+          email,
+          data_nasc,
+          area_de_pesquisa,
+          departamento: departamento || null,
+          departamento_coordenado: departamento_coordenado || null,
+          senha,
+        }),
       },
-      body: JSON.stringify({
-        matricula,
-        nome,
-        email,
-        data_nasc,
-        area_de_pesquisa,
-        departamento: departamento || null,
-        departamento_coordenado: departamento_coordenado || null,
-        senha,
-      }),
-    });
+    );
 
     if (response.ok) {
       alert("Professor criado com sucesso!");
@@ -86,7 +95,9 @@ function Cadastro_professor() {
       carregarProfessores();
     } else {
       const errorData = await response.json();
-      alert(`Erro ao criar professor: ${errorData.detail || "Erro desconhecido"}`);
+      alert(
+        `Erro ao criar professor: ${errorData.detail || "Erro desconhecido"}`,
+      );
       console.error("Erro ao criar professor", response, errorData);
     }
   }
@@ -112,7 +123,7 @@ function Cadastro_professor() {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(dados),
       },
@@ -124,7 +135,9 @@ function Cadastro_professor() {
       carregarProfessores();
     } else {
       const errorData = await response.json();
-      alert(`Erro ao atualizar professor: ${errorData.detail || "Erro desconhecido"}`);
+      alert(
+        `Erro ao atualizar professor: ${errorData.detail || "Erro desconhecido"}`,
+      );
       console.error("Erro ao atualizar professor", response, errorData);
     }
   }
@@ -141,7 +154,10 @@ function Cadastro_professor() {
       return;
     }
 
-    if (editandoId === null && (senha.trim() === "" || conf_senha.trim() === "")) {
+    if (
+      editandoId === null &&
+      (senha.trim() === "" || conf_senha.trim() === "")
+    ) {
       alert("Preencha a senha e a confirmação");
       return;
     }
@@ -183,7 +199,7 @@ function Cadastro_professor() {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       },
     );
@@ -196,7 +212,9 @@ function Cadastro_professor() {
       carregarProfessores();
     } else {
       const errorData = await response.json();
-      alert(`Erro ao excluir professor: ${errorData.detail || "Erro desconhecido"}`);
+      alert(
+        `Erro ao excluir professor: ${errorData.detail || "Erro desconhecido"}`,
+      );
       console.error("Erro ao excluir professor", response, errorData);
     }
   }
@@ -207,7 +225,9 @@ function Cadastro_professor() {
         <div className={styles.container}>
           <h1>
             <strong>
-              {editandoId === null ? "cadastro de professor" : "editar professor"}
+              {editandoId === null
+                ? "cadastro de professor"
+                : "editar professor"}
             </strong>
           </h1>
           <p>Siga as informações abaixo</p>
@@ -263,6 +283,11 @@ function Cadastro_professor() {
               required
             />
 
+            <label htmlFor="uni">Universidade</label>
+            <select id="uni" value={uni} onChange={seleciona_uni} required>
+              <option value="">Universidade de Brasília</option>
+            </select>
+
             <label htmlFor="departamento">Departamento</label>
             <input
               id="departamento"
@@ -284,7 +309,8 @@ function Cadastro_professor() {
             />
 
             <label htmlFor="senha">
-              Senha{editandoId !== null && " (deixe em branco para não alterar)"}
+              Senha
+              {editandoId !== null && " (deixe em branco para não alterar)"}
             </label>
             <div className={styles.passwordInputContainer}>
               <input

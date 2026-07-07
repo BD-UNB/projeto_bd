@@ -10,8 +10,6 @@ function Cadastro_aluno() {
   const [email, setEmail] = useState("");
   const [data_nasc, setData_nasc] = useState("");
   const [nivel, setNivel] = useState("");
-  const [curriculo, setCurriculo] = useState("");
-  const [area_interesse, setArea_interesse] = useState("");
   const [senha, setSenha] = useState("");
   const [conf_senha, setConf_senha] = useState("");
   const [showSenha, setShowSenha] = useState(false);
@@ -26,7 +24,7 @@ function Cadastro_aluno() {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     })
       .then((res) => {
@@ -56,8 +54,6 @@ function Cadastro_aluno() {
     setEmail("");
     setData_nasc("");
     setNivel("");
-    setCurriculo("");
-    setArea_interesse("");
     setSenha("");
     setConf_senha("");
     setEditandoId(null);
@@ -69,7 +65,7 @@ function Cadastro_aluno() {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
         matricula,
@@ -78,8 +74,6 @@ function Cadastro_aluno() {
         data_nasc,
         senha,
         nivel,
-        curriculo: curriculo || null,
-        area_interesse: area_interesse || null,
       }),
     });
 
@@ -115,7 +109,7 @@ function Cadastro_aluno() {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(dados),
       },
@@ -127,7 +121,9 @@ function Cadastro_aluno() {
       carregarAlunos();
     } else {
       const errorData = await response.json();
-      alert(`Erro ao atualizar aluno: ${errorData.detail || "Erro desconhecido"}`);
+      alert(
+        `Erro ao atualizar aluno: ${errorData.detail || "Erro desconhecido"}`,
+      );
       console.error("Erro ao atualizar aluno", response, errorData);
     }
   }
@@ -145,7 +141,10 @@ function Cadastro_aluno() {
     }
 
     // Na criação a senha é obrigatória; na edição só valida se foi preenchida
-    if (editandoId === null && (senha.trim() === "" || conf_senha.trim() === "")) {
+    if (
+      editandoId === null &&
+      (senha.trim() === "" || conf_senha.trim() === "")
+    ) {
       alert("Preencha a senha e a confirmação");
       return;
     }
@@ -168,8 +167,7 @@ function Cadastro_aluno() {
     setNome(aluno.nome || "");
     setEmail(aluno.email || "");
     setData_nasc(aluno.data_nasc || "");
-    setNivel(aluno.nivel || "");
-    setArea_interesse(aluno.area_interesse || "");
+
     setCurriculo("");
     setSenha("");
     setConf_senha("");
@@ -187,7 +185,7 @@ function Cadastro_aluno() {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       },
     );
@@ -200,7 +198,9 @@ function Cadastro_aluno() {
       carregarAlunos();
     } else {
       const errorData = await response.json();
-      alert(`Erro ao excluir aluno: ${errorData.detail || "Erro desconhecido"}`);
+      alert(
+        `Erro ao excluir aluno: ${errorData.detail || "Erro desconhecido"}`,
+      );
       console.error("Erro ao excluir aluno", response, errorData);
     }
   }
@@ -264,28 +264,13 @@ function Cadastro_aluno() {
               <option value="">Selecione o Nível (obrigatório)</option>
               <option value="graduacao">Graduação</option>
               <option value="pos-graduacao">Pós-graduação</option>
+              <option value="mestrado">Mestrado</option>
+              <option value="doutorado">Doutorado</option>
             </select>
 
-            <label htmlFor="curriculo">Currículo</label>
-            <input
-              id="curriculo"
-              type="text"
-              value={curriculo}
-              onChange={(e) => setCurriculo(e.target.value)}
-              placeholder="URL do currículo ou Base64 (Opcional)"
-            />
-
-            <label htmlFor="area_interesse">Área de interesse</label>
-            <input
-              id="area_interesse"
-              type="text"
-              value={area_interesse}
-              onChange={(e) => setArea_interesse(e.target.value)}
-              placeholder="Ex: Inteligência Artificial, Robótica (Opcional)"
-            />
-
             <label htmlFor="senha">
-              Senha{editandoId !== null && " (deixe em branco para não alterar)"}
+              Senha
+              {editandoId !== null && " (deixe em branco para não alterar)"}
             </label>
             <div className={styles.passwordInputContainer}>
               <input
