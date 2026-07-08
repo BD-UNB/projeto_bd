@@ -6,12 +6,17 @@ from repositories.alunoRepository import AlunoRepository
 from repositories.professorRepository import ProfessorRepository
 
 from repositories.vagaRepository import VagaRepository
+from repositories.cursoRepository import CursoRepository
+from repositories.disciplinaRepository import DisciplinaRepository
 
 from repositories.departamentoRepository import DepartamentoRepository
 
 from services.alunoService import AlunoService
 from services.professorService import ProfessorService
 from services.vagaService import VagaService
+from services.cursoService import CursoService
+from services.disciplinaService import DisciplinaService
+from services.departamentoService import DepartamentoService
 
 from infra.security import require_perfil
 
@@ -41,6 +46,24 @@ def get_vaga_repository() -> VagaRepository:
 
 def get_vaga_service(vaga_repo: Annotated[VagaRepository, Depends(get_vaga_repository)]) -> VagaService:
     return VagaService(vaga_repo)
+
+def get_curso_repository() -> CursoRepository:
+    return CursoRepository()
+
+def get_curso_service(curso_repo: Annotated[CursoRepository, Depends(get_curso_repository)]) -> CursoService:
+    return CursoService(curso_repo)
+
+def get_disciplina_repository() -> DisciplinaRepository:
+    return DisciplinaRepository()
+
+def get_disciplina_service(disciplina_repo: Annotated[DisciplinaRepository, Depends(get_disciplina_repository)]) -> DisciplinaService:
+    return DisciplinaService(disciplina_repo)
+
+def get_departamento_repository() -> DepartamentoRepository:
+    return DepartamentoRepository()
+
+def get_departamento_service(departamento_repo: Annotated[DepartamentoRepository, Depends(get_departamento_repository)]) -> DepartamentoService:
+    return DepartamentoService(departamento_repo)
 
 @router.get("/alunos")
 async def get_alunos_admin_route(aluno_service: Annotated[AlunoService, Depends(get_aluno_service)]):
@@ -175,3 +198,57 @@ async def update_vaga_admin_route(id_vaga: int, request: Request, vaga_service: 
 @router.delete("/vagas/{id_vaga}")
 async def delete_vaga_admin_route(id_vaga: int, vaga_service: Annotated[VagaService, Depends(get_vaga_service)]):
     return vaga_service.deletar(id_vaga)
+
+@router.get("/cursos")
+async def get_cursos_admin_route(curso_service: Annotated[CursoService, Depends(get_curso_service)]):
+    return curso_service.listar()
+
+@router.post("/cursos")
+async def create_curso_admin_route(request: Request, curso_service: Annotated[CursoService, Depends(get_curso_service)]):
+    dados = await request.json()
+    return curso_service.criar(dados)
+
+@router.put("/cursos/{id_curso}")
+async def update_curso_admin_route(id_curso: int, request: Request, curso_service: Annotated[CursoService, Depends(get_curso_service)]):
+    dados = await request.json()
+    return curso_service.atualizar(id_curso, dados)
+
+@router.delete("/cursos/{id_curso}")
+async def delete_curso_admin_route(id_curso: int, curso_service: Annotated[CursoService, Depends(get_curso_service)]):
+    return curso_service.deletar(id_curso)
+
+@router.get("/disciplinas")
+async def get_disciplinas_admin_route(disciplina_service: Annotated[DisciplinaService, Depends(get_disciplina_service)]):
+    return disciplina_service.listar()
+
+@router.post("/disciplinas")
+async def create_disciplina_admin_route(request: Request, disciplina_service: Annotated[DisciplinaService, Depends(get_disciplina_service)]):
+    dados = await request.json()
+    return disciplina_service.criar(dados)
+
+@router.put("/disciplinas/{id_disciplina}")
+async def update_disciplina_admin_route(id_disciplina: int, request: Request, disciplina_service: Annotated[DisciplinaService, Depends(get_disciplina_service)]):
+    dados = await request.json()
+    return disciplina_service.atualizar(id_disciplina, dados)
+
+@router.delete("/disciplinas/{id_disciplina}")
+async def delete_disciplina_admin_route(id_disciplina: int, disciplina_service: Annotated[DisciplinaService, Depends(get_disciplina_service)]):
+    return disciplina_service.deletar(id_disciplina)
+
+@router.get("/departamentos")
+async def get_departamentos_admin_route(departamento_service: Annotated[DepartamentoService, Depends(get_departamento_service)]):
+    return departamento_service.listar()
+
+@router.post("/departamentos")
+async def create_departamento_admin_route(request: Request, departamento_service: Annotated[DepartamentoService, Depends(get_departamento_service)]):
+    dados = await request.json()
+    return departamento_service.criar(dados)
+
+@router.put("/departamentos/{id_departamento}")
+async def update_departamento_admin_route(id_departamento: int, request: Request, departamento_service: Annotated[DepartamentoService, Depends(get_departamento_service)]):
+    dados = await request.json()
+    return departamento_service.atualizar(id_departamento, dados)
+
+@router.delete("/departamentos/{id_departamento}")
+async def delete_departamento_admin_route(id_departamento: int, departamento_service: Annotated[DepartamentoService, Depends(get_departamento_service)]):
+    return departamento_service.deletar(id_departamento)

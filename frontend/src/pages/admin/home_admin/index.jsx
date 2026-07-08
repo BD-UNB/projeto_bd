@@ -28,6 +28,9 @@ function Home_admin() {
             <Link to="/cursos">gerenciar cursos e disciplinas</Link>
           </button>
           <button type="button">
+            <Link to="/gerenciar_departamento">gerenciar departamentos</Link>
+          </button>
+          <button type="button">
             <Link to="/cadastro_aluno">gerenciar aluno</Link>
           </button>
           <button type="button">

@@ -11,6 +11,46 @@ function Home_aluno() {
   const [termo, setTermo] = useState("");
   const [mostraMensagem, setMostraMensagem] = useState(false);
   const [comentarioAberto, setComentarioAberto] = useState(null);
+  const [candidaturas, setCandidaturas] = useState([]);
+
+  const carregarCandidaturas = () => {
+    const token = localStorage.getItem("token");
+    fetch("http://localhost:8000/candidaturas/minhas", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Erro ao buscar candidaturas");
+        return res.json();
+      })
+      .then((data) => setCandidaturas(data.map((c) => c.idVagas)))
+      .catch((err) => console.log("Erro ao buscar candidaturas:", err));
+  };
+
+  const inscrever = (idVaga) => {
+    const token = localStorage.getItem("token");
+    fetch("http://localhost:8000/candidaturas/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ idVagas: idVaga }),
+    })
+      .then((res) => res.json().then((data) => ({ ok: res.ok, data })))
+      .then(({ ok, data }) => {
+        if (!ok) {
+          alert(data.detail || "Erro ao se inscrever.");
+          return;
+        }
+        alert("Inscrição realizada com sucesso!");
+        carregarCandidaturas();
+      })
+      .catch((err) => console.log("Erro ao se inscrever:", err));
+  };
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -18,6 +58,8 @@ function Home_aluno() {
       navigate("/");
       return;
     }
+
+    carregarCandidaturas();
 
     fetch("http://localhost:8000/profile/me", {
       method: "GET",
@@ -249,7 +291,18 @@ function Home_aluno() {
                   {vaga.descricao}
                 </p>
               </div>
-              <button className={styles.botaoInscrever}>Inscrever-se</button>
+              {candidaturas.includes(vaga.idVagas) ? (
+                <button className={styles.botaoInscrever} disabled>
+                  Inscrito
+                </button>
+              ) : (
+                <button
+                  className={styles.botaoInscrever}
+                  onClick={() => inscrever(vaga.idVagas)}
+                >
+                  Inscrever-se
+                </button>
+              )}
             </article>
           ))}
         </section>

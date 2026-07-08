@@ -1,0 +1,131 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.separa {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: start;
+  gap: 20px;
+  padding: 20px;
+}
+
+.container,
+.containerLista {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  background-color: #f4fcfb;
+  width: 100%;
+  max-width: 600px;
+  padding: 24px;
+  margin: 30px auto;
+  border-radius: 14px;
+  gap: 16px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+.container h1,
+.containerLista h2 {
+  font-weight: 700;
+  margin: 0;
+}
+
+.formulario {
+  background-color: var(--cor-unb-cinza-fraco);
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  align-items: center;
+  gap: 14px;
+  padding: 24px;
+  border-radius: 14px;
+}
+
+.formulario label {
+  text-align: right;
+  font-weight: 600;
+}
+
+.formulario input,
+.formulario select {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid #d6d6d6;
+  background-color: #ffffff;
+}
+
+.formulario input:focus,
+.formulario select:focus {
+  outline: none;
+  border-color: var(--cor-unb-secundaria);
+  box-shadow: 0 0 0 3px rgba(19, 62, 121, 0.18);
+}
+
+.button {
+  margin: 0 auto;
+  width: 200px;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background-color: var(--cor-unb-primaria);
+  color: var(--cor-unb-branca);
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.button:hover {
+  opacity: 0.95;
+}
+
+.lista {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.card {
+  background-color: var(--cor-unb-cinza-fraco);
+  border-radius: 10px;
+  padding: 14px;
+  text-align: left;
+}
+
+.card p {
+  margin: 3px 0;
+}
+
+.nome {
+  font-size: 18px;
+}
+
+.botao {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.editar {
+  background-color: rgb(93, 174, 241);
+  border: none;
+  border-radius: 6px;
+  padding: 6px 16px;
+  cursor: pointer;
+}
+
+.excluir {
+  background-color: rgb(241, 93, 93);
+  border: none;
+  border-radius: 6px;
+  padding: 6px 16px;
+  cursor: pointer;
+}
+
+.editar:hover,
+.excluir:hover {
+  opacity: 0.9;
+}
