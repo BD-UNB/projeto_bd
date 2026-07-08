@@ -180,3 +180,82 @@
     margin-bottom: 8px;
   }
 }
+
+.formVaga {
+  background-color: var(--cor-unb-cinza-fraco);
+  color: black;
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  align-items: center;
+  gap: 10px;
+  padding: 20px;
+  border-radius: 10px;
+
+  & label {
+    text-align: right;
+    font-weight: 600;
+  }
+
+  & input,
+  & select,
+  & textarea {
+    background-color: #f4fcfb;
+    font-size: 16px;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #d6d6d6;
+  }
+
+  & textarea {
+    min-height: 90px;
+    resize: vertical;
+    font-family: inherit;
+  }
+}
+
+.acoesForm {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 15px;
+
+  & button {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 8px;
+    background-color: var(--cor-unb-primaria);
+    color: var(--cor-unb-branca);
+    font-size: 16px;
+    cursor: pointer;
+  }
+  & button:hover {
+    opacity: 0.9;
+  }
+}
+
+.acoesVaga {
+  display: flex;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.editar {
+  background-color: rgb(93, 174, 241);
+  border: none;
+  border-radius: 6px;
+  padding: 6px 16px;
+  cursor: pointer;
+}
+
+.excluir {
+  background-color: rgb(241, 93, 93);
+  border: none;
+  border-radius: 6px;
+  padding: 6px 16px;
+  cursor: pointer;
+}
+
+.editar:hover,
+.excluir:hover {
+  opacity: 0.9;
+}

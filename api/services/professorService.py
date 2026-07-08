@@ -30,19 +30,27 @@ class ProfessorService:
                 senha_hash = senha_hash,
             )
 
-            if id_usuario:
-                if self.professor_repo.create_professor_details(
+            if not id_usuario:
+                raise HTTPException(status_code = status.HTTP_500_INTERNAL_SERVER_ERROR, detail = "Falha ao criar usuário.")
+
+            # Se os detalhes falharem (ex.: departamento inexistente), reverte o usuário
+            # para não deixar registro órfão.
+            try:
+                detalhes_ok = self.professor_repo.create_professor_details(
                     id_usuario = id_usuario,
                     area_pesquisa = area_de_pesquisa,
                     departamento_nome = departamento,
                     departamento_coordenado_nome = departamento_coordenado
-                ):
-                    return {"status": "ok", "message": "Professor criado com sucesso!", "id": id_usuario}
-                else:
-                    self.user_repo.delete_user(id_usuario)
-                    raise HTTPException(status_code = status.HTTP_500_INTERNAL_SERVER_ERROR, detail = "Falha ao criar detalhes do professor. Usuário revertido.")
-            else:
-                raise HTTPException(status_code = status.HTTP_500_INTERNAL_SERVER_ERROR, detail = "Falha ao criar usuário.")
+                )
+            except Exception:
+                self.user_repo.delete_user(id_usuario)
+                raise
+
+            if not detalhes_ok:
+                self.user_repo.delete_user(id_usuario)
+                raise HTTPException(status_code = status.HTTP_500_INTERNAL_SERVER_ERROR, detail = "Falha ao criar detalhes do professor. Usuário revertido.")
+
+            return {"status": "ok", "message": "Professor criado com sucesso!", "id": id_usuario}
 
         except HTTPException:
             raise
@@ -69,6 +77,13 @@ class ProfessorService:
     # Outros métodos relacionados a Professor (ex: get_professor, update_professor, delete_professor) viriam aqui
     def get_all_professores_admin(self):
         return self.professor_repo.get_all_professores()
+
+    def get_referencias_admin(self):
+        try:
+            return self.professor_repo.get_referencias()
+        except Exception as e:
+            print(f"Erro ao buscar referências do professor: {e}")
+            raise HTTPException(status_code = status.HTTP_500_INTERNAL_SERVER_ERROR, detail = "Erro ao buscar referências.")
 
     def get_professor_by_id_admin(self, id_professor: int):
         professor = self.professor_repo.get_professor_by_id(id_professor)

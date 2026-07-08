@@ -18,8 +18,32 @@ function Cadastro_professor() {
   const [showSenha, setShowSenha] = useState(false);
   const [showConfSenha, setShowConfSenha] = useState(false);
 
+  const [universidade, setUniversidade] = useState("");
+  const [universidades, setUniversidades] = useState([]);
+  const [departamentos, setDepartamentos] = useState([]);
+
   const [professores, setProfessores] = useState([]);
   const [editandoId, setEditandoId] = useState(null);
+
+  const carregarReferencias = () => {
+    const token = localStorage.getItem("token");
+    fetch("http://localhost:8000/admin/referencias_professor", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Erro ao buscar referências");
+        return res.json();
+      })
+      .then((data) => {
+        setUniversidades(data.universidades || []);
+        setDepartamentos(data.departamentos || []);
+      })
+      .catch((err) => console.log("Erro ao buscar referências:", err));
+  };
 
   const carregarProfessores = () => {
     const token = localStorage.getItem("token");
@@ -44,6 +68,7 @@ function Cadastro_professor() {
       navigate("/");
       return;
     }
+    carregarReferencias();
     carregarProfessores();
   }, [navigate]);
 
@@ -53,6 +78,7 @@ function Cadastro_professor() {
     setEmail("");
     setData_nasc("");
     setArea_de_pesquisa("");
+    setUniversidade("");
     setDepartamento("");
     setDepartamento_coordenado("");
     setSenha("");
@@ -100,6 +126,7 @@ function Cadastro_professor() {
       data_nasc,
       area_de_pesquisa,
       departamento: departamento || null,
+      universidade: universidade || null,
       departamento_coordenado: departamento_coordenado || null,
     };
     if (senha.trim() !== "") {
@@ -167,6 +194,8 @@ function Cadastro_professor() {
     setArea_de_pesquisa(professor.area_pesquisa || "");
     setDepartamento(professor.departamento || "");
     setDepartamento_coordenado(professor.departamentoCoordenado || "");
+    const dep = departamentos.find((d) => d.nome === professor.departamento);
+    setUniversidade(dep ? String(dep.idUniversidade) : "");
     setSenha("");
     setConf_senha("");
   }
@@ -263,25 +292,65 @@ function Cadastro_professor() {
               required
             />
 
+            <label htmlFor="universidade">Universidade</label>
+            <select
+              id="universidade"
+              value={universidade}
+              onChange={(e) => {
+                setUniversidade(e.target.value);
+                setDepartamento("");
+                setDepartamento_coordenado("");
+              }}
+            >
+              <option value="">Selecione...</option>
+              {universidades.map((u) => (
+                <option key={u.idUniversidade} value={u.idUniversidade}>
+                  {u.nome}
+                </option>
+              ))}
+            </select>
+
             <label htmlFor="departamento">Departamento</label>
-            <input
+            <select
               id="departamento"
-              type="text"
               value={departamento}
               onChange={(e) => setDepartamento(e.target.value)}
-              placeholder="Ex: Departamento de Ciência da Computação"
-            />
+            >
+              <option value="">Selecione...</option>
+              {departamentos
+                .filter(
+                  (d) =>
+                    universidade === "" ||
+                    String(d.idUniversidade) === universidade,
+                )
+                .map((d) => (
+                  <option key={d.idDepartamento} value={d.nome}>
+                    {d.nome}
+                  </option>
+                ))}
+            </select>
 
             <label htmlFor="departamento_coordenado">
               Departamento que coordena
             </label>
-            <input
+            <select
               id="departamento_coordenado"
-              type="text"
               value={departamento_coordenado}
               onChange={(e) => setDepartamento_coordenado(e.target.value)}
-              placeholder="Opcional"
-            />
+            >
+              <option value="">Nenhum</option>
+              {departamentos
+                .filter(
+                  (d) =>
+                    universidade === "" ||
+                    String(d.idUniversidade) === universidade,
+                )
+                .map((d) => (
+                  <option key={d.idDepartamento} value={d.nome}>
+                    {d.nome}
+                  </option>
+                ))}
+            </select>
 
             <label htmlFor="senha">
               Senha{editandoId !== null && " (deixe em branco para não alterar)"}

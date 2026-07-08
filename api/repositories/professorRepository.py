@@ -1,3 +1,4 @@
+from fastapi import HTTPException, status
 from infra.database import get_connection
 
 class ProfessorRepository:
@@ -13,8 +14,7 @@ class ProfessorRepository:
         if res:
             return res[0]
         else:
-            cursor.execute("INSERT INTO departamento (nome) VALUES (%s)", (department_name,))
-            return cursor.lastrowid
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Departamento '{department_name}' não cadastrados.")
 
     def create_professor_details(self, id_usuario, area_pesquisa, departamento_nome, departamento_coordenado_nome):
         conn = self.get_conn()
@@ -171,3 +171,26 @@ class ProfessorRepository:
         finally:
             cursor.close()
             conn.close()
+
+    def get_referencias(self):
+        conn = self.get_conn()
+        cursor = conn.cursor(dictionary=True)
+
+        try:
+
+            cursor.execute("SELECT idUniversidade, nome FROM universidade ORDER BY nome")
+            universidades = cursor.fetchall()
+            cursor.execute("SELECT idDepartamento, nome, idUniversidade FROM departamento ORDER BY nome")
+            departamentos = cursor.fetchall()
+            return {"universidades": universidades, "departamentos": departamentos}
+
+        except Exception as e:
+            print(f"Erro ao buscar referências de vaga: {e}")
+            raise e
+
+        finally:
+            cursor.close()
+            conn.close()
+
+
+

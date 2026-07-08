@@ -5,8 +5,13 @@ from repositories.userRepository import UserRepository
 from repositories.alunoRepository import AlunoRepository
 from repositories.professorRepository import ProfessorRepository
 
+from repositories.vagaRepository import VagaRepository
+
+from repositories.departamentoRepository import DepartamentoRepository
+
 from services.alunoService import AlunoService
 from services.professorService import ProfessorService
+from services.vagaService import VagaService
 
 from infra.security import require_perfil
 
@@ -30,6 +35,12 @@ def get_aluno_service(user_repo: Annotated[UserRepository, Depends(get_user_repo
 
 def get_professor_service(user_repo: Annotated[UserRepository, Depends(get_user_repository)], professor_repo: Annotated[ProfessorRepository, Depends(get_professor_repository)]) -> ProfessorService:
     return ProfessorService(user_repo, professor_repo)
+
+def get_vaga_repository() -> VagaRepository:
+    return VagaRepository()
+
+def get_vaga_service(vaga_repo: Annotated[VagaRepository, Depends(get_vaga_repository)]) -> VagaService:
+    return VagaService(vaga_repo)
 
 @router.get("/alunos")
 async def get_alunos_admin_route(aluno_service: Annotated[AlunoService, Depends(get_aluno_service)]):
@@ -134,3 +145,33 @@ async def update_professor_admin_route(id_professor: int, request: Request, prof
 @router.delete("/professores/{id_professor}")
 async def delete_professor_admin_route(id_professor: int, professor_service: Annotated[ProfessorService, Depends(get_professor_service)]):
     return professor_service.delete_professor_admin(id_professor)
+
+@router.get("/referencias_professor")
+async def get_referencias_professor_admin_route(professor_service: Annotated[ProfessorService, Depends(get_professor_service)]):
+    return professor_service.get_referencias_admin()
+
+@router.get("/referencias")
+async def get_referencias_admin_route(vaga_service: Annotated[VagaService, Depends(get_vaga_service)]):
+    return vaga_service.get_referencias()
+
+@router.get("/vagas")
+async def get_vagas_admin_route(vaga_service: Annotated[VagaService, Depends(get_vaga_service)]):
+    return vaga_service.listar_todas()
+
+@router.get("/vagas/{id_vaga}")
+async def get_vaga_admin_route(id_vaga: int, vaga_service: Annotated[VagaService, Depends(get_vaga_service)]):
+    return vaga_service.get_vaga(id_vaga)
+
+@router.post("/vagas")
+async def create_vaga_admin_route(request: Request, vaga_service: Annotated[VagaService, Depends(get_vaga_service)]):
+    dados = await request.json()
+    return vaga_service.criar(dados)
+
+@router.put("/vagas/{id_vaga}")
+async def update_vaga_admin_route(id_vaga: int, request: Request, vaga_service: Annotated[VagaService, Depends(get_vaga_service)]):
+    dados = await request.json()
+    return vaga_service.atualizar(id_vaga, dados)
+
+@router.delete("/vagas/{id_vaga}")
+async def delete_vaga_admin_route(id_vaga: int, vaga_service: Annotated[VagaService, Depends(get_vaga_service)]):
+    return vaga_service.deletar(id_vaga)
