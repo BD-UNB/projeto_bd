@@ -53,7 +53,11 @@
   font-size: 20px;
   padding: 20px;
   border-radius: 10px;
-
+  & select {
+    width: 91%;
+    background-color: #f4fcfb;
+    border-radius: 6px;
+  }
   & label {
     text-align: right;
     padding: 5px;

@@ -75,7 +75,7 @@ function Home_professor() {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     })
       .then((res) => {
@@ -397,11 +397,15 @@ function Home_professor() {
                   {vaga.nivel}
                 </p>
                 <p>
-                  <label>modalidade: </label>
+                  <label>
+                    <strong>modalidade: </strong>
+                  </label>
                   {vaga.modalidade}
                 </p>
                 <p>
-                  <label>local: </label>
+                  <label>
+                    <strong>local: </strong>
+                  </label>
                   {vaga.local}
                 </p>
                 <p>
@@ -409,7 +413,9 @@ function Home_professor() {
                   {vaga.carga_horaria}
                 </p>
                 <p>
-                  <label>máximo de pessoas: </label>
+                  <label>
+                    <strong>máximo de pessoas: </strong>
+                  </label>
                   {vaga.num_max}
                 </p>
                 <p>
@@ -421,15 +427,21 @@ function Home_professor() {
                   {vaga.data_fim_candidatura}
                 </p>
                 <p>
-                  <label>tipo: </label>
+                  <label>
+                    <strong>tipo: </strong>
+                  </label>
                   {vaga.tipo}
                 </p>
                 <p>
-                  <label>campus: </label>
+                  <label>
+                    <strong>campus: </strong>
+                  </label>
                   {vaga.campus}
                 </p>
                 <p>
-                  <label>departamento: </label>
+                  <label>
+                    <strong>departamento: </strong>
+                  </label>
                   {vaga.departamento}
                 </p>
 
@@ -459,13 +471,21 @@ function Home_professor() {
                       </button>
                       <h2 style={{ fontSize: "30px" }}>Comentários</h2>
                       <div className={styles.conteudoComentario}>
-                        <Comentarios idVaga={vaga.idVagas} />
+                        <div className={styles.fundoComentario}>
+                          <Comentarios idVaga={vaga.idVagas} />
+                        </div>
+                      </div>
+                      <div className={styles.escreve_comentario}>
+                        <textarea placeholder="digite seu comentário aqui."></textarea>
+                        <button>Enviar</button>
                       </div>
                     </div>
                   )}
                 </div>
                 <p>
-                  <label>descrição: </label>
+                  <label>
+                    <strong>descrição: </strong>
+                  </label>
                   {vaga.descricao}
                 </p>
               </div>

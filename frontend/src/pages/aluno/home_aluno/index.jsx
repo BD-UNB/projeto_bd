@@ -23,7 +23,7 @@ function Home_aluno() {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     })
       .then((res) => {
@@ -40,7 +40,7 @@ function Home_aluno() {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     })
       .then((res) => {
@@ -135,7 +135,7 @@ function Home_aluno() {
                 ))}
               </div>
               <div className={styles.escreve_mensagem}>
-                <textarea placeholder="digite sua mensagem aqui."></textarea>
+                <textarea placeholder="digite sua mensagemui."></textarea>
               </div>
             </div>
           )}
@@ -150,51 +150,75 @@ function Home_aluno() {
               <h2 className={styles.card_titulo}>{vaga.titulo}</h2>
               <div className={styles.card_info}>
                 <p>
-                  <label>reponsavel: </label>
-                  <Link to="/acessa_professor">{vaga.reponsavel}</Link>
+                  <label>
+                    <strong>reponsável: </strong>
+                  </label>
+                  {vaga.reponsavel}
                 </p>
                 <p>
-                  <label>nível: </label>
-                  {vaga.nivel}
+                  <label>
+                    <strong>nível: </strong>
+                  </label>
+                  {vaga.nível}
                 </p>
                 <p>
-                  <label>modalidade: </label>
+                  <label>
+                    <strong>modalidade: </strong>
+                  </label>
                   {vaga.modalidade}
                 </p>
                 <p>
-                  <label>status: </label>
+                  <label>
+                    <strong>status: </strong>
+                  </label>
                   {vaga.status}
                 </p>
                 <p>
-                  <label>local: </label>
+                  <label>
+                    <strong>local: </strong>
+                  </label>
                   {vaga.local}
                 </p>
                 <p>
-                  <label>carga horária: </label>
-                  {vaga.carga_horaria}
+                  <label>
+                    <strong>carga horária: </strong>
+                  </label>
+                  {vaga.carga_hor}
                 </p>
                 <p>
-                  <label>máximo de pessoas: </label>
+                  <label>
+                    <strong>máximo de pessoas: </strong>
+                  </label>
                   {vaga.num_max}
                 </p>
                 <p>
-                  <label>data início: </label>
-                  {vaga.data_inicio_candidatura}
+                  <label>
+                    <strong>data início: </strong>
+                  </label>
+                  {vaga.data_inicio}
                 </p>
                 <p>
-                  <label>data final: </label>
-                  {vaga.data_fim_candidatura}
+                  <label>
+                    <strong>data final: </strong>
+                  </label>
+                  {vaga.data_final}
                 </p>
                 <p>
-                  <label>tipo: </label>
+                  <label>
+                    <strong>tipo: </strong>
+                  </label>
                   {vaga.tipo}
                 </p>
                 <p>
-                  <label>campus: </label>
+                  <label>
+                    <strong>campus: </strong>
+                  </label>
                   {vaga.campus}
                 </p>
                 <p>
-                  <label>departamento: </label>
+                  <label>
+                    <strong>departamento: </strong>
+                  </label>
                   {vaga.departamento}
                 </p>
 
@@ -220,15 +244,22 @@ function Home_aluno() {
                       >
                         Comentários
                       </h2>
-
                       <div className={styles.conteudoComentario}>
-                        <Comentarios idVaga={vaga.idVagas} />
+                        <div className={styles.fundoComentario}>
+                          <Comentarios idVaga={vaga.idVagas} />
+                        </div>
+                      </div>
+                      <div className={styles.escreve_comentario}>
+                        <textarea placeholder="digite seu comentário aqui."></textarea>
+                        <button>Enviar</button>
                       </div>
                     </div>
                   )}
                 </div>
                 <p>
-                  <label>descrição: </label>
+                  <label>
+                    <strong>descrição: </strong>
+                  </label>
                   {vaga.descricao}
                 </p>
               </div>

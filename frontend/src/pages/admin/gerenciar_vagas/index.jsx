@@ -1,3 +1,4 @@
+import { useState } from "react";
 import "../../../index.css";
 import styles from "./style.module.css";
 import { useState, useEffect } from "react";
@@ -187,6 +188,11 @@ function VagasOportunidades() {
     }
   }
 
+  const [univer, setUniver] = useState("");
+
+  const seleciona_uni = (evento) => {
+    setUniver(evento.target.value);
+  };
   return (
     <>
       <div className={styles.separa}>
@@ -369,7 +375,7 @@ function VagasOportunidades() {
                     <strong>departamento:</strong> {vaga.departamento}
                   </p>
                   <p>
-                    <strong>campus:</strong> {vaga.campus}
+                    <strong>curso:</strong> {vaga.curso}
                   </p>
                   <p>
                     <strong>modalidade:</strong> {vaga.modalidade}
@@ -398,6 +404,7 @@ function VagasOportunidades() {
                   <p>
                     <strong>data fim:</strong> {vaga.data_fim_candidatura}
                   </p>
+
                   <p>
                     <strong>requisitos:</strong> {vaga.requisitos}
                   </p>
