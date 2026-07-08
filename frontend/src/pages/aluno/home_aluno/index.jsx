@@ -61,20 +61,6 @@ function Home_aluno() {
       </div>
     );
   }
-  const mensagem = [
-    {
-      tipo: "professor",
-      nome_usuario: "usuario 1",
-      mensagem: "mensagem 1",
-      data: "01/01/2001",
-    },
-    {
-      tipo: "aluno",
-      nome_usuario: "usuario 2",
-      mensagem: "mensagem 2",
-      data: "01/01/2001",
-    },
-  ];
 
   return (
     <>
@@ -151,15 +137,15 @@ function Home_aluno() {
               <div className={styles.card_info}>
                 <p>
                   <label>
-                    <strong>reponsável: </strong>
+                    <strong>responsável: </strong>
                   </label>
-                  {vaga.reponsavel}
+                  {vaga.responsavel}
                 </p>
                 <p>
                   <label>
                     <strong>nível: </strong>
                   </label>
-                  {vaga.nível}
+                  {vaga.nivel}
                 </p>
                 <p>
                   <label>
@@ -183,7 +169,7 @@ function Home_aluno() {
                   <label>
                     <strong>carga horária: </strong>
                   </label>
-                  {vaga.carga_hor}
+                  {vaga.carga_horaria}
                 </p>
                 <p>
                   <label>
@@ -195,13 +181,13 @@ function Home_aluno() {
                   <label>
                     <strong>data início: </strong>
                   </label>
-                  {vaga.data_inicio}
+                  {vaga.data_inicio_candidatura}
                 </p>
                 <p>
                   <label>
                     <strong>data final: </strong>
                   </label>
-                  {vaga.data_final}
+                  {vaga.data_fim_candidatura}
                 </p>
                 <p>
                   <label>

@@ -9,7 +9,6 @@ class VagaRepository:
         cursor = conn.cursor(dictionary = True)
 
         try:
-            # Usa a procedure ListarVagasPublicadas (filtros opcionais de tipo/departamento)
             cursor.callproc("ListarVagasPublicadas", [id_tipo, id_departamento])
             vagas = []
             for resultado in cursor.stored_results():
@@ -24,7 +23,6 @@ class VagaRepository:
             cursor.close()
             conn.close()
 
-    # SELECT reaproveitado (com nomes e ids de FK) para listagem/detalhe.
     _SELECT_VAGA = """
         SELECT
             v.idVagas, v.titulo, v.descricao, v.requisitos, v.nivel,

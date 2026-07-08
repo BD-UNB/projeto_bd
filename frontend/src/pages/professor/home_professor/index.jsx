@@ -221,7 +221,12 @@ function Home_professor() {
   ];
 
   if (!perfil) {
-    return <p>Carregando...</p>;
+    return (
+      <div className={styles.carregando}>
+        <div className={styles.spinner}></div>
+        Carregando perfil...
+      </div>
+    );
   }
 
   return (
