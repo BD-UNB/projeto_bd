@@ -143,6 +143,20 @@ class AlunoRepository:
             cursor.close()
             conn.close()
 
+    def get_curriculo(self, id_aluno):
+        conn = self.get_conn()
+        cursor = conn.cursor()
+        try:
+            cursor.execute("SELECT curriculo FROM aluno WHERE idAluno = %s", (id_aluno,))
+            row = cursor.fetchone()
+            return row[0] if row else None
+        except Exception as e:
+            print(f"Erro ao buscar currículo do aluno: {e}")
+            raise e
+        finally:
+            cursor.close()
+            conn.close()
+
     def get_aluno_repository(self, id_usuario):
         conn = self.get_conn()
         cursor = conn.cursor(dictionary = True)

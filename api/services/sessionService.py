@@ -1,7 +1,16 @@
+import base64
 from fastapi import HTTPException, status
 from repositories.userRepository import UserRepository
 from repositories.alunoRepository import AlunoRepository
 from repositories.professorRepository import ProfessorRepository
+
+
+def decodifica_curriculo(curriculo_b64):
+    if not curriculo_b64:
+        return None
+    if curriculo_b64.startswith("data:") and "," in curriculo_b64:
+        curriculo_b64 = curriculo_b64.split(",", 1)[1]
+    return base64.b64decode(curriculo_b64)
 
 class SessionService:
     def __init__(self, user_repo: UserRepository, aluno_repo: AlunoRepository, professor_repo: ProfessorRepository):
@@ -73,6 +82,7 @@ class SessionService:
                 self.aluno_repo.update_aluno_details(
                     id_usuario,
                     nivel = dados.get("nivel"),
+                    curriculo = decodifica_curriculo(dados.get("curriculo")),
                     area_interesse = dados.get("area_interesse"),
                 )
             elif perfil == "professor":
@@ -90,3 +100,13 @@ class SessionService:
         except Exception as e:
             print(f"Erro ao atualizar perfil do usuário: {e}")
             raise HTTPException(status_code = status.HTTP_500_INTERNAL_SERVER_ERROR, detail = "Erro ao atualizar perfil do usuário.")
+
+    def get_curriculo(self, id_usuario: int, perfil: str):
+        if perfil != "aluno":
+            raise HTTPException(status_code = status.HTTP_400_BAD_REQUEST, detail = "Currículo disponível apenas para aluno.")
+
+        curriculo = self.aluno_repo.get_curriculo(id_usuario)
+        if not curriculo:
+            raise HTTPException(status_code = status.HTTP_404_NOT_FOUND, detail = "Currículo não encontrado.")
+
+        return curriculo

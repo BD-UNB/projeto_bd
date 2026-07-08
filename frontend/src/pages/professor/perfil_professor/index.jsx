@@ -93,13 +93,12 @@ function Perfil_professor() {
 
   return (
     <>
-      <div className={styles.nav}>
-        <nav>
-          <h1>{perfil.nomeUniversidade}</h1>
-          <h1>{perfil.nomeDepartamento}</h1>
-        </nav>
-      </div>
+      <nav className={styles.nav}>
+        <span>{perfil.nomeUniversidade}</span>
+        <span>{perfil.nomeDepartamento}</span>
+      </nav>
       <div className={styles.container}>
+        <h1>Seus dados</h1>
         <div className={styles.dados}>
           <label>Matrícula</label>
           <input type="text" value={perfil.matricula || ""} disabled />
@@ -126,10 +125,10 @@ function Perfil_professor() {
             onChange={(e) => setDepartamentoCoordenado(e.target.value)}
           />
         </div>
-        {mensagem && <p>{mensagem}</p>}
-        <div className={styles.botao}>
-          <button onClick={salvarPerfil}>salvar</button>
-        </div>
+        {mensagem && <p className={styles.mensagem}>{mensagem}</p>}
+        <button className={styles.button} onClick={salvarPerfil}>
+          salvar
+        </button>
       </div>
     </>
   );

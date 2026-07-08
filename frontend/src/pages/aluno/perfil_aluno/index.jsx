@@ -9,7 +9,32 @@ function Perfil_aluno() {
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [areaInteresse, setAreaInteresse] = useState("");
+  const [curriculoArquivo, setCurriculoArquivo] = useState(null);
   const [mensagem, setMensagem] = useState("");
+
+  const selecionaCurriculo = (e) => {
+    const arquivo = e.target.files[0];
+    if (!arquivo) return;
+    const reader = new FileReader();
+    reader.onload = () => setCurriculoArquivo(reader.result);
+    reader.readAsDataURL(arquivo);
+  };
+
+  const verCurriculo = () => {
+    const token = localStorage.getItem("token");
+    fetch("http://localhost:8000/profile/me/curriculo", {
+      headers: { "Authorization": `Bearer ${token}` },
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Erro ao buscar currículo");
+        return res.blob();
+      })
+      .then((blob) => {
+        const url = URL.createObjectURL(blob);
+        window.open(url, "_blank");
+      })
+      .catch((err) => console.log("Erro ao ver currículo:", err));
+  };
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -55,6 +80,7 @@ function Perfil_aluno() {
         nome,
         email,
         area_interesse: areaInteresse,
+        curriculo: curriculoArquivo,
       }),
     })
       .then((res) => res.json().then((data) => ({ ok: res.ok, data })))
@@ -67,6 +93,7 @@ function Perfil_aluno() {
         setNome(data.nome || "");
         setEmail(data.email || "");
         setAreaInteresse(data.area_interesse || "");
+        setCurriculoArquivo(null);
         setMensagem("Perfil atualizado com sucesso!");
       })
       .catch((err) => {
@@ -86,37 +113,48 @@ function Perfil_aluno() {
 
   return (
     <>
-      <div>
-        <nav className={style.nav}>
-          <label>{perfil.nomeUniversidade}</label>
-          <label>{perfil.nomeDepartamento}</label>
-          <label>{perfil.nomeCurso}</label>
-        </nav>
-      </div>
+      <nav className={style.nav}>
+        <span>{perfil.nomeUniversidade}</span>
+        <span>{perfil.nomeDepartamento}</span>
+        <span>{perfil.nomeCurso}</span>
+      </nav>
 
       <div className={style.container}>
+        <h1>Seus dados</h1>
         <div className={style.dados}>
-          <label>Matrícula: </label>
+          <label>Matrícula</label>
           <input value={perfil.matricula || ""} disabled></input>
-          <label>Nome: </label>
+          <label>Nome</label>
           <input value={nome} onChange={(e) => setNome(e.target.value)}></input>
-          <label>Email: </label>
-          <input
-            className={style.pode_editar}
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          ></input>
-          <label>Curriculo (pdf): </label>
-          <input type="file" accept="pdf" className={style.pode_editar}></input>
-          <label>Áreas de interesse: </label>
+          <label>Email</label>
+          <input value={email} onChange={(e) => setEmail(e.target.value)}></input>
+          <label>Currículo (pdf)</label>
+          <div className={style.curriculo}>
+            <input
+              type="file"
+              accept="application/pdf"
+              onChange={selecionaCurriculo}
+            ></input>
+            {perfil.curriculo && (
+              <button
+                type="button"
+                className={style.linkCurriculo}
+                onClick={verCurriculo}
+              >
+                ver currículo atual
+              </button>
+            )}
+          </div>
+          <label>Áreas de interesse</label>
           <textarea
-            className={style.pode_editar}
             value={areaInteresse}
             onChange={(e) => setAreaInteresse(e.target.value)}
           ></textarea>
-          {mensagem && <p>{mensagem}</p>}
-          <button onClick={salvarPerfil}>editar</button>
         </div>
+        {mensagem && <p className={style.mensagem}>{mensagem}</p>}
+        <button className={style.button} onClick={salvarPerfil}>
+          salvar
+        </button>
       </div>
     </>
   );
