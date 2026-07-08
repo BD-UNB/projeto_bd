@@ -1,3 +1,4 @@
+import { useState } from "react";
 import "../../../index.css";
 import styles from "./style.module.css";
 
@@ -7,6 +8,7 @@ function VagasOportunidades() {
       titulo: "Monitoria em Banco de Dados",
       departamento: "Departamento de Ciência da Computação",
       curso: "Engenharia de Software",
+      responsavel: "Professor Exemplo",
       modalidade: "Presenciaaaaaaaaaaaaaal",
       status: "publicada",
       cargaHoraria: "12h semanais",
@@ -22,6 +24,8 @@ function VagasOportunidades() {
       titulo: "Projeto de Extensão em Desenvolvimento Web",
       departamento: "Faculdade do Gama",
       curso: "engenharia de software",
+      responsavel: "Professor Exemplo",
+
       modalidade: "Híbrida",
       status: "Em análise",
       cargaHoraria: "20",
@@ -37,6 +41,8 @@ function VagasOportunidades() {
       titulo: "Projeto de Extensão em Desenvolvimento Web",
       departamento: "Faculdade do Gama",
       curso: "engenharia de software",
+      responsavel: "Professor Exemplo",
+
       modalidade: "Híbrida",
       status: "Em análise",
       cargaHoraria: "20",
@@ -52,6 +58,8 @@ function VagasOportunidades() {
       titulo: "Projeto de Extensão em Desenvolvimento Web",
       departamento: "Faculdade do Gama",
       curso: "engenharia de software",
+      responsavel: "Professor Exemplo",
+
       modalidade: "Híbrida",
       status: "Em análise",
       cargaHoraria: "20",
@@ -65,6 +73,11 @@ function VagasOportunidades() {
     },
   ];
 
+  const [univer, setUniver] = useState("");
+
+  const seleciona_uni = (evento) => {
+    setUniver(evento.target.value);
+  };
   return (
     <>
       <div className={styles.separa}>
@@ -76,7 +89,9 @@ function VagasOportunidades() {
               <label>
                 <strong>universidade</strong>
               </label>
-              <input></input>
+              <select id="uni" value={univer} onChange={seleciona_uni} required>
+                <option value="unb">Universidade de Brasília</option>
+              </select>
 
               <label>
                 <strong>departamento</strong>
@@ -90,6 +105,11 @@ function VagasOportunidades() {
 
               <label>
                 <strong>título da vaga</strong>
+              </label>
+              <input type="text"></input>
+
+              <label>
+                <strong>Responsável pela vaga</strong>
               </label>
               <input type="text"></input>
 
@@ -167,6 +187,9 @@ function VagasOportunidades() {
                     <strong>curso:</strong> {vaga.curso}
                   </p>
                   <p>
+                    <strong>Responsável:</strong> {vaga.responsavel}
+                  </p>
+                  <p>
                     <strong>modalidade:</strong> {vaga.modalidade}
                   </p>
                   <p>
@@ -182,11 +205,12 @@ function VagasOportunidades() {
                     <strong>requisitos:</strong> {vaga.requisitos}
                   </p>
                   <p>
-                    <strong>nivel:</strong> {vaga.nivel}
-                  </p>
-                  <p>
                     <strong>data início:</strong> {vaga.data_inicio}
                   </p>
+                  <p>
+                    <strong>nivel:</strong> {vaga.nivel}
+                  </p>
+
                   <p>
                     <strong>data fim:</strong> {vaga.data_fim}
                   </p>
