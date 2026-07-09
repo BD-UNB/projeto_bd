@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import styles from "./style.module.css";
 import { useState, useEffect } from "react";
 import Comentarios from "../../../components/Comentarios";
+import Candidatos from "../../../components/Candidatos";
 import BarraPesquisa, { filtrarVagas } from "../../../components/BarraPesquisa";
 
 function Home_professor() {
@@ -10,6 +11,7 @@ function Home_professor() {
   const [termo, setTermo] = useState("");
   const [mostraMensagem, setMostraMensagem] = useState(false);
   const [comentarioAberto, setComentarioAberto] = useState(null);
+  const [candidatosAberto, setCandidatosAberto] = useState(null);
 
   const [vagas, setVagas] = useState([]);
   const [referencias, setReferencias] = useState({ tipos: [], campi: [], departamentos: [] });
@@ -457,6 +459,29 @@ function Home_professor() {
                   <button className={styles.excluir} onClick={() => excluirVaga(vaga.idVagas)}>
                     excluir
                   </button>
+                </div>
+
+                <div>
+                  <button
+                    className={styles.botaoComentario}
+                    onClick={() => setCandidatosAberto(vaga.idVagas)}
+                  >
+                    ver candidatos
+                  </button>
+                  {candidatosAberto === vaga.idVagas && (
+                    <div className={styles.comentario}>
+                      <button
+                        className={styles.fechar}
+                        onClick={() => setCandidatosAberto(null)}
+                      >
+                        ✕ Fechar
+                      </button>
+                      <h2 style={{ fontSize: "30px" }}>Candidatos</h2>
+                      <div className={styles.conteudoComentario}>
+                        <Candidatos idVaga={vaga.idVagas} />
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 <div>

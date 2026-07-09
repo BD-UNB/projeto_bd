@@ -1,0 +1,55 @@
+.lista {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  text-align: left;
+}
+
+.card p {
+  margin: 3px 0;
+}
+
+.card label {
+  font-weight: bold;
+}
+
+.status {
+  text-transform: capitalize;
+  font-weight: bold;
+  color: #133e79;
+}
+
+.acoes {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.acoes button {
+  border: none;
+  border-radius: 6px;
+  padding: 5px 12px;
+  cursor: pointer;
+}
+
+.aprovar {
+  background-color: rgb(89, 200, 120);
+  color: #fff;
+}
+
+.recusar {
+  background-color: rgb(241, 93, 93);
+  color: #fff;
+}
+
+.acoes button:hover {
+  opacity: 0.9;
+}

@@ -68,3 +68,50 @@ class CandidaturaRepository:
         finally:
             cursor.close()
             conn.close()
+
+    def get_by_vaga(self, id_vaga):
+        conn = self.get_conn()
+        cursor = conn.cursor(dictionary = True)
+
+        try:
+            cursor.execute("""
+                SELECT
+                    c.idAluno, c.idVagas, c.status, c.data_candidatura, c.mensagem_apresentacao,
+                    u.nome AS nome_aluno, u.matricula, u.email,
+                    a.nivel, a.area_interesse
+                FROM candidatura c
+                JOIN usuario u ON u.idUsuario = c.idAluno
+                JOIN aluno a ON a.idAluno = c.idAluno
+                WHERE c.idVagas = %s
+                ORDER BY c.data_candidatura DESC
+            """, (id_vaga,))
+            return cursor.fetchall()
+
+        except Exception as e:
+            print(f"Erro ao buscar candidaturas da vaga: {e}")
+            raise e
+
+        finally:
+            cursor.close()
+            conn.close()
+
+    def update_status(self, id_aluno, id_vaga, novo_status):
+        conn = self.get_conn()
+        cursor = conn.cursor()
+
+        try:
+            cursor.execute(
+                "UPDATE candidatura SET status = %s WHERE idAluno = %s AND idVagas = %s",
+                (novo_status, id_aluno, id_vaga)
+            )
+            conn.commit()
+            return cursor.rowcount > 0
+
+        except Exception as e:
+            print(f"Erro ao atualizar status da candidatura: {e}")
+            conn.rollback()
+            raise e
+
+        finally:
+            cursor.close()
+            conn.close()
